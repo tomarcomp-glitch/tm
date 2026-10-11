@@ -9,10 +9,11 @@ self.addEventListener("activate", e => {
 self.addEventListener("fetch", e => {
   const req = e.request;
   if (req.method !== "GET" || new URL(req.url).origin !== location.origin) return;
+  const guardada = () => caches.match(req, { ignoreSearch: true }).then(r => r || caches.match("./index.html"));
   e.respondWith(
     fetch(req).then(res => {
-      if (res.ok) { const copia = res.clone(); caches.open(CACHE).then(c => c.put(req, copia)); }
-      return res;
-    }).catch(() => caches.match(req, { ignoreSearch: true }).then(r => r || caches.match("./index.html")))
+      if (res.ok) { const copia = res.clone(); caches.open(CACHE).then(c => c.put(req, copia)); return res; }
+      return guardada().then(r => r || res);
+    }).catch(guardada)
   );
 });
