@@ -213,17 +213,23 @@ dialog h2{margin-bottom:.8rem;font-size:1.1rem}
 #cupom-58 div[style*="display:flex"]>span:first-child{min-width:0}
 #cupom-58 div[style*="display:flex"]>span:last-child{white-space:nowrap}
 input.dinheiro{text-align:right}
+.term{display:grid;grid-template-columns:130px minmax(0,1fr);gap:1.4rem;padding:1rem;align-items:center}
+.term-val{font-size:2.4rem;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.caixa-dvv{border:1px solid var(--line);border-radius:var(--radius);padding:.7rem 1rem;margin:.6rem 0;background:var(--surface)}
+.caixa-dvv input{max-width:7rem}
+.seg{display:flex;flex-wrap:wrap;gap:.3rem}
+.seg button{min-height:32px;padding:.15rem .7rem;font-size:.85rem}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-text);font-weight:600}
+.gr-col{cursor:pointer;outline:none}.gr-col:hover>rect:first-of-type{fill:var(--accent-soft)}.gr-col:focus-visible>rect:first-of-type{stroke:var(--accent);stroke-width:2}
+.acoes-grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:.8rem}
+.acao{border:1px solid var(--line);border-left:4px solid var(--line);border-radius:var(--radius);padding:.75rem 1rem;background:var(--surface)}
+.acao.p1{border-left-color:var(--bad)}.acao.p2{border-left-color:var(--warn)}.acao.p3{border-left-color:var(--best-line)}
+.acao h3{margin:.4rem 0 .3rem}.acao p{margin:0 0 .4rem;font-size:.9rem}.acao .impacto{font-size:.92rem}
+.acao details{margin:.3rem 0 .5rem}.acao summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.9rem}
+.acao>a{color:var(--accent);font-weight:600;text-decoration:none;font-size:.9rem}
+@media (max-width:560px){.term{grid-template-columns:1fr;justify-items:center}}
 
 </style>
-<link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#17493a">
-<link rel="apple-touch-icon" href="icon-192.png">
-<script>
-if (location.protocol === "https:" || location.hostname === "localhost") {
-  if ("serviceWorker" in navigator) window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
-  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
-}
-</script>
 </head>
 <body>
 <div class="app">
@@ -249,7 +255,7 @@ if (location.protocol === "https:" || location.hostname === "localhost") {
 </div>
 <div id="avisos" aria-live="polite"></div>
 <dialog id="dlg"></dialog>
-<script id="seed" type="application/json">{"meta":{"origem":"base vazia","comprasAte":"","vendasAte":"","vendasDe":"2026-10-09","contasAte":""},"norm":{},"insumos":[],"receitas":{},"produtos":{},"familias":{"BASE":{"dvv":0.55,"ebitda":0.0},"BEBIDAS":{"dvv":0.1,"ebitda":0.05},"BOTECO":{"dvv":0.55,"ebitda":0.12},"CONGELADOS":{"dvv":0.55,"ebitda":0.12},"ESPECIAL":{"dvv":0.55,"ebitda":0.12},"LANCHE":{"dvv":0.55,"ebitda":0.12},"PIZZA":{"dvv":0.55,"ebitda":0.13},"REVENDA":{"dvv":0.55,"ebitda":0.07},"SALGADOS":{"dvv":0.55,"ebitda":0.15},"DOCES":{"dvv":0.0,"ebitda":0.15},"OUTROS":{"dvv":0.1,"ebitda":0.05}},"fornecedores":[],"compras":[],"vendas":[],"contas":[],"entprod":[],"descricoes":["AJUDANTE","ALUGUEL","BEBIDAS","CELULAR","CESTA BASICA","COMPRA DE MAQUINARIO","CONSERTOS","CONTADORA","DAS","EMPRESTIMOS","GAS","GASOLINA","GIRO DE CAIXA","INSUMOS INDIRETOS","ISSQN","JUROS BANCARIOS","JUROS BOLETOS","JUROS PARCELAMENTO FATURA","MANUTENÇÃO AUTO","MATERIA PRIMA","PARCELAMENTO FATURA","PRO LABORE","PRONAMP","RETIRADA SOCIO","SALARIOS","SEGURO AUTO","TAXA DE ENTREGA","TAXAS DE CARTÃO"],"tipos":["DIRETO","FINANCEIRO","FIXO","IMOVEL","INDIRETO","INVESTIMENTO","RENEGOCIAÇÃO","RETIRADA","TRIBUTÁRIO","VARIÁVEL"],"tipoDesc":{"CESTA BASICA":"FINANCEIRO","MATERIA PRIMA":"DIRETO","TAXA DE ENTREGA":"VARIÁVEL","PRO LABORE":"FIXO","JUROS BANCARIOS":"FINANCEIRO","JUROS BOLETOS":"FINANCEIRO","SALARIOS":"FIXO","EMPRESTIMOS":"RENEGOCIAÇÃO","ALUGUEL":"FIXO","DAS":"TRIBUTÁRIO","GASOLINA":"VARIÁVEL","RETIRADA SOCIO":"RETIRADA","TAXAS DE CARTÃO":"FINANCEIRO","GAS":"VARIÁVEL","INSUMOS INDIRETOS":"INDIRETO","ISSQN":"TRIBUTÁRIO","SEGURO AUTO":"INDIRETO","CONSERTOS":"INVESTIMENTO","CELULAR":"FIXO","CONTADORA":"TRIBUTÁRIO","GIRO DE CAIXA":"INVESTIMENTO","COMPRA DE MAQUINARIO":"IMOVEL","JUROS PARCELAMENTO FATURA":"RENEGOCIAÇÃO","PARCELAMENTO FATURA":"RENEGOCIAÇÃO","PRONAMP":"INVESTIMENTO","AJUDANTE":"VARIÁVEL","MANUTENÇÃO AUTO":"INDIRETO","BEBIDAS":"DIRETO"},"sits":["EM ABERTO","PAGO"]}</script>
+<script id="seed" type="application/json">{"meta": {"origem": "", "comprasAte": "", "vendasAte": "", "vendasDe": "", "contasAte": ""}, "norm": {}, "insumos": [], "receitas": {}, "produtos": {}, "familias": {"BASE": {"dvv": 0.55, "ebitda": 0.0}, "BEBIDAS": {"dvv": 0.1, "ebitda": 0.05}, "BOTECO": {"dvv": 0.55, "ebitda": 0.12}, "CONGELADOS": {"dvv": 0.55, "ebitda": 0.12}, "ESPECIAL": {"dvv": 0.55, "ebitda": 0.12}, "LANCHE": {"dvv": 0.55, "ebitda": 0.12}, "PIZZA": {"dvv": 0.55, "ebitda": 0.13}, "REVENDA": {"dvv": 0.55, "ebitda": 0.07}, "SALGADOS": {"dvv": 0.55, "ebitda": 0.15}, "DOCES": {"dvv": 0.0, "ebitda": 0.15}, "OUTROS": {"dvv": 0.1, "ebitda": 0.05}}, "fornecedores": [], "compras": [], "vendas": [], "contas": [], "entprod": [], "descricoes": [], "tipos": ["DIRETO", "FINANCEIRO", "FIXO", "IMOVEL", "INDIRETO", "INVESTIMENTO", "RENEGOCIAÇÃO", "RETIRADA", "TRIBUTÁRIO", "VARIÁVEL"], "tipoDesc": {}, "sits": ["EM ABERTO", "PAGO"]}</script>
 <script>
 "use strict";
 
@@ -533,8 +539,8 @@ function novoBanco() {
     schema: 2, meta: s.meta, norm: s.norm, insumos: s.insumos, est, receitas: s.receitas, produtos: s.produtos,
     familias: s.familias, fornecedores: s.fornecedores, compras: s.compras, vendas: s.vendas, contas: s.contas,
     entprod: s.entprod, descricoes: s.descricoes, tipos: s.tipos, tipoDesc: s.tipoDesc, sits: s.sits,
-    mov: [], nec: [], cot: {}, entregas: [], motoTurnos: [], motoPagtos: [], funcs: [], funcTurnos: [], funcPagtos: [], clientes: clientesDeVendas(s.vendas),
-    cfg: { janela: 90, descontar: false, ordem: "custo", custoModo: "planilha", taxaPadrao: 0, taxaPadraoData: "", motoHora: 10, motoEntrega: 2, motoDesde: "", motoNome: "" }
+    mov: [], nec: [], cot: {}, entregas: [], motoTurnos: [], motoPagtos: [], motos: [], motoV: 3, funcs: [], funcTurnos: [], funcPagtos: [], clientes: clientesDeVendas(s.vendas),
+    cfg: { janela: 90, descontar: false, ordem: "custo", custoModo: "planilha", taxaPadrao: 0, taxaPadraoData: "", motoHora: 10, motoEntrega: 2, motoDesde: "", motoNome: "", cidade: "", carroKml: 0, carroComb: 0 }
   });
 }
 /* completa campos novos em bancos salvos por uma versão anterior do sistema, sem mexer no resto */
@@ -543,6 +549,9 @@ function migrarBanco(d) {
   if (!Array.isArray(d.clientes)) d.clientes = clientesDeVendas(d.vendas || []);
   d.cfg = d.cfg || {};
   if (d.cfg.taxaPadrao === undefined) { d.cfg.taxaPadrao = 0; d.cfg.taxaPadraoData = ""; }
+  if (d.cfg.metaMargem === undefined) d.cfg.metaMargem = 0;
+  if (d.cfg.dvvMeses === undefined) d.cfg.dvvMeses = 6;
+  Object.values(d.familias || {}).forEach(f => { if (f.rateia === undefined) f.rateia = true; });
   if (!Array.isArray(d.motoTurnos)) d.motoTurnos = [];
   if (!Array.isArray(d.motoPagtos)) d.motoPagtos = [];
   if (!Array.isArray(d.funcs)) d.funcs = [];
@@ -551,6 +560,27 @@ function migrarBanco(d) {
   if (d.cfg.motoHora === undefined) { d.cfg.motoHora = 10; d.cfg.motoEntrega = 2; d.cfg.motoDesde = ""; }
   if (d.cfg.motoNome === undefined) d.cfg.motoNome = "";
   d.entregas.forEach(e => { if (e.vm === undefined) e.vm = e.mpV !== undefined ? e.mpV : d.cfg.motoEntrega; });
+  if (!Array.isArray(d.motos)) d.motos = [];
+  if (d.cfg.cidade === undefined) d.cfg.cidade = d.cfg.motoCidade || "";
+  if (d.cfg.carroKml === undefined) { d.cfg.carroKml = 0; d.cfg.carroComb = 0; }
+  /* uma única vez: o que já estava lançado (turnos, entregas, pagamentos) passa a pertencer a um motoboy cadastrado */
+  if (!d.motoV) {
+    const sem = x => !x.mid;
+    if (d.motoTurnos.some(sem) || d.motoPagtos.some(sem) || d.entregas.some(sem)) {
+      const mid = d.motos.reduce((m, x) => Math.max(m, x.id), 0) + 1;
+      d.motos.push({ id: mid, nome: d.cfg.motoNome || "Motoboy", tel: "", veic: "", vh: d.cfg.motoHora || 0, ve: d.cfg.motoEntrega || 0, vc: d.cfg.taxaPadrao || 0, ativo: true });
+      [d.motoTurnos, d.motoPagtos, d.entregas].forEach(L => L.forEach(x => { if (sem(x)) x.mid = mid; }));
+    }
+    d.motoV = 3;
+  } else if (d.motoV < 3) {
+    /* veio da versão com cadastro de veículos: o veículo agora é só "moto própria" ou "carro da empresa" no dia */
+    const V = Array.isArray(d.veics) ? d.veics : [], vp = id => V.find(x => x.id === id);
+    d.motos.forEach(m => { const v = vp(m.vid); if (m.ve === undefined) m.ve = v ? v.vEmp : (d.cfg.motoEntrega || 0); if (m.vc === undefined) m.vc = v && v.vCli > 0 ? v.vCli : (d.cfg.taxaPadrao || 0); if (m.veic === undefined) m.veic = v && !v.emp ? v.nome : ""; delete m.vid; });
+    d.motoTurnos.forEach(t => { const v = vp(t.vid); if (v && v.emp) t.car = true; delete t.vid; });
+    d.entregas.forEach(e => { delete e.vid; if (e.sr) e.vm = 0; });
+    const c = V.find(x => x.emp && x.kml > 0); if (c && !(d.cfg.carroKml > 0)) { d.cfg.carroKml = c.kml; d.cfg.carroComb = c.comb; }
+    delete d.veics; d.motoV = 3;
+  }
   combosGarantir(d);
   return d;
 }
@@ -1318,6 +1348,20 @@ function linhaMes(rotulo, arr, o = {}) {
   return `<tr class="${cls}"${tog}><td>${o.recuo ? "&nbsp;&nbsp;&nbsp;" : ""}${o.toggle ? (o.aberto ? "▾ " : "▸ ") : ""}${esc(rotulo)}</td>${arr.map(cel).join("")}<td class="n"><strong>${brl(soma(arr))}</strong></td></tr>`;
 }
 
+function dadosRepasse(ano) {
+  const z = () => Array(12).fill(0), R = { n: z(), taxa: z(), rep: z(), repd: z(), pend: z(), pag: z() };
+  motoEntregas().forEach(e => {
+    if (!motoConta(e)) return;
+    const d = motoDataEnt(e), r = motoRep(e);
+    if (d.slice(0, 4) === ano) { const i = +d.slice(5, 7) - 1; R.n[i]++; R.taxa[i] += e.v; R.rep[i] += r; if (!e.pago) R.pend[i] += r; }
+    if (e.pago && e.dPago && e.dPago.slice(0, 4) === ano && r > 0) R.repd[+e.dPago.slice(5, 7) - 1] += r;
+  });
+  DB.motoPagtos.forEach(p => { if (p.d.slice(0, 4) === ano) R.pag[+p.d.slice(5, 7) - 1] += p.total; });
+  Object.keys(R).forEach(k => { R[k] = R[k].map(v => Math.round(v * 100) / 100); });
+  return R;
+}
+function linhaQtd(rotulo, arr) { return `<tr><td>${esc(rotulo)}</td>${arr.map(v => `<td class="n">${v || '<span class="muted">—</span>'}</td>`).join("")}<td class="n"><strong>${soma(arr)}</strong></td></tr>`; }
+
 Telas.painel = {
   titulo: "Painel",
   render() {
@@ -1366,6 +1410,9 @@ Telas.painel = {
     const barra = (v, t) => `<div class="barra"><i style="width:${Math.max(0, Math.min(100, v / t * 100))}%"></i></div>`;
     const minitab = (tit, lista, tot, rot) => `<section class="painel"><header><h2>${tit}</h2></header>${tabela(
       [{ t: rot, v: x => x[0] }, { t: "Valor", n: true, v: x => brl(x[1]) }, { t: "%", n: true, v: x => pctf(x[1] / tot) }, { t: "", h: x => barra(x[1], tot) }], lista, { vazio: "Sem lançamentos no período." })}</section>`;
+    const temEnt = DB.entregas.length > 0 || DB.motoTurnos.length > 0 || DB.motoPagtos.length > 0;
+    const R = temEnt ? dadosRepasse(P.ano) : null, MC = temEnt ? motoCalc("", "", 0) : null;
+    const PI = painelInteligente(P, D, resultado);
     const periodoTxt = P.mes ? MESES[P.mes - 1] + " de " + P.ano : "ano de " + P.ano;
 
     return cabecalho("Painel", "Resumo de vendas, custos e resultado, com base nos lançamentos de vendas e contas a pagar.") +
@@ -1373,13 +1420,24 @@ Telas.painel = {
         <div class="campo"><label for="pn-ano">Ano</label><select id="pn-ano" data-mud="painel" data-campo="ano">${opcoes(anosDisponiveis(), P.ano)}</select></div>
         <div class="campo"><label for="pn-mes">Detalhar</label><select id="pn-mes" data-mud="painel" data-campo="mes">${opcoes([[0, "Ano inteiro"], ...MESES.map((m, i) => [i + 1, m])], P.mes)}</select></div>
         <span class="muted">Os cartões e as tabelas abaixo mostram o ${esc(periodoTxt)}.</span></div></div>
+      ${PI.topo}
       <div class="kpis">
         <div class="kpi"><div class="rot">Vendas</div><div class="val">${brl(vend)}</div></div>
         <div class="kpi"><div class="rot">Lucro bruto</div><div class="val ${vend - cmv < 0 ? "ruim" : ""}">${brl(vend - cmv)}</div><div class="sub">${vend ? pctf((vend - cmv) / vend) : "—"} das vendas · custo ${brl(cmv)}</div></div>
         <div class="kpi"><div class="rot">Resultado operacional</div><div class="val ${vend - cmv - opTotal < 0 ? "ruim" : "bom"}">${brl(vend - cmv - opTotal)}</div><div class="sub">despesas operacionais ${brl(opTotal)}</div></div>
         <div class="kpi"><div class="rot">Contas em aberto</div><div class="val">${brl(soma(abertas.map(c => c.v)))}</div><div class="sub">${abertas.length} lançamentos${venc.length ? ` · <span class="ruim">${venc.length} vencidas (${brl(soma(venc.map(c => c.v)))})</span>` : ""}</div></div>
+        ${temEnt ? `<div class="kpi"><div class="rot">Repasse ao motoboy</div><div class="val ${MC.repAb > 0 ? "ruim" : ""}">${brl(MC.repAb)}</div><div class="sub">${MC.pend.length} taxa(s) a repassar · a pagar ao motoboy ${brl(Math.max(0, MC.saldo))}</div></div>` : ""}
       </div>
+      ${PI.meio}
       <section class="painel"><header><h2>Mês a mês — ${esc(P.ano)}</h2></header>${tabelaMes}</section>
+      ${temEnt ? `<section class="painel"><header><h2>Entregas e repasse ao motoboy — ${esc(P.ano)}</h2></header><div class="tabela"><table class="mes-tab"><thead><tr><th>${esc(P.ano)}</th>${MESES3.map(m => `<th class="n">${m}</th>`).join("")}<th class="n">Total</th></tr></thead><tbody>
+        ${linhaQtd("Entregas no mês (quantidade)", R.n)}
+        ${linhaMes("Taxas de entrega cobradas dos clientes", R.taxa)}
+        ${linhaMes("Repasse devido ao motoboy", R.rep, { cls: "grupo" })}
+        ${linhaMes("Repassado (no mês em que foi repassado)", R.repd, { cls: "sub", recuo: true })}
+        ${linhaMes("A repassar (entregas do mês ainda não repassadas)", R.pend, { cls: "grupo" })}
+        ${linhaMes("Pagamentos ao motoboy (horas e entregas)", R.pag)}
+        </tbody></table></div><p class="muted" style="padding:.6rem 1rem;margin:0;font-size:.85rem">A taxa de entrega não é faturamento: o repasse não entra nas vendas nem nas saídas da tabela acima. Entregas com veículo da empresa não têm repasse. O cartão “Repasse ao motoboy” mostra tudo o que está pendente até hoje.</p></section>` : ""}
       <div class="duas">
         ${minitab("Vendas por forma de pagamento", porForma, totV, "Forma")}
         ${minitab("Vendas por família", porFam, totV, "Família")}
@@ -1390,6 +1448,156 @@ Telas.painel = {
 };
 Mudancas.painel = el => { Est.painel[el.dataset.campo] = el.dataset.campo === "mes" ? Number(el.value) : el.value; atualizarTela(); };
 Acoes["painel-tipo"] = el => { const s = Est.painel.abertos, t = el.dataset.tipo; s.has(t) ? s.delete(t) : s.add(t); atualizarTela(); };
+
+/* ===== Painel: termômetro de rentabilidade, gráfico mensal clicável e atitudes recomendadas ===== */
+const pxFam = c => DB.familias[famDe(c)] || DB.familias.OUTROS || { dvv: 0, ebitda: 0 };
+function periodoDe(ano, mes) {
+  if (!mes) return { de: ano + "-01-01", ate: ano + "-12-31" };
+  const m = String(mes).padStart(2, "0"), u = new Date(Number(ano), mes, 0).getDate();
+  return { de: ano + "-" + m + "-01", ate: ano + "-" + m + "-" + String(u).padStart(2, "0") };
+}
+const periodoAnt = (ano, mes) => !mes ? periodoDe(String(Number(ano) - 1), 0) : mes > 1 ? periodoDe(ano, mes - 1) : periodoDe(String(Number(ano) - 1), 12);
+function resumoPeriodo(p) {
+  const R = { vend: 0, cmv: 0, op: 0, ped: new Set(), prod: new Map(), desc: new Map() };
+  DB.vendas.forEach(v => {
+    if (v.d < p.de || v.d > p.ate) return;
+    R.vend += v.t; R.cmv += v.q * custoVendaDe(v.c); R.ped.add(chavePedido(v));
+    let o = R.prod.get(v.c); if (!o) R.prod.set(v.c, o = { q: 0, t: 0 }); o.q += v.q; o.t += v.t;
+  });
+  DB.contas.forEach(c => {
+    if (!c.dp || c.dp < p.de || c.dp > p.ate || !TIPOS_OPERACIONAIS.includes(c.tipo)) return;
+    R.op += c.v; R.desc.set(c.desc, (R.desc.get(c.desc) || 0) + c.v);
+  });
+  return R;
+}
+/* meta = EBITDA desejado das famílias ponderado pelo mix vendido (mesma regra da precificação); a meta digitada tem prioridade */
+function metasPeriodo(R) {
+  let e = 0, d = 0;
+  R.prod.forEach((o, c) => { const f = pxFam(c); e += o.t * f.ebitda; d += o.t * f.dvv; });
+  const auto = R.vend ? e / R.vend : 0, man = DB.cfg.metaMargem > 0 ? DB.cfg.metaMargem : 0;
+  return { auto, dvv: R.vend ? d / R.vend : 0, op: man || auto, manual: !!man };
+}
+const estadoTerm = (m, meta) => m < 0 ? { t: "Prejuízo", c: "var(--bad)", cls: "ruim" } : m < meta ? { t: "Abaixo da meta", c: "var(--warn)", cls: "aviso" } : { t: "Na meta ou acima", c: "var(--good)", cls: "ok" };
+const difPct = (a, b) => b > 0 ? (a - b) / b : null;
+const difTxt = (d, inv) => d == null ? "sem período anterior" : `<span class="${(d >= 0) !== !!inv ? "bom" : "ruim"}">${d >= 0 ? "+" : ""}${pctf(d)}</span> vs período anterior`;
+
+function termometroSVG(m, meta) {
+  const e = Math.max(meta, 0.05), lo = -e, hi = 2 * e, T = 20, Bt = 250, H = Bt - T;
+  const y = v => Bt - (Math.max(lo, Math.min(hi, v)) - lo) / (hi - lo) * H, est = estadoTerm(m, meta);
+  return `<svg viewBox="0 0 130 320" width="130" height="320" role="img" aria-label="Termômetro: margem operacional ${pctf(m)}, meta ${pctf(meta)}">
+    <defs><clipPath id="tm-c"><rect x="40" y="${T}" width="30" height="${H + 20}" rx="15"/><circle cx="55" cy="275" r="28"/></clipPath></defs>
+    <g clip-path="url(#tm-c)"><rect x="0" y="0" width="130" height="320" style="fill:var(--line-soft)"/>
+      <rect x="0" y="${y(0)}" width="130" height="${Bt + 80 - y(0)}" style="fill:var(--bad);opacity:.18"/>
+      <rect x="0" y="${y(meta)}" width="130" height="${y(0) - y(meta)}" style="fill:var(--warn);opacity:.2"/>
+      <rect x="0" y="${T}" width="130" height="${y(meta) - T}" style="fill:var(--good);opacity:.18"/>
+      <rect x="45" y="${y(m)}" width="20" height="${Bt + 40 - y(m)}" style="fill:${est.c}"/><circle cx="55" cy="275" r="22" style="fill:${est.c}"/></g>
+    <rect x="40" y="${T}" width="30" height="${H + 20}" rx="15" style="fill:none;stroke:var(--muted);stroke-width:2"/><circle cx="55" cy="275" r="28" style="fill:none;stroke:var(--muted);stroke-width:2"/>
+    ${[[0, "0%"], [meta, "meta " + pctf(meta, 0)], [hi, pctf(hi, 0)]].map(([v, t]) => `<line x1="70" x2="78" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--muted)"/><text x="82" y="${y(v) + 4}" font-size="11" style="fill:var(--muted)">${t}</text>`).join("")}
+    <polygon points="30,${y(m)} 38,${y(m) - 5} 38,${y(m) + 5}" style="fill:var(--text)"/></svg>`;
+}
+
+function graficoMensal(P, D, resultado, meta) {
+  const modo = P.graf || "vend", W = 720, H = 240, L = 62, B = 26, T = 16, sw = (W - L - 8) / 12;
+  const vs = Array.from({ length: 12 }, (_, i) => modo === "vend" ? D.vend[i] : modo === "res" ? resultado[i] : (D.vend[i] ? resultado[i] / D.vend[i] : null));
+  const ok = vs.filter(x => x != null), mx = Math.max(0, meta && modo === "mg" ? meta : 0, ...ok), mn = Math.min(0, ...ok), sp = (mx - mn) || 1;
+  const y = v => T + (mx - v) / sp * (H - T - B), y0 = y(0), f = v => modo === "mg" ? pctf(v) : brl(v);
+  const cols = vs.map((v, i) => {
+    const x = L + i * sw, tem = v != null && (D.vend[i] || resultado[i]), sel = P.mes === i + 1;
+    const h = tem ? Math.abs(y(v) - y0) : 0, top = tem ? Math.min(y(v), y0) : y0;
+    const cor = !tem ? "none" : v < 0 ? "var(--bad)" : "var(--accent)";
+    return `<g class="gr-col" tabindex="0" role="button" data-acao="painel-mes" data-mes="${i + 1}" aria-pressed="${sel}" aria-label="${MESES[i]}: ${tem ? f(v) : "sem dados"}"><title>${MESES[i]}: ${tem ? f(v) : "sem dados"}</title>
+      <rect x="${x}" y="${T}" width="${sw}" height="${H - T}" style="fill:${sel ? "var(--accent-soft)" : "transparent"}"/>
+      <rect x="${x + sw * .2}" y="${top}" width="${sw * .6}" height="${Math.max(h, tem ? 1 : 0)}" rx="2" style="fill:${cor};opacity:${P.mes && !sel ? .45 : 1}"/>
+      <text x="${x + sw / 2}" y="${H - 8}" font-size="11" text-anchor="middle" style="fill:var(--${sel ? "text" : "muted"});font-weight:${sel ? 700 : 400}">${MESES3[i]}</text></g>`;
+  }).join("");
+  const mm = modo === "mg" && meta ? `<line x1="${L}" x2="${W - 8}" y1="${y(meta)}" y2="${y(meta)}" stroke-dasharray="5 4" style="stroke:var(--good);stroke-width:1.5"/><text x="${W - 10}" y="${y(meta) - 4}" font-size="11" text-anchor="end" style="fill:var(--good)">meta ${pctf(meta)}</text>` : "";
+  const seg = [["vend", "Vendas"], ["res", "Resultado operacional"], ["mg", "Margem operacional"]].map(([k, t]) => `<button type="button" aria-pressed="${modo === k}" data-acao="painel-graf" data-modo="${k}">${t}</button>`).join("");
+  return `<section class="painel"><header><h2>Evolução mensal — ${esc(P.ano)}</h2><div class="seg" role="group" aria-label="Indicador do gráfico">${seg}</div></header>
+    <div class="corpo"><svg viewBox="0 0 ${W} ${H}" width="100%" role="group" aria-label="Gráfico mensal">
+      <line x1="${L}" x2="${W - 8}" y1="${y0}" y2="${y0}" style="stroke:var(--line)"/>
+      <text x="${L - 6}" y="${y(mx) + 10}" font-size="11" text-anchor="end" style="fill:var(--muted)">${f(mx)}</text>${mn < 0 ? `<text x="${L - 6}" y="${y(mn)}" font-size="11" text-anchor="end" style="fill:var(--muted)">${f(mn)}</text>` : ""}
+      ${mm}${cols}</svg>
+    <p class="muted" style="margin:.4rem 0 0;font-size:.85rem">Clique em um mês para detalhar o painel nele; clique de novo para voltar ao ano inteiro.</p></div></section>`;
+}
+
+function atitudes(R, M, pa) {
+  const A = [], hoje = hojeISO(), vend = R.vend || 1;
+  const L = [];
+  R.prod.forEach((o, c) => {
+    const f = pxFam(c), tem = !!DB.receitas[c], cu = tem ? custoUn(c) : 0, mk = 1 - f.dvv - f.ebitda;
+    const pm = o.q ? o.t / o.q : 0, sug = tem && mk > 0 ? cu / mk : null, eb = o.t - o.q * cu - o.t * f.dvv;
+    L.push({ c, n: nomeDe(c), q: o.q, t: o.t, tem, eb, pm, sug, ganho: sug && sug > pm * 1.01 ? (o.q * sug - o.t) * (1 - f.dvv) : 0 });
+  });
+  const cp = [{ t: "Produto", v: x => x.c + " — " + x.n }, { t: "Preço praticado", n: true, v: x => brl(x.pm) }, { t: "Preço sugerido", n: true, v: x => brl(x.sug) }, { t: "Diferença", n: true, v: x => pctf(x.sug / x.pm - 1) }, { t: "Ganho", n: true, v: x => brl(x.ganho) }];
+  const top = (l, k) => l.slice().sort((a, b) => b[k] - a[k]).slice(0, 8);
+  const prej = L.filter(x => x.tem && x.eb < 0 && x.ganho > 0), baixo = L.filter(x => x.tem && x.eb >= 0 && x.ganho > 0);
+  const prem = "mesmo volume de vendas, preço praticado = preço sugerido da família (custo ÷ (1 − DVV − EBITDA))";
+  if (prej.length) A.push({ cat: "Preço", pri: 1, tit: `${prej.length} produto(s) vendidos com prejuízo`, txt: "O preço médio praticado não cobre custo e despesas variáveis estimadas da família. É o primeiro ponto a corrigir.", imp: soma(prej.map(x => x.ganho)), prem, det: tabela(cp, top(prej, "ganho")), rota: "produtos", rt: "Abrir Produtos e preços" });
+  if (baixo.length) A.push({ cat: "Preço", pri: 2, tit: `${baixo.length} produto(s) vendidos abaixo do preço sugerido`, txt: "Têm lucro, mas menos que a margem desejada da família. Reajustes pequenos nos de maior volume rendem mais.", imp: soma(baixo.map(x => x.ganho)), prem: prem + "; aumento de preço pode reduzir o volume", det: tabela(cp, top(baixo, "ganho")), rota: "produtos", rt: "Abrir Produtos e preços" });
+  const sf = L.filter(x => !x.tem && x.t > 0), sfv = soma(sf.map(x => x.t));
+  if (sf.length) A.push({ cat: "Dados", pri: sfv / vend > .1 ? 2 : 3, tit: `${sf.length} produto(s) vendidos sem ficha técnica`, txt: `Somam ${brl(sfv)} (${pctf(sfv / vend)} das vendas) e entram com custo zero: lucro e margem aparecem maiores que o real.`, det: tabela([{ t: "Produto", v: x => x.c + " — " + x.n }, { t: "Venda", n: true, v: x => brl(x.t) }], top(sf, "t")), rota: "produtos", rt: "Cadastrar fichas técnicas" });
+  /* fornecedor mais barato para o que foi consumido no período */
+  const X = idx(), av = X.avisos, cons = Calc.explodir(X, [...R.prod].map(([cod, o]) => ({ cod, qtd: o.q }))); X.avisos = av;
+  const fo = [];
+  cons.forEach((q, cod) => {
+    const pr = Calc.precos(X, cod, { hoje, janela: DB.cfg.janela, cotacoes: (DB.cot || {})[cod] }), m = pr.melhor, u = pr.ultimo;
+    if (m && u && m.p < u.p * .98) fo.push({ n: nomeDe(cod), un: unDe(cod), q, u: u.p, m: m.p, f: m.f, econ: q * (u.p - m.p) });
+  });
+  if (fo.length) A.push({ cat: "Custo", pri: 2, tit: `${fo.length} insumo(s) com fornecedor mais barato`, txt: "Para o que foi consumido no período, havia preço menor que o último pago (dentro da janela de comparação de preços).", imp: soma(fo.map(x => x.econ)), prem: "mesma quantidade consumida, comprando do fornecedor de menor preço",
+    det: tabela([{ t: "Insumo", v: x => x.n }, { t: "Consumo", n: true, v: x => nq(x.q) + " " + x.un }, { t: "Último pago", n: true, v: x => brl(x.u) }, { t: "Melhor preço", n: true, v: x => brl(x.m) }, { t: "Fornecedor", v: x => x.f }, { t: "Economia", n: true, v: x => brl(x.econ) }], top(fo, "econ")), rota: "producao", rt: "Abrir Produção e compras" });
+  /* despesas */
+  const teto = M.dvv * R.vend, exc = R.op - teto, dl = [...R.desc].sort((a, b) => b[1] - a[1]);
+  if (R.vend && exc > 0) A.push({ cat: "Despesas", pri: 2, tit: "Despesas operacionais acima do teto da meta", txt: `Foram ${brl(R.op)} (${pctf(R.op / R.vend)} das vendas); o teto pela meta é ${pctf(M.dvv)} (DVV das famílias).`, imp: exc, prem: "reduzir as despesas até o teto", det: tabela([{ t: "Descrição", v: x => x[0] }, { t: "Valor", n: true, v: x => brl(x[1]) }, { t: "% das vendas", n: true, v: x => pctf(x[1] / R.vend) }], dl.slice(0, 8)), rota: "contas", rt: "Abrir Contas a pagar" });
+  if (pa && pa.op > 0) {
+    const al = dl.map(([d, v]) => ({ d, v, p: pa.desc.get(d) || 0 })).filter(x => x.p > 0 && x.v > x.p * 1.2 && x.v - x.p >= 100).sort((a, b) => (b.v - b.p) - (a.v - a.p)).slice(0, 8);
+    if (al.length) A.push({ cat: "Despesas", pri: 3, tit: `${al.length} despesa(s) subiram mais de 20% sobre o período anterior`, txt: "Confira se o aumento é pontual ou se veio para ficar (só variações de pelo menos R$ 100).", imp: soma(al.map(x => x.v - x.p)), prem: "aumento em relação ao período anterior", det: tabela([{ t: "Descrição", v: x => x.d }, { t: "Anterior", n: true, v: x => brl(x.p) }, { t: "Atual", n: true, v: x => brl(x.v) }, { t: "Variação", n: true, v: x => pctf(x.v / x.p - 1) }], al), rota: "contas", rt: "Abrir Contas a pagar" });
+  }
+  const venc = DB.contas.filter(c => c.sit !== "PAGO" && c.dp && c.dp < hoje);
+  if (venc.length) A.push({ cat: "Despesas", pri: 1, tit: `${venc.length} conta(s) vencida(s) em aberto`, txt: `Somam ${brl(soma(venc.map(c => c.v)))}. Pagar ou renegociar evita juros e multa.`, rota: "contas", rt: "Abrir Contas a pagar" });
+  return A.sort((a, b) => a.pri - b.pri || (b.imp || 0) - (a.imp || 0));
+}
+
+function painelInteligente(P, D, resultado) {
+  const per = periodoDe(P.ano, P.mes), R = resumoPeriodo(per), pap = periodoAnt(P.ano, P.mes);
+  if (!P.mes) { let u = ""; DB.vendas.forEach(v => { if (v.d.slice(0, 4) === P.ano && v.d > u) u = v.d; }); if (u && u.slice(5) < "12-31") pap.ate = pap.ate.slice(0, 4) + u.slice(4); }
+  const pa = resumoPeriodo(pap), M = metasPeriodo(R);
+  const res = R.vend - R.cmv - R.op, m = R.vend ? res / R.vend : 0, est = estadoTerm(m, M.op);
+  const mgB = R.vend ? (R.vend - R.cmv) / R.vend : 0, metaB = M.dvv + M.op, dsp = R.vend ? R.op / R.vend : 0;
+  const resA = pa.vend - pa.cmv - pa.op, faltam = Math.max(0, M.op * R.vend - res);
+  const chip = (okk, t) => `<span class="tag ${okk ? "ok" : "ruim"}">${t}</span>`;
+  const ind = (rot, val, sub, chp) => `<div class="kpi"><div class="rot">${rot}</div><div class="val">${val}</div><div class="sub">${sub}</div>${chp || ""}</div>`;
+  const periodo = P.mes ? MESES[P.mes - 1] + " de " + P.ano : "ano de " + P.ano;
+  const topo = !R.vend ? `<section class="painel"><p class="vazio">Sem vendas em ${esc(periodo)}: o termômetro aparece quando houver vendas no período.</p></section>` : `
+    <section class="painel" aria-labelledby="t-term"><header><h2 id="t-term">Termômetro de rentabilidade — ${esc(periodo)}</h2><span class="tag ${est.cls}">${est.t}</span></header>
+      <div class="term"><div>${termometroSVG(m, M.op)}</div>
+      <div><div class="term-val" style="color:${est.c}">${pctf(m)}</div><div class="muted">margem operacional (resultado operacional ÷ vendas)</div>
+        <p style="margin:.7rem 0 .3rem">Resultado operacional de <strong>${brl(res)}</strong> sobre vendas de ${brl(R.vend)}. Meta: <strong>${pctf(M.op)}</strong> ${M.manual ? "(definida por você)" : "(EBITDA desejado das famílias, pelo mix vendido)"}.</p>
+        <p style="margin:0 0 .8rem">${faltam > 0 ? `Para chegar à meta ${P.mes ? "neste mês" : "neste período"} faltam <strong>${brl(faltam)}</strong> de resultado.` : `Meta atingida, com folga de <strong>${brl(res - M.op * R.vend)}</strong>.`}</p>
+        <div class="filtros" style="border:0;background:none;padding:0"><div class="campo"><label for="pn-meta">Meta de margem operacional (%)</label><input id="pn-meta" inputmode="decimal" data-mud="painel-meta" value="${String(r2(M.op * 100)).replace(".", ",")}"></div>
+        ${M.manual ? `<button type="button" data-acao="painel-meta-auto">Usar meta automática</button>` : ""}</div></div></div></section>
+    <div class="kpis">
+      ${ind("Margem bruta", pctf(mgB), `meta ${pctf(metaB)} (DVV + EBITDA desejado)`, chip(mgB >= metaB, mgB >= metaB ? "Na meta" : "Abaixo da meta"))}
+      ${ind("Despesas operacionais", pctf(dsp), `teto ${pctf(M.dvv)} das vendas · ${brl(R.op)}`, chip(dsp <= M.dvv, dsp <= M.dvv ? "Dentro do teto" : "Acima do teto"))}
+      ${ind("Vendas", brl(R.vend), difTxt(difPct(R.vend, pa.vend)))}
+      ${ind("Ticket médio", brl(R.ped.size ? R.vend / R.ped.size : 0), `${nfInt.format(R.ped.size)} pedidos · ${difTxt(difPct(R.ped.size ? R.vend / R.ped.size : 0, pa.ped.size ? pa.vend / pa.ped.size : 0))}`)}
+    </div>`;
+  const cats = ["Preço", "Custo", "Despesas", "Dados"], A = R.vend ? atitudes(R, M, pa) : [], vis = A.filter(a => !P.cat || a.cat === P.cat);
+  const pri = ["", "Urgente", "Importante", "Oportunidade"], pcl = ["", "ruim", "aviso", "ok"];
+  const card = a => `<article class="acao p${a.pri}"><div><span class="tag ${pcl[a.pri]}">${pri[a.pri]}</span> <span class="tag">${a.cat}</span></div><h3>${esc(a.tit)}</h3><p>${esc(a.txt)}</p>
+    ${a.imp != null ? `<p class="impacto"><strong>${brl(a.imp)}</strong> estimados <span class="muted">· premissa: ${esc(a.prem)}</span></p>` : ""}
+    ${a.det ? `<details><summary>Ver itens</summary>${a.det}</details>` : ""}${a.rota ? `<a href="#/${a.rota}">${esc(a.rt)} →</a>` : ""}</article>`;
+  const chips = [["", "Todas (" + A.length + ")"], ...cats.map(c => [c, c + " (" + A.filter(a => a.cat === c).length + ")"])].map(([k, t]) => `<button type="button" aria-pressed="${(P.cat || "") === k}" data-acao="painel-cat" data-cat="${k}">${t}</button>`).join("");
+  const meio = graficoMensal(P, D, resultado, M.op) + (R.vend ? `<section class="painel" aria-labelledby="t-at"><header><h2 id="t-at">Atitudes para ganhar rentabilidade — ${esc(periodo)}</h2><div class="seg" role="group" aria-label="Filtrar atitudes">${chips}</div></header>
+    <div class="corpo"><div class="acoes-grade">${vis.length ? vis.map(card).join("") : '<p class="vazio">Nenhuma atitude encontrada neste período e filtro. Bom sinal.</p>'}</div>
+    <p class="muted" style="margin:.8rem 0 0;font-size:.85rem">Os valores são estimativas feitas com os seus lançamentos e fichas técnicas, na premissa indicada em cada item; confirme antes de decidir. Reajustar preço pode reduzir o volume vendido.</p></div></section>` : "");
+  return { topo, meio };
+}
+Mudancas["painel-meta"] = el => { const v = num(el.value) / 100; DB.cfg.metaMargem = v > 0 && v < 1 ? r2(v * 10000) / 10000 : 0; Banco.mudou(); atualizarTela(); };
+Acoes["painel-meta-auto"] = () => { DB.cfg.metaMargem = 0; Banco.mudou(); atualizarTela(); };
+Acoes["painel-mes"] = el => { const m = Number(el.dataset.mes); Est.painel.mes = Est.painel.mes === m ? 0 : m; atualizarTela(); };
+Acoes["painel-graf"] = el => { Est.painel.graf = el.dataset.modo; atualizarTela(); };
+Acoes["painel-cat"] = el => { Est.painel.cat = el.dataset.cat; atualizarTela(); };
+document.addEventListener("keydown", ev => { if ((ev.key === "Enter" || ev.key === " ") && ev.target.classList && ev.target.classList.contains("gr-col")) { ev.preventDefault(); ev.target.dispatchEvent(new MouseEvent("click", { bubbles: true })); } });
 
 "use strict";
 
@@ -1418,13 +1626,13 @@ function vendasFiltradas(F) {
 }
 const LANC_COLS = [    { t: "Data", s: v => v.d + " " + (v.h || ""), v: v => dlonga(v.d) },
     { t: "Hora", s: v => v.h || "", v: v => v.h || "—" },
-    { t: "Nº", n: true, s: v => v.n, h: v => { const e = entregaDoPedido(chavePedido(v)); return v.n + (e ? ` <span class="tag ${e.pago ? "" : "aviso"}" title="Taxa de entrega">🛵</span>` : ""); } },
+    { t: "Nº", n: true, s: v => v.n, h: v => { const e = entregaDoPedido(chavePedido(v)); return v.n + (e ? ` <span class="tag ${e.pago || e.sr ? "" : "aviso"}" title="Entrega${e.mid ? " — " + esc(motoNomeDe(e.mid)) : ""}">🛵</span>` : ""); } },
     { t: "Cliente", s: v => v.cli, v: v => v.cli },
     { t: "Produto", s: v => nomeProduto(v.c), h: v => `${esc(nomeProduto(v.c))} <small class="muted">${esc(v.c)}</small>` },
     { t: "Qtd", n: true, s: v => v.q, v: v => nq(v.q) }, { t: "Unitário", n: true, s: v => v.vu ?? 0, v: v => v.vu != null ? brl(v.vu) : "—" }, { t: "Total", n: true, s: v => v.t, h: v => brl(v.t) + (v.ra ? ` <span class="tag aviso" title="${esc("Inclui rateio de " + minusc1(txtAjuste(v.ra)) + " do pedido — " + (v.ram || "") + (v.rao ? " — " + v.rao : ""))}">${v.ra < 0 ? "desc." : "acrésc."}</span>` : "") },
     { t: "Nota", s: v => v.nota || "", h: v => v.nota ? `<span class="tag">${esc(v.nota === "COM NOTA" ? "com nota" : v.nota === "SEM NOTA" ? "sem nota" : v.nota)}</span>` : "" },
     { t: "Pagamento", s: v => v.forma || "", v: v => v.forma },
-    { t: "", h: v => `<button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="58mm">58mm</button> <button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="a4">A4</button> <button type="button" class="mini" data-acao="venda-editar" data-id="${v.id}">Editar</button> <button type="button" class="mini perigo" data-acao="venda-excluir" data-id="${v.id}" aria-label="Excluir linha ${v.id}">Excluir</button>` }
+    { t: "", h: v => `<button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="58mm">58mm</button> <button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="a4">A4</button> ${entregaDoPedido(chavePedido(v)) ? `<button type="button" class="mini" data-acao="moto-wpp" data-chave="${esc(chavePedido(v))}">Motoboy</button> ` : ""}<button type="button" class="mini" data-acao="venda-editar" data-id="${v.id}">Editar</button> <button type="button" class="mini perigo" data-acao="venda-excluir" data-id="${v.id}" aria-label="Excluir linha ${v.id}">Excluir</button>` }
 ];
 function vendasResultadoHTML() {
   const F = filtroVendas(), lista = vendasFiltradas(F);
@@ -1464,10 +1672,9 @@ Telas.vendas = {
   titulo: "Vendas",
   render() {
     const F = filtroVendas();
-    return cabecalho("Vendas", `Histórico de ${dlonga(DB.meta.vendasDe)} em diante. Lance novas vendas aqui.`,
+    return cabecalho("Vendas", `${DB.meta.vendasDe ? "Histórico de " + dlonga(DB.meta.vendasDe) + " em diante. " : ""}Lance novas vendas aqui.`,
       `<button type="button" data-acao="exportar-lista" data-tipo="vendas">Exportar</button>
        <button type="button" data-acao="importar-dlg" data-tipo="vendas">Importar</button>
-       <button type="button" data-acao="dlg-entregas">Taxas de entrega</button>
        <button type="button" class="primario" data-acao="venda-nova">Nova venda</button>`) +
       abasHTML("vendas", [["lanc", "Lançamentos"], ["produto", "Por produto"], ["cliente", "Por cliente"]], F.aba) +
       `<section class="painel"><div class="filtros">
@@ -1623,77 +1830,13 @@ Acoes["pedido-imprimir"] = el => {
   imprimirPedidoObj(P, formato);
 };
 function mostrarPosVenda(n, d, cli) {
-  const chave = esc(chavePedido({ n, d, cli }));
+  const chave = esc(chavePedido({ n, d, cli })), temE = !!entregaDoPedido(chavePedido({ n, d, cli }));
   abrir(`<h2>Venda registrada</h2><p>Pedido nº ${n} salvo com sucesso.</p>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Fechar</button>
       <button type="button" data-acao="pedido-imprimir" data-chave="${chave}" data-formato="58mm">Imprimir cupom (58mm)</button>
-      <button type="button" class="primario" data-acao="pedido-imprimir" data-chave="${chave}" data-formato="a4">Imprimir pedido (A4)</button></div>`);
+      <button type="button" class="primario" data-acao="pedido-imprimir" data-chave="${chave}" data-formato="a4">Imprimir pedido (A4)</button>
+      ${temE ? `<button type="button" data-acao="moto-wpp" data-chave="${chave}">Enviar ao motoboy (WhatsApp)</button>` : ""}</div>`);
 }
-
-/* ===== Taxas de entrega (repasse ao entregador; não é faturamento nem conta a pagar) ===== */
-function entregasFiltro() { return Est.entregas = Est.entregas || { sit: "aberta", pag: 1 }; }
-function entregasResultadoHTML() {
-  const F = entregasFiltro();
-  const lista = DB.entregas.filter(e => (F.sit === "aberta" ? !e.pago : e.pago)).sort((a, b) => (b.d < a.d ? -1 : b.d > a.d ? 1 : 0) || b.id - a.id);
-  const pendente = DB.entregas.filter(e => !e.pago).reduce((s, e) => s + e.v, 0);
-  const pg = paginar(lista, F.pag, 100);
-  return `<div class="resumo"><div><div class="rot">Pendente de repasse</div><div class="val ${pendente ? "ruim" : ""}">${brl(pendente)}</div></div></div>` +
-    tabela([
-      { t: "Data", v: e => dlonga(e.d) }, { t: "Pedido nº", n: true, v: e => e.n }, { t: "Cliente", v: e => e.cli || "—" },
-      { t: "Valor", n: true, h: e => `<input class="cel dinheiro" type="text" inputmode="decimal" value="${brl(e.v)}" data-mud="entrega-valor" data-id="${e.id}" aria-label="Valor da taxa do pedido ${e.n}">` },
-      { t: "Situação", h: e => e.pago ? `<span class="tag ok">repassada${e.dPago ? " · " + dcurta(e.dPago) : ""}</span>` : '<span class="tag aviso">a repassar</span>' },
-      { t: "", h: e => (e.pago ? `<button type="button" class="mini" data-acao="entrega-reabrir" data-id="${e.id}">Reabrir</button>` : `<button type="button" class="mini primario" data-acao="entrega-pagar" data-id="${e.id}">Marcar repassada</button>`) + ` <button type="button" class="mini perigo" data-acao="entrega-excluir" data-id="${e.id}">Excluir</button>` }
-    ], pg.itens, { vazio: F.sit === "aberta" ? "Nenhuma taxa de entrega pendente de repasse." : "Nenhuma taxa de entrega repassada ainda." }) + pagHTML(pg, "entregas-pag");
-}
-Acoes["dlg-entregas"] = () => {
-  Est.entregas = { sit: "aberta", pag: 1 };
-  const padrao = DB.cfg.taxaPadrao > 0 ? brl(DB.cfg.taxaPadrao) : "";
-  abrir(`<h2>Taxas de entrega</h2>
-    <p class="muted">Valor cobrado do cliente na venda para repassar ao entregador no fim do expediente. Não entra no seu faturamento nem em Contas a pagar.</p>
-    <div class="campo" style="max-width:320px"><label for="et-padrao">Taxa de entrega do dia (valor fixo)</label>
-      <input id="et-padrao" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" value="${padrao}" data-mud="taxa-padrao">
-      <div class="muted" id="et-padrao-info" style="font-size:.8rem">${DB.cfg.taxaPadraoData ? "Definida em " + dlonga(DB.cfg.taxaPadraoData) + ". " : ""}Ao marcar “Com entrega” numa venda, este valor já vem preenchido.</div></div>
-    <div class="filtros" style="border:0;padding:0 0 .6rem">
-      <div class="campo"><label for="et-sit">Mostrar</label><select id="et-sit" data-mud="entregas-sit">${opcoes([["aberta", "A repassar"], ["paga", "Já repassadas"]], Est.entregas.sit)}</select></div>
-      <div class="acoes-topo" style="align-items:end"><button type="button" class="mini" data-acao="entregas-pagar-todas">Marcar todas as pendentes como repassadas</button></div>
-    </div>
-    <div id="et-lista">${entregasResultadoHTML()}</div>
-    <div class="rodape-dlg"><button type="button" class="primario" data-acao="fechar">Fechar</button></div>`, true);
-};
-Mudancas["taxa-padrao"] = el => {
-  const v = num(el.value);
-  DB.cfg.taxaPadrao = isFinite(v) && v > 0 ? r2(v) : 0; DB.cfg.taxaPadraoData = hojeISO();
-  Banco.salvar(); aviso(DB.cfg.taxaPadrao > 0 ? "Taxa de entrega do dia atualizada." : "Taxa de entrega padrão removida.");
-  const info = $("#et-padrao-info"); if (info) info.textContent = "Definida em " + dlonga(DB.cfg.taxaPadraoData) + ". Ao marcar “Com entrega” numa venda, este valor já vem preenchido.";
-};
-Mudancas["entregas-sit"] = el => { Est.entregas.sit = el.value; Est.entregas.pag = 1; $("#et-lista").innerHTML = entregasResultadoHTML(); };
-Acoes["entregas-pag"] = el => { Est.entregas.pag = Number(el.dataset.pag); $("#et-lista").innerHTML = entregasResultadoHTML(); };
-Mudancas["entrega-valor"] = el => {
-  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
-  const v = num(el.value); if (!(v >= 0)) { el.value = brl(e.v); return; }
-  e.v = r2(v); Banco.salvar();
-};
-Acoes["entrega-pagar"] = el => {
-  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
-  e.pago = true; e.dPago = hojeISO(); Banco.mudou(); $("#et-lista").innerHTML = entregasResultadoHTML(); vendasRefresh();
-};
-Acoes["entrega-reabrir"] = el => {
-  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
-  e.pago = false; e.dPago = null; Banco.mudou(); $("#et-lista").innerHTML = entregasResultadoHTML(); vendasRefresh();
-};
-Acoes["entrega-excluir"] = async el => {
-  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
-  if (await confirmar(`Excluir a taxa de entrega do pedido nº ${e.n} (${brl(e.v)})?`, "Excluir")) {
-    DB.entregas = DB.entregas.filter(x => x.id !== e.id); Banco.mudou(); Acoes["dlg-entregas"](); vendasRefresh();
-  }
-};
-Acoes["entregas-pagar-todas"] = async () => {
-  const abertas = DB.entregas.filter(e => !e.pago);
-  if (!abertas.length) { aviso("Não há taxas pendentes."); return; }
-  if (await confirmar(`Marcar ${abertas.length} taxa(s) de entrega, totalizando ${brl(abertas.reduce((s, e) => s + e.v, 0))}, como repassadas hoje?`, "Marcar todas")) {
-    const hj = hojeISO(); abertas.forEach(e => { e.pago = true; e.dPago = hj; }); Banco.mudou(); Acoes["dlg-entregas"](); vendasRefresh();
-  }
-};
 
 /* ===== Nova venda ===== */
 const prodOptions = () => Object.entries(DB.produtos).sort((a, b) => a[1].n.localeCompare(b[1].n, "pt-BR"))
@@ -1773,7 +1916,7 @@ function atualizarInfoCliente() {
   const c = clientePorNome(nome);
   if (!c) el.textContent = "Cliente novo — será cadastrado ao gravar o pedido (celular e endereço são obrigatórios).";
   else if (!c.tel || !c.end) el.textContent = "Cliente cadastrado, mas sem " + (!c.tel && !c.end ? "celular e endereço" : !c.tel ? "celular" : "endereço") + " — complete abaixo; os dados serão salvos no cadastro.";
-  else el.textContent = "Cliente cadastrado.";
+  else el.textContent = "Cliente cadastrado. Confira o endereço no mapa (botão ao lado do endereço).";
 }
 Entradas["cli-nome"] = el => {
   el.dataset.auto = "";
@@ -1792,15 +1935,28 @@ Entradas["cli-tel"] = el => {
   atualizarInfoCliente();
 };
 Entradas["cli-end"] = el => { el.dataset.auto = ""; };
+const nvMotoPadrao = () => { const L = motoAtivos(); return L.length === 1 ? L[0].id : (DB.cfg.motoUltimo && L.some(m => m.id === DB.cfg.motoUltimo) ? DB.cfg.motoUltimo : 0); };
+/* taxa sugerida: valor pago pelo cliente no cadastro do motoboy; sem ele, a taxa fixa antiga, se existir */
+function nvAplicarTaxa() {
+  const taxa = $("#nv-taxa"), m = motoPorId(Number($("#nv-moto").value) || 0);
+  const sug = m && m.vc > 0 ? m.vc : (DB.cfg.taxaPadrao > 0 ? DB.cfg.taxaPadrao : 0), ant = Number(taxa.dataset.autoVal || 0);
+  if (taxa.value.trim() === "" || num(taxa.value) === ant) { if (sug > 0) setDinheiro(taxa, sug); else taxa.value = ""; taxa.dataset.autoVal = String(sug); }
+  const car = $("#nv-veic").value === "carro";
+  $("#nv-taxa-info").textContent = (m && m.vc > 0 ? "Valor pago pelo cliente (cadastro de " + m.nome + "): " + brl(m.vc) + ". Pode ser alterado nesta venda." : "Informe a taxa ou cadastre o valor pago pelo cliente em Cadastros → Motoboys.") + (car ? " Carro da empresa: sem repasse ao motoboy." : "");
+  somaVenda();
+}
 Mudancas["nv-entrega"] = el => {
   const taxa = $("#nv-taxa");
   $("#nv-taxa-wrap").style.display = el.checked ? "" : "none";
-  if (el.checked) {
-    if (taxa.value.trim() === "" && DB.cfg.taxaPadrao > 0) setDinheiro(taxa, DB.cfg.taxaPadrao);
-    $("#nv-taxa-info").textContent = DB.cfg.taxaPadrao > 0 ? "Valor do dia: " + brl(DB.cfg.taxaPadrao) + (DB.cfg.taxaPadraoData ? " (definido em " + dcurta(DB.cfg.taxaPadraoData) + ")" : "") + ". Pode ser alterado nesta venda."
-      : "Nenhuma taxa fixa definida. Cadastre em Vendas → Taxas de entrega ou digite o valor.";
-  } else taxa.value = "";
-  somaVenda();
+  if (el.checked) nvAplicarTaxa();
+  else { taxa.value = ""; delete taxa.dataset.autoVal; somaVenda(); }
+};
+Mudancas["nv-moto"] = () => nvAplicarTaxa();
+Mudancas["nv-veic"] = () => nvAplicarTaxa();
+Acoes["venda-mapa"] = () => {
+  const end = $("#nv-end").value.trim();
+  if (!end) { aviso("Digite o endereço do cliente primeiro.", "erro"); return; }
+  window.open(mapaLink(end), "_blank");
 };
 Mudancas["nv-forma"] = el => {
   const dinheiro = el.value === "DINHEIRO";
@@ -1829,10 +1985,11 @@ function lerFormularioVenda() {
   if (T.aj && !mot) return falha("#nv-am", "Informe o motivo do desconto/acréscimo.");
   if (T.aj < 0 && -T.aj > T.itens) return falha("#nv-av", "O desconto não pode ser maior que o total dos itens.");
   if ($("#nv-entrega").checked && !(T.taxa > 0)) return falha("#nv-taxa", "Informe a taxa de entrega ou desmarque “Com entrega”.");
+  if ($("#nv-entrega").checked && motoAtivos().length && !(Number($("#nv-moto").value) > 0)) return falha("#nv-moto", "Selecione o motoboy da entrega.");
   if (T.paga !== null && T.paga < T.total) return falha("#nv-paga", "O valor pago em dinheiro (" + brl(T.paga) + ") é menor que o total a cobrar (" + brl(T.total) + ").");
   return { P: {
     n: proximoNumeroPedido(), d: data, cli: nome, tel: formatarTel(telDig), end, obs: $("#nv-obs").value.trim(), forma, nota, pagaCom: T.paga,
-    itens: linhas.map(l => ({ c: l.c, q: l.q, vu: isFinite(l.u) ? l.u : null, t: r2(l.t), ...(l.cb ? { cb: l.cb } : {}) })), taxa: r2(T.taxa),
+    itens: linhas.map(l => ({ c: l.c, q: l.q, vu: isFinite(l.u) ? l.u : null, t: r2(l.t), ...(l.cb ? { cb: l.cb } : {}) })), taxa: r2(T.taxa), mid: $("#nv-entrega").checked ? Number($("#nv-moto").value) || 0 : 0, veic: $("#nv-entrega").checked ? $("#nv-veic").value : "", gps: $("#nv-entrega").checked && $("#nv-gps").checked, env: $("#f-venda").dataset.env === "1",
     aj: T.aj, ajMot: T.aj ? mot : "", ajObs: T.aj ? obsAj : ""
   } };
 }
@@ -1849,7 +2006,13 @@ function gravarPedido(P) {
   const partes = ratearAjuste(P.itens.map(l => l.t), P.aj || 0);
   const hora = horaAgora();
   P.itens.forEach((l, k) => DB.vendas.push({ id: ++id, n, d: P.d, h: hora, cli: P.cli, c: l.c, q: l.q, vu: l.vu, t: r2(l.t + partes[k]), ...(l.cb ? { cb: l.cb } : {}), nota: P.nota, forma: P.forma, tel: P.tel, end: P.end, obs: P.obs, pagaCom: P.pagaCom, ...(P.aj ? { ra: partes[k], ram: P.ajMot, rao: P.ajObs } : {}) }));
-  if (P.taxa > 0) DB.entregas.push({ id: DB.entregas.reduce((m, e) => Math.max(m, e.id), 0) + 1, n, d: P.d, cli: P.cli, v: P.taxa, pago: false, dPago: null, vm: DB.cfg.motoEntrega });
+  if (P.taxa > 0) {
+    const car = P.veic === "carro", mo = motoPorId(P.mid);
+    DB.entregas.push({ id: DB.entregas.reduce((m, e) => Math.max(m, e.id), 0) + 1, n, d: P.d, cli: P.cli, v: P.taxa, pago: false, dPago: null, vm: car ? 0 : (mo ? mo.ve : DB.cfg.motoEntrega),
+      ...(P.mid ? { mid: P.mid } : {}), ...(car ? { sr: true } : {}), ...(P.gps ? { gps: true } : {}), ...(P.env ? { env: hojeISO() } : {}) });
+    if (P.mid) DB.cfg.motoUltimo = P.mid;
+    if (P.veic) DB.cfg.motoUltimoVeic = P.veic;
+  }
   const F = filtroVendas();
   if ((F.de && P.d < F.de) || (F.ate && P.d > F.ate)) { F.de = primeiroDia(P.d); F.ate = ultimoDia(P.d); }
   F.pag = 1; F.cli = ""; F.prod = ""; F.fam = ""; F.nota = ""; F.forma = "";
@@ -1882,7 +2045,7 @@ Acoes["venda-nova"] = () => {
       <div class="campo"><label for="nv-cli">Cliente (nome)</label><input id="nv-cli" list="lv-clientes" autocomplete="off" data-ent="cli-nome"><datalist id="lv-clientes">${clientes().map(c => `<option value="${esc(c)}"></option>`).join("")}</datalist></div>
       <div class="campo"><label for="nv-tel">Celular</label><input id="nv-tel" type="tel" inputmode="tel" list="lv-tels" autocomplete="off" placeholder="(00) 00000-0000" data-ent="cli-tel"><datalist id="lv-tels">${DB.clientes.filter(c => c.tel).map(c => `<option value="${esc(c.tel)}" label="${esc(c.nome)}"></option>`).join("")}</datalist></div>
     </div>
-    <div class="campo" style="margin-bottom:.3rem"><label for="nv-end">Endereço</label><input id="nv-end" autocomplete="off" data-ent="cli-end"></div>
+    <div class="campo" style="margin-bottom:.3rem"><label for="nv-end">Endereço</label><div style="display:flex;gap:.4rem"><input id="nv-end" autocomplete="off" data-ent="cli-end" style="flex:1;min-width:0"><button type="button" class="mini" data-acao="venda-mapa">Ver no mapa</button></div></div>
     <p class="muted" id="nv-cli-info" style="margin:0 0 .8rem;font-size:.82rem;min-height:1.1em"></p>
     <datalist id="lv-lista">${prodOptions()}</datalist>
     <div class="campo" style="margin-bottom:.8rem"><label>Combos</label>
@@ -1910,7 +2073,12 @@ Acoes["venda-nova"] = () => {
     <div class="grade2">
       <div class="campo"><label style="display:flex;align-items:center;gap:.5rem"><input type="checkbox" id="nv-entrega" data-mud="nv-entrega"> Com entrega (taxa de entrega)</label>
         <div id="nv-taxa-wrap" style="display:none"><input id="nv-taxa" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" autocomplete="off" data-ent="nv-taxa" aria-label="Taxa de entrega">
-          <div class="muted" id="nv-taxa-info" style="font-size:.78rem"></div></div></div>
+          <div class="muted" id="nv-taxa-info" style="font-size:.78rem"></div>
+          <div class="campo" style="margin-top:.4rem"><label for="nv-moto">Motoboy</label><select id="nv-moto" data-mud="nv-moto">${motoOpcoes(nvMotoPadrao(), "Selecione…")}</select></div>
+          ${DB.motos.length ? "" : '<div class="muted" style="font-size:.78rem">Cadastre o motoboy em Cadastros → Motoboys.</div>'}
+          <div class="campo" style="margin-top:.4rem"><label for="nv-veic">Veículo do dia</label><select id="nv-veic" data-mud="nv-veic">${opcoes(veicDia, DB.cfg.motoUltimoVeic || "moto")}</select></div>
+          <label style="display:flex;align-items:center;gap:.5rem;margin-top:.4rem"><input type="checkbox" id="nv-gps"> Cliente encontrado no GPS</label>
+          <button type="button" class="mini primario" data-acao="venda-enviar-moto" style="margin-top:.3rem">Enviar ao motoboy (WhatsApp)</button></div></div>
       <div class="campo"><label for="nv-forma">Pagamento</label><select id="nv-forma" data-mud="nv-forma">${opcoes(FORMAS_VENDA, "PIX")}</select></div>
     </div>
     <div class="campo" id="nv-paga-wrap" style="display:none"><label for="nv-paga">Cliente paga com (dinheiro)</label>
@@ -1923,7 +2091,7 @@ Acoes["venda-nova"] = () => {
       <div><div class="rot">Total a cobrar do cliente</div><div class="val" id="nv-r-total">${brl(0)}</div></div>
       <div id="nv-r-troco-box" style="display:none"><div class="rot">Troco</div><div class="val" id="nv-r-troco"></div></div>
     </div>
-    <p class="muted" style="margin-top:0">A taxa de entrega não entra no seu faturamento — fica em “Taxas de entrega”, para você repassar ao entregador.</p>
+    <p class="muted" style="margin-top:0">A taxa de entrega não entra no seu faturamento — fica no controle de repasse da tela Motoboy.</p>
     <div class="alertas" id="nv-pos-impressao" style="display:none;border-radius:var(--radius);border:1px solid var(--line);display:none">
       <strong>Pedido impresso.</strong> Já deseja gravar o pedido?
       <span style="margin-left:.6rem"><button type="button" class="mini primario" id="nv-gravar-apos" data-acao="venda-gravar-apos-imprimir">Gravar pedido</button>
@@ -2012,8 +2180,9 @@ function produtosResultadoHTML() {
     <div><div class="rot">Sem preço real</div><div class="val">${semPreco}</div></div></div>` +
     tabela([
       { t: "Código", v: x => x.c },
-      { t: "Produto", h: x => `<a href="#" data-acao="ficha" data-cod="${esc(x.c)}" style="color:inherit;font-weight:600">${esc(x.p.n)}</a>${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}` },
-      { t: "Família", v: x => x.p.g }, { t: "Un", v: x => x.p.u },
+      { t: "Produto", h: x => `<input class="cel" style="min-width:15rem;text-align:left;font-weight:600" value="${esc(x.p.n)}" data-mud="pnome" data-cod="${esc(x.c)}" aria-label="Nome do produto ${esc(x.c)}">${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}` },
+      { t: "Família", v: x => x.p.g },
+      { t: "Un", h: x => `<select class="cel" data-mud="punid" data-cod="${esc(x.c)}" aria-label="Unidade de venda de ${esc(x.p.n)}">${opcoes([...new Set(["UN", "KG", "CT", x.p.u])], x.p.u)}</select>` },
       { t: "Custo", n: true, v: x => brl(x.i.custo) },
       { t: "Sugerido", n: true, v: x => x.i.sug != null ? brl(x.i.sug) : "—" },
       { t: "Preço real", n: true, h: x => `<input class="cel" type="number" min="0" step="any" inputmode="decimal" value="${x.p.r || ""}" data-mud="preco" data-cod="${esc(x.c)}" data-campo="r" aria-label="Preço real de ${esc(x.p.n)}">` },
@@ -2021,7 +2190,7 @@ function produtosResultadoHTML() {
       { t: "EBITDA", n: true, h: x => x.i.eb == null ? "—" : `<span class="${x.i.eb < 0 ? "ruim" : ""}">${brl(x.i.eb)}</span>` },
       { t: "% EBITDA", n: true, h: x => x.i.pe == null ? "—" : `<span class="${x.i.pe < 0 ? "ruim" : ""}">${pctf(x.i.pe)}</span>` },
       { t: "Estoque", n: true, h: x => { const s = saldoProd(x.c); return `<span class="${s < 0 ? "ruim" : ""}">${nq(s)}</span>`; } },
-      { t: "", h: x => `<button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button>` }
+      { t: "", h: x => `<button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button>` }
     ], pg.itens, { vazio: "Nenhum produto encontrado." }) + pagHTML(pg, "prod-pag");
 }
 Telas.produtos = {
@@ -2046,6 +2215,17 @@ const produtosRefresh = () => { const el = $("#p-resultado"); if (el) el.innerHT
 Entradas.pfiltro = el => { const F = filtroProdutos(); F[el.dataset.campo] = el.value; F.pag = 1; produtosRefresh(); };
 Mudancas.pfiltro = el => { const F = filtroProdutos(); F[el.dataset.campo] = el.value; F.pag = 1; produtosRefresh(); };
 Acoes["prod-pag"] = el => { filtroProdutos().pag = Number(el.dataset.pag); produtosRefresh(); };
+Mudancas.pnome = el => {
+  const c = el.dataset.cod, n = el.value.trim().toUpperCase();
+  if (!n) { el.value = DB.produtos[c].n; return; }
+  DB.produtos[c].n = n; if (DB.receitas[c]) DB.receitas[c].n = n;
+  Banco.mudou(); produtosRefresh();
+};
+Mudancas.punid = el => {
+  const c = el.dataset.cod;
+  DB.produtos[c].u = el.value; if (DB.receitas[c]) DB.receitas[c].u = el.value;
+  Banco.mudou(); produtosRefresh();
+};
 Mudancas.preco = el => {
   const v = num(el.value);
   DB.produtos[el.dataset.cod][el.dataset.campo] = isFinite(v) && v > 0 ? r2(v) : 0;
@@ -2053,22 +2233,62 @@ Mudancas.preco = el => {
 };
 
 /* parâmetros por família */
+/* sondagem de DVV: despesas operacionais ÷ faturado nos últimos X meses completos */
+function dvvHistorico(X) {
+  const fim = mesCompletoPadrao(), ms = [];
+  for (let i = X - 1; i >= 0; i--) ms.push(addMeses(primeiroDia(fim), -i).slice(0, 7));
+  const M = new Map(ms.map(k => [k, { k, vend: 0, desp: 0 }]));
+  const porFam = {};
+  DB.vendas.forEach(v => { const o = M.get(v.d.slice(0, 7)); if (o) { o.vend += v.t; const f = famDe(v.c); porFam[f] = (porFam[f] || 0) + v.t; } });
+  DB.contas.forEach(c => { const o = c.dp && TIPOS_OPERACIONAIS.includes(c.tipo) ? M.get(c.dp.slice(0, 7)) : null; if (o) o.desp += c.v; });
+  const meses = [...M.values()].filter(o => o.vend || o.desp), vend = soma(meses.map(o => o.vend)), desp = soma(meses.map(o => o.desp));
+  return { meses, vend, desp, porFam, pct: vend ? desp / vend : null };
+}
+function estadoFamilias() {
+  const e = {};
+  familiasLista().forEach(f => { const c = $("#fp-r-" + CSS.escape(f)), d = $("#fp-d-" + CSS.escape(f)), p = DB.familias[f]; e[f] = { rateia: c ? c.checked : p.rateia !== false, dvv: d ? (num(d.value) / 100 || 0) : p.dvv }; });
+  return e;
+}
+function dvvRateio(H, est) {
+  let vPart = 0, absorvido = 0; const fora = [];
+  Object.entries(H.porFam).forEach(([f, v]) => { const e = est[f] || { rateia: true }; if (e.rateia) vPart += v; else { absorvido += v * e.dvv; fora.push(f + " " + pctf(e.dvv)); } });
+  return { vPart, absorvido, fora, pct: vPart > 0 ? (H.desp - absorvido) / vPart : null };
+}
+function dvvHistHTML(X) {
+  const H = dvvHistorico(X), rot = k => MESES3[Number(k.slice(5)) - 1] + "/" + k.slice(2, 4);
+  if (!H.vend) return '<p class="vazio">Sem vendas nesse intervalo.</p>';
+  const RT = dvvRateio(H, estadoFamilias()), okp = RT.pct != null && RT.pct >= 0 && RT.pct < 1;
+  return `<p style="margin:.5rem 0"><strong>${brl(H.desp)}</strong> de despesas ÷ <strong>${brl(H.vend)}</strong> faturados = <strong>DVV de ${pctf(H.pct)}</strong>
+    <span class="muted">(${H.meses.length} ${H.meses.length === 1 ? "mês" : "meses"} com movimento, de ${rot(H.meses[0].k)} a ${rot(H.meses[H.meses.length - 1].k)})</span></p>
+    <details><summary>Ver mês a mês</summary><div class="tabela"><table><thead><tr><th>Mês</th><th class="n">Faturado</th><th class="n">Despesas</th><th class="n">DVV</th></tr></thead><tbody>
+    ${H.meses.map(o => `<tr><td>${rot(o.k)}</td><td class="n">${brl(o.vend)}</td><td class="n">${brl(o.desp)}</td><td class="n">${o.vend ? pctf(o.desp / o.vend) : "—"}</td></tr>`).join("")}</tbody></table></div></details>
+    ${RT.fora.length ? `<p style="margin:.5rem 0"><strong>Fora do rateio:</strong> ${esc(RT.fora.join(", "))}. Elas absorvem <strong>${brl(RT.absorvido)}</strong>; ${okp ? `as demais famílias precisam de <strong>DVV de ${pctf(RT.pct)}</strong> para fechar o total de ${brl(H.desp)}.` : "isso já passa do total de despesas do período; reduza o percentual delas."}</p>` : ""}
+    ${okp ? `<button type="button" id="fp-usar" data-pct="${r2(RT.pct * 100)}">Usar ${pctf(RT.pct)} ${RT.fora.length ? "nas famílias do rateio" : "em todas as famílias"}</button>` : ""}
+    <p class="muted" style="margin:.4rem 0 0;font-size:.85rem">Só preenche os campos abaixo; nada muda até você clicar em Salvar parâmetros.</p>`;
+}
 Acoes["fam-param"] = () => {
   const linhas = familiasLista().map(f => { const p = DB.familias[f]; return `<tr><td>${esc(f)}</td>
+    <td><input type="checkbox" id="fp-r-${esc(f)}" ${p.rateia !== false ? "checked" : ""} aria-label="${esc(f)} entra no rateio das despesas"></td>
     <td><input class="cel" type="number" step="any" min="0" max="99" value="${r2(p.dvv * 100)}" id="fp-d-${esc(f)}" aria-label="Despesas variáveis de venda de ${esc(f)}"> %</td>
     <td><input class="cel" type="number" step="any" min="0" max="99" value="${r2(p.ebitda * 100)}" id="fp-e-${esc(f)}" aria-label="EBITDA desejado de ${esc(f)}"> %</td>
     <td class="n muted">fator ${(1 - p.dvv - p.ebitda).toFixed(2).replace(".", ",")}</td></tr>`; }).join("");
   abrir(`<h2>Parâmetros das famílias</h2>
-    <p class="muted">Preço sugerido = custo ÷ (1 − despesas − EBITDA desejado). As despesas somam fixo, indireto, financeiro, tributário e variável como percentual da venda.</p>
-    <div class="tabela"><table><thead><tr><th>Família</th><th>Despesas sobre a venda</th><th>EBITDA desejado</th><th class="n">Divisor</th></tr></thead><tbody>${linhas}</tbody></table></div>
+    <p class="muted">Preço sugerido = custo ÷ (1 − despesas − EBITDA desejado). As despesas somam fixo, indireto, financeiro, tributário e variável como percentual da venda. Família desmarcada em "No rateio" mantém o percentual que você digitar, e as demais dividem o restante.</p>
+    <div class="caixa-dvv"><div class="campo"><label for="fp-x">Sondagem: últimos quantos meses completos?</label><input id="fp-x" type="number" min="1" max="36" step="1" value="${DB.cfg.dvvMeses || 6}"></div><div id="fp-hist">${dvvHistHTML(DB.cfg.dvvMeses || 6)}</div></div>
+    <div class="tabela" id="fp-tab"><table><thead><tr><th>Família</th><th>No rateio</th><th>Despesas sobre a venda</th><th>EBITDA desejado</th><th class="n">Divisor</th></tr></thead><tbody>${linhas}</tbody></table></div>
     <div class="erro" id="e-fp" role="alert"></div>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="button" class="primario" id="fp-ok">Salvar parâmetros</button></div>`);
+  const ligaHist = () => { const b = $("#fp-usar"); if (b) b.onclick = () => familiasLista().forEach(f => { if ($("#fp-r-" + CSS.escape(f)).checked) $("#fp-d-" + CSS.escape(f)).value = b.dataset.pct; }); };
+  const refazHist = () => { $("#fp-hist").innerHTML = dvvHistHTML(DB.cfg.dvvMeses || 6); ligaHist(); };
+  ligaHist();
+  $("#fp-x").oninput = ev => { const X = Math.max(1, Math.min(36, Math.round(num(ev.target.value)) || 0)); if (!X) return; DB.cfg.dvvMeses = X; Banco.salvar(); refazHist(); };
+  $("#fp-tab").addEventListener("input", refazHist); $("#fp-tab").addEventListener("change", refazHist);
   $("#fp-ok").onclick = () => {
     const novos = {};
     for (const f of familiasLista()) {
       const d = num($("#fp-d-" + CSS.escape(f)).value) / 100, e = num($("#fp-e-" + CSS.escape(f)).value) / 100;
       if (!isFinite(d) || !isFinite(e) || d < 0 || e < 0 || d + e >= 1) { $("#e-fp").textContent = "Confira " + f + ": despesas + EBITDA precisam somar menos de 100%."; return; }
-      novos[f] = { dvv: Math.round(d * 10000) / 10000, ebitda: Math.round(e * 10000) / 10000 };
+      novos[f] = { dvv: Math.round(d * 10000) / 10000, ebitda: Math.round(e * 10000) / 10000, rateia: $("#fp-r-" + CSS.escape(f)).checked };
     }
     Object.assign(DB.familias, novos); Banco.salvar(); fechar(); aviso("Parâmetros salvos."); atualizarTela();
   };
@@ -2618,11 +2838,15 @@ Telas.cadastros = {
   titulo: "Cadastros",
   render() {
     const F = filtroCad(), novo = { forn: "forn-novo", insumo: "ins-novo", desc: "desc-nova", cli: "cli-novo" }[F.aba], rot = { forn: "Novo fornecedor", insumo: "Nova matéria-prima", desc: "Nova descrição", cli: "Novo cliente" }[F.aba];
-    return cabecalho("Cadastros", "Clientes, fornecedores, matérias-primas e descrições usadas nas contas a pagar.",
+    const ABAS = [["cli", "Clientes"], ["forn", "Fornecedores"], ["insumo", "Matérias-primas"], ["desc", "Descrições de contas"], ["moto", "Motoboys"], ["carro", "Carro da empresa"], ["empresa", "Empresa"]];
+    if (F.aba === "moto" || F.aba === "carro" || F.aba === "empresa")
+      return cabecalho("Cadastros", "Clientes, fornecedores, matérias-primas, descrições de contas, motoboys, consumo do carro da empresa e cidade das entregas.", F.aba === "moto" ? `<button type="button" class="primario" data-acao="moto-cad-form">Novo motoboy</button>` : "") +
+        abasHTML("cadastros", ABAS, F.aba) + `<section class="painel">${F.aba === "moto" ? motoCadHTML() : F.aba === "carro" ? carroCadHTML() : empresaCadHTML()}</section>`;
+    return cabecalho("Cadastros", "Clientes, fornecedores, matérias-primas, descrições de contas, motoboys, consumo do carro da empresa e cidade das entregas.",
       (F.aba === "insumo" ? `<button type="button" data-acao="exportar-lista" data-tipo="materiaprima">Exportar</button><button type="button" data-acao="importar-dlg" data-tipo="materiaprima">Importar</button>` : "") +
       (F.aba === "cli" ? `<button type="button" data-acao="exportar-lista" data-tipo="clientes">Exportar</button><button type="button" data-acao="importar-dlg" data-tipo="clientes">Importar</button>` : "") +
       `<button type="button" class="primario" data-acao="${novo}">${rot}</button>`) +
-      abasHTML("cadastros", [["cli", "Clientes"], ["forn", "Fornecedores"], ["insumo", "Matérias-primas"], ["desc", "Descrições de contas"]], F.aba) +
+      abasHTML("cadastros", ABAS, F.aba) +
       `<section class="painel"><div class="filtros"><div class="campo"><label for="cd-q">Buscar</label><input id="cd-q" type="search" value="${esc(F.q)}" data-ent="cadfiltro" placeholder="${F.aba === "cli" ? "Nome ou celular" : "Nome"}"></div>${F.aba === "cli" ? `<div class="campo"><label for="cd-dados">Dados</label><select id="cd-dados" data-mud="cadfiltro-dados">${opcoes([["inc", "Só os incompletos"]], F.dados, "Todos")}</select></div>` : ""}</div>
       <div id="cad-resultado">${cadastrosResultadoHTML()}</div></section>`;
   }
@@ -3018,7 +3242,7 @@ Telas.dados = {
       `<div class="duas">
         <section class="painel"><header><h2>Resumo</h2><span class="muted">${nfInt.format(kb)} KB no navegador</span></header>
           ${tabela([{ t: "Cadastro", v: x => x[0] }, { t: "Registros", n: true, v: x => nfInt.format(x[1]) }, { t: "Período", v: x => x[2] }], linhas)}
-          <div class="corpo"><p class="muted">Base inicial: planilha ${esc(DB.meta.origem)}.</p></div></section>
+          <div class="corpo"><p class="muted">${DB.meta.origem ? "Base inicial: planilha " + esc(DB.meta.origem) + "." : "Sistema iniciado sem dados: lance os dados ou importe um backup (.json)."}</p></div></section>
         <section class="painel"><header><h2>Backup completo</h2></header><div class="corpo">
           <p>Se o histórico do navegador for limpo, os dados somem. Exporte um backup de vez em quando e guarde o arquivo em outro lugar (pen drive, e-mail, nuvem).</p>
           <input type="file" id="arquivo" accept="application/json,.json" hidden data-mud="importar-backup">
@@ -3170,193 +3394,524 @@ const motoValEnt = e => e.vm !== undefined ? e.vm : (e.mpV !== undefined ? e.mpV
 const motoDataEnt = e => e.md || e.d;
 const motoEntregas = () => DB.entregas.filter(e => !DB.cfg.motoDesde || motoDataEnt(e) >= DB.cfg.motoDesde);
 const motoConta = e => !e.mx;
+/* repasse = taxa cobrada do cliente que vai para o motoboy; com veículo da empresa não há repasse */
+const motoRep = e => e.sr ? 0 : (e.v || 0);
 const motoPagValor = p => p.total;
 const porDataDesc = (a, b) => (b.d < a.d ? -1 : b.d > a.d ? 1 : 0) || b.id - a.id;
 const dentro = (d, de, ate) => (!de || d >= de) && (!ate || d <= ate);
-const motoFiltro = () => { const F = Est.motoboy = Est.motoboy || { aba: "turnos" }; if (F.de === undefined) { F.de = hojeISO().slice(0, 8) + "01"; F.ate = ""; } return F; };
-/* tudo o que o período mostra, mais o saldo anterior e o saldo a pagar */
-function motoCalc(de, ate) {
-  const T = DB.motoTurnos.filter(t => dentro(t.d, de, ate)).sort((a, b) => (a.d < b.d ? -1 : a.d > b.d ? 1 : 0) || a.ini.localeCompare(b.ini));
-  const Eall = motoEntregas().filter(e => dentro(motoDataEnt(e), de, ate)).sort((a, b) => (motoDataEnt(a) < motoDataEnt(b) ? -1 : motoDataEnt(a) > motoDataEnt(b) ? 1 : 0) || a.n - b.n);
+const porNomeBR = (a, b) => a.nome.localeCompare(b.nome, "pt-BR");
+const motoPorId = id => DB.motos.find(m => m.id === id);
+const motoNomeDe = id => { const m = motoPorId(id); return m ? m.nome : (id > 0 ? "(excluído)" : "Sem motoboy"); };
+const motoTodos = () => DB.motos.slice().sort(porNomeBR);
+const motoAtivos = () => DB.motos.filter(m => m.ativo !== false).sort(porNomeBR);
+const okMoto = (x, mid) => !mid || (mid === -1 ? !x.mid : x.mid === mid);
+/* combustível do carro da empresa: consumo (KM/l) e preço do litro ficam em Cadastros → Carro da empresa */
+const custoComb = km => DB.cfg.carroKml > 0 && DB.cfg.carroComb > 0 && km > 0 ? r2(km / DB.cfg.carroKml * DB.cfg.carroComb) : 0;
+const litrosDe = km => DB.cfg.carroKml > 0 && km > 0 ? Math.round(km / DB.cfg.carroKml * 100) / 100 : 0;
+const nKm = n => (Math.round(n * 10) / 10).toLocaleString("pt-BR");
+const motoOpcoes = (atual, vazio) => (vazio ? `<option value="0">${esc(vazio)}</option>` : "") +
+  DB.motos.filter(m => m.ativo !== false || m.id === atual).sort(porNomeBR).map(m => `<option value="${m.id}" ${m.id === atual ? "selected" : ""}>${esc(m.nome)}${m.ativo === false ? " (inativo)" : ""}</option>`).join("");
+/* no dia, só se informa se vai a moto própria do motoboy ou o carro da empresa (carro da empresa: sem repasse e sem valor por entrega) */
+const veicDia = [["moto", "Moto própria"], ["carro", "Carro da empresa"]];
+const wppNum = tel => { let d = soDigitos(tel); if (d.length === 10 || d.length === 11) d = "55" + d; return d; };
+const mapaLink = end => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent([end, DB.cfg.cidade].filter(Boolean).join(", "));
+const wppLink = (tel, texto) => "https://wa.me/" + wppNum(tel) + "?text=" + encodeURIComponent(texto);
+const motoFiltro = () => {
+  const F = Est.motoboy = Est.motoboy || { aba: "deb", mid: 0, deb: "aberto", rep: "" };
+  if (F.de === undefined) { F.de = hojeISO().slice(0, 8) + "01"; F.ate = ""; }
+  return F;
+};
+/* tudo o que o período mostra, mais o saldo anterior, o saldo a pagar e o repasse de taxas a repassar (mid: 0 = todos, -1 = sem motoboy) */
+function motoCalc(de, ate, mid) {
+  const ok = x => okMoto(x, mid || 0);
+  const ord = (a, b) => (a.d < b.d ? -1 : a.d > b.d ? 1 : 0);
+  const T = DB.motoTurnos.filter(t => ok(t) && dentro(t.d, de, ate)).sort((a, b) => ord(a, b) || a.ini.localeCompare(b.ini));
+  const Eall = motoEntregas().filter(e => ok(e) && dentro(motoDataEnt(e), de, ate)).sort((a, b) => (motoDataEnt(a) < motoDataEnt(b) ? -1 : motoDataEnt(a) > motoDataEnt(b) ? 1 : 0) || a.n - b.n);
   const E = Eall.filter(motoConta);
-  const P = DB.motoPagtos.filter(p => dentro(p.d, de, ate)).sort((a, b) => (a.d < b.d ? -1 : a.d > b.d ? 1 : 0) || a.id - b.id);
+  const P = DB.motoPagtos.filter(p => ok(p) && dentro(p.d, de, ate)).sort((a, b) => ord(a, b) || a.id - b.id);
   const min = T.reduce((s, t) => s + t.min, 0), vh = r2(T.reduce((s, t) => s + t.v, 0));
   const ve = r2(E.reduce((s, e) => s + motoValEnt(e), 0)), pg = r2(P.reduce((s, p) => s + motoPagValor(p), 0));
   const antes = d => de && d < de;
-  const ganhoAnt = de ? r2(DB.motoTurnos.filter(t => antes(t.d)).reduce((s, t) => s + t.v, 0) + motoEntregas().filter(e => motoConta(e) && antes(motoDataEnt(e))).reduce((s, e) => s + motoValEnt(e), 0)) : 0;
-  const pagAnt = de ? r2(DB.motoPagtos.filter(p => antes(p.d)).reduce((s, p) => s + motoPagValor(p), 0)) : 0;
+  const ganhoAnt = de ? r2(DB.motoTurnos.filter(t => ok(t) && antes(t.d)).reduce((s, t) => s + t.v, 0) + motoEntregas().filter(e => ok(e) && motoConta(e) && antes(motoDataEnt(e))).reduce((s, e) => s + motoValEnt(e), 0)) : 0;
+  const pagAnt = de ? r2(DB.motoPagtos.filter(p => ok(p) && antes(p.d)).reduce((s, p) => s + motoPagValor(p), 0)) : 0;
   const ant = r2(ganhoAnt - pagAnt);
-  return { T, Eall, E, P, min, vh, ve, pg, ant, ganho: r2(vh + ve), saldo: r2(ant + vh + ve - pg), taxas: r2(E.reduce((s, e) => s + e.v, 0)) };
+  const pend = motoEntregas().filter(e => ok(e) && motoConta(e) && !e.pago && motoRep(e) > 0 && (!ate || motoDataEnt(e) <= ate));
+  const repAb = r2(pend.reduce((s, e) => s + motoRep(e), 0));
+  const saldo = r2(ant + vh + ve - pg);
+  return {
+    T, Eall, E, P, min, vh, ve, pg, ant, ganho: r2(vh + ve), saldo, pend, repAb,
+    taxas: r2(E.reduce((s, e) => s + e.v, 0)), repP: r2(E.reduce((s, e) => s + motoRep(e), 0)),
+    km: r2(T.reduce((s, t) => s + (t.km || 0), 0)), cb: r2(T.reduce((s, t) => s + (t.cb || 0), 0)),
+    aberto: r2(Math.max(0, saldo) + repAb)
+  };
+}
+
+/* ----- dados do pedido para o motoboy (cliente, endereço, pagamento, GPS, mapa) ----- */
+function dadosPedidoMoto(P, gps) {
+  const T = totaisPedido(P);
+  return { n: P.n, cli: P.cli || "", tel: P.tel || "", end: P.end || "", forma: P.forma || "", total: T.total, pagaCom: P.pagaCom, gps: !!gps };
+}
+function textoPedidoMoto(D) {
+  const L = [`*TRIGO MINAS — Entrega, pedido nº ${D.n}*`, "Cliente: " + (D.cli || "—")];
+  if (D.tel) L.push("Celular: " + D.tel);
+  L.push("Endereço: " + (D.end || "(não informado)"));
+  if (D.end) L.push("Mapa: " + mapaLink(D.end));
+  L.push("GPS: " + (D.gps ? "✅ cliente encontrado no GPS" : "⚠️ não confirmado no GPS"));
+  if (D.forma === "DINHEIRO") L.push("Pagamento: DINHEIRO" + (D.total != null ? " — cobrar " + brl(D.total) + (D.pagaCom > 0 ? " (cliente paga com " + brl(D.pagaCom) + ", troco " + brl(r2(D.pagaCom - D.total)) + ")" : "") : ""));
+  else L.push("Pagamento: " + (D.forma || "não informado"));
+  return L.join("\n");
+}
+function enviarAoMotoboy(m, D) {
+  const url = wppLink(m.tel, textoPedidoMoto(D)), w = window.open(url, "_blank");
+  if (!w) location.href = url;
+}
+
+/* ----- abas ----- */
+function motoAbaDeb(F) {
+  let L = motoTodos().map(m => ({ id: m.id, nome: m.nome, tel: m.tel || "", ativo: m.ativo !== false, X: motoCalc(F.de, F.ate, m.id) }));
+  const sem = motoCalc(F.de, F.ate, -1);
+  if (sem.T.length || sem.Eall.length || sem.P.length || sem.ant) L.push({ id: -1, nome: "Sem motoboy", tel: "", ativo: true, X: sem });
+  if (F.mid) L = L.filter(r => r.id === F.mid);
+  const mov = r => r.ativo || r.X.T.length || r.X.P.length || r.X.Eall.length || r.X.ant !== 0;
+  L = L.filter(r => F.deb === "todos" ? mov(r) : (r.X.saldo > 0 || r.X.repAb > 0));
+  const soma = f => brl(r2(L.reduce((s, r) => s + f(r), 0)));
+  const tab = tabela([
+    { t: "Motoboy", v: r => r.nome }, { t: "Celular", v: r => r.tel || "—" },
+    { t: "Saldo a pagar", n: true, v: r => brl(r.X.saldo) }, { t: "Repasse a repassar", n: true, v: r => brl(r.X.repAb) },
+    { t: "Débito em aberto", n: true, h: r => `<strong>${brl(r.X.aberto)}</strong>` },
+    { t: "", h: r => `<button type="button" class="mini primario" data-acao="moto-pag-form" data-mid="${r.id}">Pagar</button> ` +
+      (r.X.repAb > 0 ? `<button type="button" class="mini" data-acao="moto-repassar" data-mid="${r.id}">Repassar taxas</button> ` : "") +
+      `<button type="button" class="mini" data-acao="moto-rel" data-mid="${r.id}">Relatório</button>` }
+  ], L, { vazio: F.deb === "todos" ? "Nenhum motoboy cadastrado. Use a aba Motoboys." : "Nenhum débito em aberto.", rodape: L.length > 1 ? ["Total", "", soma(r => r.X.saldo), soma(r => r.X.repAb), soma(r => r.X.aberto), ""] : null });
+  return `<div class="filtros" style="border:0;padding:0 0 .6rem;background:none"><div class="campo"><label for="md-f">Mostrar</label><select id="md-f" data-mud="moto-deb">${opcoes([["aberto", "Só com débito em aberto"], ["todos", "Todos os motoboys"]], F.deb)}</select></div></div>` + tab;
+}
+function motoAbaTurnos(X) {
+  const acao = t => `<button type="button" class="mini" data-acao="moto-editar" data-id="${t.id}">Editar</button> <button type="button" class="mini perigo" data-acao="moto-excluir" data-id="${t.id}">Excluir</button>`;
+  return tabela([
+    { t: "Data", v: t => dlonga(t.d) }, { t: "Motoboy", v: t => motoNomeDe(t.mid) }, { t: "Veículo", v: t => t.car ? "Carro da empresa" : "Moto própria" },
+    { t: "Início", v: t => t.ini }, { t: "Fim", v: t => t.fim }, { t: "Horas", n: true, v: t => hm(t.min) },
+    { t: "Valor hora", n: true, v: t => brl(t.vh) }, { t: "Valor", n: true, v: t => brl(t.v) },
+    { t: "KM", n: true, v: t => t.km ? nKm(t.km) : "—" }, { t: "Combustível", n: true, v: t => t.cb ? brl(t.cb) : "—" }, { t: "", h: acao }
+  ], X.T.slice().reverse(), { vazio: "Nenhum turno no período.", rodape: X.T.length ? ["Total", "", "", "", "", hm(X.min), "", brl(X.vh), X.km ? nKm(X.km) : "", X.cb ? brl(X.cb) : "", ""] : null });
+}
+function motoAbaEntregas(F, X) {
+  let L = X.Eall.slice().reverse();
+  if (F.rep === "aberta") L = L.filter(e => !e.pago && !e.sr); else if (F.rep === "paga") L = L.filter(e => e.pago && !e.sr); else if (F.rep === "sem") L = L.filter(e => e.sr);
+  const pg = paginar(L, F.pag || 1, 100);
+  const tabRep = e => e.sr ? '<span class="tag">carro da empresa · sem repasse</span>' : e.pago ? `<span class="tag ok">repassada${e.dPago ? " · " + dcurta(e.dPago) : ""}</span>` : '<span class="tag aviso">a repassar</span>';
+  const tab = tabela([
+    { t: "Data", v: e => dlonga(motoDataEnt(e)) }, { t: "Pedido nº", n: true, v: e => e.n },
+    { t: "Cliente", h: e => esc(e.cli || "—") + (motoOrfa(e) ? ' <span class="tag ruim">venda excluída</span>' : "") + (e.mx ? ' <span class="tag aviso">não conta</span>' : "") + (e.env ? ` <span class="tag ok" title="Enviada por WhatsApp">enviada ${dcurta(e.env)}</span>` : "") },
+    { t: "Motoboy", h: e => `<select class="cel" data-mud="moto-ent-mid" data-id="${e.id}" aria-label="Motoboy do pedido ${esc(e.n)}"><option value="0">(sem motoboy)</option>${motoOpcoes(e.mid || 0)}</select>` },
+    { t: "Pago pela empresa", n: true, v: e => e.mx ? "—" : brl(motoValEnt(e)) },
+    { t: "Taxa cobrada", n: true, h: e => `<input class="cel dinheiro" type="text" inputmode="decimal" value="${brl(e.v)}" data-mud="moto-ent-taxa" data-id="${e.id}" aria-label="Taxa do pedido ${esc(e.n)}">` },
+    { t: "Repasse", h: tabRep },
+    { t: "GPS", h: e => `<label title="Cliente encontrado no GPS"><input type="checkbox" data-mud="moto-ent-gps" data-id="${e.id}" ${e.gps ? "checked" : ""}> achou</label>` },
+    { t: "", h: e => `<button type="button" class="mini" data-acao="moto-ent-editar" data-id="${e.id}">Editar</button> ` +
+      (e.sr ? "" : e.pago ? `<button type="button" class="mini" data-acao="moto-ent-reabrir" data-id="${e.id}">Reabrir</button> ` : `<button type="button" class="mini primario" data-acao="moto-ent-repassar" data-id="${e.id}">Repassar</button> `) +
+      (motoOrfa(e) ? ` <button type="button" class="mini perigo" data-acao="moto-ent-excluir" data-id="${e.id}">Excluir</button>` : "") }
+  ], pg.itens, { vazio: "Nenhuma entrega no período.", rodape: X.E.length && !F.rep ? ["Total", "", "", "", brl(X.ve), brl(X.taxas), "", "", ""] : null });
+  return `<div class="filtros" style="border:0;padding:0 0 .6rem;background:none"><div class="campo"><label for="me-rep">Repasse da taxa</label><select id="me-rep" data-mud="moto-rep">${opcoes([["", "Todas"], ["aberta", "A repassar"], ["paga", "Já repassadas"], ["sem", "Carro da empresa (sem repasse)"]], F.rep)}</select></div>` +
+    `<div class="acoes-topo" style="align-items:end"><button type="button" class="mini" data-acao="moto-repassar" data-mid="${F.mid}">Repassar as taxas pendentes${F.mid > 0 ? " deste motoboy" : ""}</button></div></div>` + tab + pagHTML(pg, "moto-ent-pag");
+}
+function motoAbaPagos(X) {
+  return tabela([
+    { t: "Data", v: p => dlonga(p.d) }, { t: "Motoboy", v: p => motoNomeDe(p.mid) }, { t: "Valor pago", n: true, v: p => brl(motoPagValor(p)) },
+    { t: "Observação", v: p => p.obs || (p.ne !== undefined ? `Pagamento acumulado (${hm(p.min)} + ${p.ne} entregas)` : "") },
+    { t: "Contas a pagar", h: p => p.cid && DB.contas.some(c => c.id === p.cid) ? '<span class="tag ok">lançado como paga</span>' : `<button type="button" class="mini" data-acao="moto-pag-conta" data-id="${p.id}">Lançar em Contas</button>` },
+    { t: "", h: p => `<button type="button" class="mini" data-acao="moto-pag-form" data-id="${p.id}">Editar</button> <button type="button" class="mini perigo" data-acao="moto-pag-excluir" data-id="${p.id}">Excluir</button>` }
+  ], X.P.slice().reverse(), { vazio: "Nenhum pagamento no período.", rodape: X.P.length ? ["Total", "", brl(X.pg), "", "", ""] : null });
+}
+/* ----- telas de cadastro (ficam em Cadastros) ----- */
+function motoCadHTML() {
+  return tabela([
+    { t: "Nome", h: m => esc(m.nome) + (m.ativo === false ? ' <span class="tag aviso">inativo</span>' : "") }, { t: "Celular (WhatsApp)", v: m => m.tel || "—" },
+    { t: "Veículo próprio", v: m => m.veic || "—" }, { t: "Valor por hora", n: true, v: m => brl(m.vh) },
+    { t: "Pago pela empresa (por entrega)", n: true, v: m => m.ve > 0 ? brl(m.ve) : "—" },
+    { t: "Pago pelo cliente (por entrega)", n: true, v: m => m.vc > 0 ? brl(m.vc) : "—" },
+    { t: "", h: m => `<button type="button" class="mini" data-acao="moto-cad-form" data-id="${m.id}">Editar</button> <button type="button" class="mini perigo" data-acao="moto-cad-excluir" data-id="${m.id}">Excluir</button>` }
+  ], motoTodos(), { vazio: "Nenhum motoboy cadastrado. Use “Novo motoboy”." }) +
+  `<div class="filtros"><div class="campo"><label for="cd-md">Contar entregas dos motoboys a partir de</label><input id="cd-md" type="date" value="${esc(DB.cfg.motoDesde || "")}" data-mud="moto-desde"></div></div>
+   <p class="muted" style="padding:0 1rem 1rem;margin:0;font-size:.85rem">Carro da empresa: o motoboy não recebe valor por entrega nem repasse da taxa. Isso se escolhe no dia, no turno e na venda.</p>`;
+}
+function carroCadHTML() {
+  const k = DB.cfg.carroKml, p = DB.cfg.carroComb;
+  return `<div class="filtros"><div class="campo"><label for="cc-k">Consumo (KM por litro)</label><input id="cc-k" type="text" inputmode="decimal" autocomplete="off" value="${k > 0 ? String(k).replace(".", ",") : ""}"></div>
+    <div class="campo"><label for="cc-p">Preço pago pelo combustível (litro)</label><input id="cc-p" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" autocomplete="off" value="${p > 0 ? brl(p) : ""}"></div>
+    <div class="campo"><label>Custo por km</label><span class="muted" style="display:inline-block;padding:.5rem 0">${k > 0 && p > 0 ? brl(r2(p / k)) : "—"}</span></div>
+    <div class="acoes-topo" style="align-items:end"><button type="button" class="primario" data-acao="carro-salvar">Salvar</button></div></div>
+    <p class="muted" style="padding:0 1rem 1rem;margin:0;font-size:.85rem">Vale quando o motoboy sai com o carro da empresa: o turno pede KM inicial e KM final e grava o custo do combustível (KM rodados ÷ KM por litro × preço do litro). Mudar aqui vale para os turnos lançados daqui em diante.${DB.cfg.carroAt ? " Atualizado em " + dlonga(DB.cfg.carroAt) + "." : ""}</p>`;
+}
+function empresaCadHTML() {
+  return `<div class="filtros"><div class="campo"><label for="em-c">Cidade e UF das entregas</label><input id="em-c" autocomplete="off" placeholder="Ex.: Cidade - UF" style="min-width:18rem" value="${esc(DB.cfg.cidade || "")}"></div>
+    <div class="acoes-topo" style="align-items:end"><button type="button" class="primario" data-acao="empresa-salvar">Salvar</button></div></div>
+    <p class="muted" style="padding:0 1rem 1rem;margin:0;font-size:.85rem">Como as entregas são sempre na cidade da empresa, a cidade e a UF são acrescentadas ao endereço do cliente no link do mapa. Edite uma vez e fica salvo.</p>`;
 }
 
 Telas.motoboy = {
   titulo: "Motoboy",
   render() {
-    const F = motoFiltro(), X = motoCalc(F.de, F.ate);
-    let corpo;
-    if (F.aba === "pagos") {
-      corpo = tabela([
-        { t: "Data", v: p => dlonga(p.d) }, { t: "Valor pago", n: true, v: p => brl(motoPagValor(p)) },
-        { t: "Observação", v: p => p.obs || (p.ne !== undefined ? `Pagamento acumulado (${hm(p.min)} + ${p.ne} entregas)` : "") },
-        { t: "", h: p => `<button type="button" class="mini" data-acao="moto-pag-form" data-id="${p.id}">Editar</button> <button type="button" class="mini perigo" data-acao="moto-pag-excluir" data-id="${p.id}">Excluir</button>` }
-      ], X.P.slice().reverse(), { vazio: "Nenhum pagamento no período.", rodape: X.P.length ? ["Total", brl(X.pg), "", ""] : null });
-    } else if (F.aba === "entregas") {
-      corpo = tabela([
-        { t: "Data", v: e => dlonga(motoDataEnt(e)) }, { t: "Pedido nº", n: true, v: e => e.n },
-        { t: "Cliente", h: e => esc(e.cli || "—") + (motoOrfa(e) ? ' <span class="tag ruim">venda excluída</span>' : "") + (e.mx ? ' <span class="tag aviso">não conta</span>' : "") },
-        { t: "Valor", n: true, v: e => e.mx ? "—" : brl(motoValEnt(e)) },
-        { t: "", h: e => `<button type="button" class="mini" data-acao="moto-ent-editar" data-id="${e.id}">Editar</button>` + (motoOrfa(e) ? ` <button type="button" class="mini perigo" data-acao="moto-ent-excluir" data-id="${e.id}">Excluir</button>` : "") }
-      ], X.Eall.slice().reverse(), { vazio: "Nenhuma entrega no período.", rodape: X.E.length ? ["Total", "", "", brl(X.ve), ""] : null });
-    } else {
-      corpo = tabela([
-        { t: "Data", v: t => dlonga(t.d) }, { t: "Início", v: t => t.ini }, { t: "Fim", v: t => t.fim },
-        { t: "Horas", n: true, v: t => hm(t.min) }, { t: "Valor hora", n: true, v: t => brl(t.vh) }, { t: "Valor", n: true, v: t => brl(t.v) },
-        { t: "", h: t => `<button type="button" class="mini" data-acao="moto-editar" data-id="${t.id}">Editar</button> <button type="button" class="mini perigo" data-acao="moto-excluir" data-id="${t.id}">Excluir</button>` }
-      ], X.T.slice().reverse(), { vazio: "Nenhum turno no período.", rodape: X.T.length ? ["Total", "", "", hm(X.min), "", brl(X.vh), ""] : null });
-    }
+    const F = motoFiltro(), X = motoCalc(F.de, F.ate, F.mid);
+    const aba = F.aba || "deb";
+    const corpo = aba === "turnos" ? motoAbaTurnos(X) : aba === "entregas" ? motoAbaEntregas(F, X) : aba === "pagos" ? motoAbaPagos(X) : motoAbaDeb(F);
     const orfas = DB.entregas.filter(e => !e.mx && motoOrfa(e));
-    return cabecalho("Motoboy", `Hora trabalhada a ${brl(DB.cfg.motoHora)} e ${brl(DB.cfg.motoEntrega)} por entrega. Pagamentos podem ser parciais: o saldo mostra o que falta pagar.`,
-      `<button type="button" data-acao="moto-config">Valores</button><button type="button" data-acao="moto-rel">Imprimir relatório</button><button type="button" class="primario" data-acao="moto-pag-form">Lançar pagamento</button>`) +
-      `<section class="painel"><div class="filtros">
+    const semMoto = DB.entregas.filter(e => !e.mx && !e.mid && !motoOrfa(e)).length;
+    const lm = F.lm !== undefined ? F.lm : (F.mid > 0 ? F.mid : (motoAtivos().length === 1 ? motoAtivos()[0].id : 0));
+    const temSem = DB.entregas.some(e => !e.mid) || DB.motoTurnos.some(t => !t.mid) || DB.motoPagtos.some(p => !p.mid);
+    const formTurno = DB.motos.length ? `<section class="painel"><div class="filtros">
+        <div class="campo"><label for="mt-m">Motoboy</label><select id="mt-m" data-mud="moto-sel"><option value="0">Selecione…</option>${motoOpcoes(lm)}</select></div>
+        <div class="campo"><label for="mt-v">Veículo do dia</label><select id="mt-v" data-mud="moto-sel">${opcoes(veicDia, F.lv || "moto")}</select></div>
         <div class="campo"><label for="mt-d">Data</label><input id="mt-d" type="date" value="${esc(F.d || hojeISO())}"></div>
         <div class="campo"><label for="mt-i">Hora de início</label><input id="mt-i" type="time" data-ent="moto-calc"></div>
         <div class="campo"><label for="mt-f">Hora de fim</label><input id="mt-f" type="time" data-ent="moto-calc"></div>
+        <div id="mt-km" style="display:none;gap:.7rem 1rem;flex-wrap:wrap"><div class="campo"><label for="mt-ki">KM inicial</label><input id="mt-ki" type="text" inputmode="decimal" autocomplete="off" data-ent="moto-calc" style="width:7rem"></div>
+        <div class="campo"><label for="mt-kf">KM final</label><input id="mt-kf" type="text" inputmode="decimal" autocomplete="off" data-ent="moto-calc" style="width:7rem"></div></div>
         <div class="campo"><label>&nbsp;</label><span id="mt-calc" class="muted" style="padding:.5rem 0;display:inline-block">—</span></div>
         <div class="acoes-topo" style="align-items:end"><button type="button" class="primario" data-acao="moto-add">Adicionar turno</button></div>
-      </div><div class="erro" id="e-mt" role="alert"></div></section>` +
+      </div><div class="erro" id="e-mt" role="alert"></div></section>` : `<section class="painel"><p class="muted" style="padding:.8rem 1rem;margin:0">Cadastre o primeiro motoboy em <button type="button" class="mini" data-acao="ir-cad-moto">Cadastros → Motoboys</button> para lançar turnos, entregas e pagamentos.</p></section>`;
+    return cabecalho("Motoboy", "Horas, entregas, repasse das taxas, pagamentos e débitos em aberto de cada motoboy. Pagamentos podem ser parciais: o saldo mostra o que falta pagar.",
+      `<button type="button" data-acao="moto-rel" data-hoje="1">Relatório de hoje</button><button type="button" data-acao="moto-rel">Imprimir relatório</button><button type="button" class="primario" data-acao="moto-pag-form">Lançar pagamento</button>`) +
+      formTurno +
       `<section class="painel"><div class="filtros">
+        <div class="campo"><label for="mp-m">Motoboy</label><select id="mp-m" data-mud="moto-per"><option value="0">Todos</option>${motoOpcoes(F.mid > 0 ? F.mid : 0)}${temSem ? `<option value="-1" ${F.mid === -1 ? "selected" : ""}>Sem motoboy</option>` : ""}</select></div>
         <div class="campo"><label for="mp-de">Período — de</label><input id="mp-de" type="date" value="${esc(F.de)}" data-mud="moto-per"></div>
         <div class="campo"><label for="mp-ate">até</label><input id="mp-ate" type="date" value="${esc(F.ate)}" data-mud="moto-per"></div>
-        <div class="acoes-topo" style="align-items:end"><button type="button" data-acao="moto-per-tudo">Ver tudo</button></div></div></section>` +
+        <div class="acoes-topo" style="align-items:end"><button type="button" data-acao="moto-per-hoje">Hoje</button><button type="button" data-acao="moto-per-tudo">Ver tudo</button></div></div></section>` +
       `<div class="resumo">
         ${F.de ? `<div><div class="rot">Saldo anterior</div><div class="val">${brl(X.ant)}</div></div>` : ""}
         <div><div class="rot">Horas no período</div><div class="val">${hm(X.min)} = ${brl(X.vh)}</div></div>
         <div><div class="rot">Entregas no período</div><div class="val">${X.E.length} = ${brl(X.ve)}</div></div>
         <div><div class="rot">Pagamentos no período</div><div class="val">${brl(X.pg)}</div></div>
         <div><div class="rot">Saldo a pagar</div><div class="val ${X.saldo > 0 ? "ruim" : ""}">${brl(X.saldo)}</div></div>
-        <div><div class="rot">Taxas de entrega do período</div><div class="val">${brl(X.taxas)}</div></div>
+        <div><div class="rot">Repasse de taxas a repassar</div><div class="val ${X.repAb > 0 ? "ruim" : ""}">${brl(X.repAb)}</div></div>
+        <div><div class="rot">Débito total em aberto</div><div class="val ${X.aberto > 0 ? "ruim" : ""}">${brl(X.aberto)}</div></div>
+        <div><div class="rot">Taxas cobradas no período</div><div class="val">${brl(X.taxas)}</div></div>
+        ${X.km ? `<div><div class="rot">KM / combustível (carro da empresa)</div><div class="val">${nKm(X.km)} km · ${brl(X.cb)}</div></div>` : ""}
       </div>
-      <p class="muted" style="font-size:.8rem">Saldo a pagar = saldo anterior + horas + entregas − pagamentos. As taxas de entrega das vendas continuam em Vendas → Taxas de entrega e não entram no saldo.${DB.cfg.motoDesde ? " Entregas contadas a partir de " + dlonga(DB.cfg.motoDesde) + "." : ""}</p>` +
+      <p class="muted" style="font-size:.8rem">Saldo a pagar = saldo anterior + horas + entregas − pagamentos. O repasse é a taxa de entrega cobrada do cliente que vai para o motoboy; não entra no saldo, não é faturamento e não vira conta a pagar. Com o carro da empresa não há repasse nem valor por entrega.${DB.cfg.motoDesde ? " Entregas contadas a partir de " + dlonga(DB.cfg.motoDesde) + "." : ""}</p>` +
       (orfas.length ? `<div class="alertas" style="margin-bottom:.6rem"><strong>${orfas.length} entrega(s) sem venda correspondente</strong> (a venda foi excluída), ainda contadas no saldo. Veja na aba Entregas, ou <button type="button" class="mini perigo" data-acao="moto-ent-limpar">remover todas</button></div>` : "") +
-      abasHTML("motoboy", [["turnos", "Turnos"], ["entregas", "Entregas"], ["pagos", "Pagamentos"]], F.aba) + corpo;
-  }
+      (semMoto ? `<div class="alertas" style="margin-bottom:.6rem"><strong>${semMoto} entrega(s) sem motoboy.</strong> Escolha o motoboy na aba Entregas (filtre por “Sem motoboy”).</div>` : "") +
+      abasHTML("motoboy", [["deb", "Débitos em aberto"], ["turnos", "Turnos"], ["entregas", "Entregas"], ["pagos", "Pagamentos"]], aba) + corpo;
+  },
+  ligar() { if ($("#mt-v")) motoKmToggle(); }
 };
-Mudancas["moto-per"] = () => { const F = motoFiltro(); F.de = $("#mp-de").value; F.ate = $("#mp-ate").value; atualizarTela(); };
-Acoes["moto-per-tudo"] = () => { const F = motoFiltro(); F.de = ""; F.ate = ""; atualizarTela(); };
+Mudancas["moto-per"] = () => { const F = motoFiltro(); F.de = $("#mp-de").value; F.ate = $("#mp-ate").value; F.mid = Number($("#mp-m").value) || 0; F.pag = 1; atualizarTela(); };
+Acoes["moto-per-hoje"] = () => { const F = motoFiltro(); F.de = hojeISO(); F.ate = hojeISO(); F.pag = 1; atualizarTela(); };
+Acoes["ir-cad-moto"] = () => { filtroCad().aba = "moto"; location.hash = "#/cadastros"; };
+Acoes["moto-per-tudo"] = () => { const F = motoFiltro(); F.de = ""; F.ate = ""; F.pag = 1; atualizarTela(); };
+Mudancas["moto-deb"] = el => { motoFiltro().deb = el.value; atualizarTela(); };
+Mudancas["moto-rep"] = el => { const F = motoFiltro(); F.rep = el.value; F.pag = 1; atualizarTela(); };
+Acoes["moto-ent-pag"] = el => { motoFiltro().pag = Number(el.dataset.pag); atualizarTela(); };
 
+/* ----- turnos ----- */
+function motoKmToggle() {
+  const box = $("#mt-km"); if (!box) return;
+  const car = $("#mt-v").value === "carro", ki = $("#mt-ki");
+  box.style.display = car ? "flex" : "none";
+  if (car && !ki.value.trim()) {
+    const u = DB.motoTurnos.filter(t => t.car && t.kmf !== undefined).sort((a, b) => (a.d > b.d ? -1 : a.d < b.d ? 1 : 0) || b.id - a.id)[0];
+    if (u) ki.value = String(u.kmf).replace(".", ",");
+  }
+}
+Mudancas["moto-sel"] = el => {
+  if (el.id === "mt-v") { $("#mt-ki").value = ""; $("#mt-kf").value = ""; }
+  motoKmToggle(); Entradas["moto-calc"]();
+};
 Entradas["moto-calc"] = () => {
-  const min = minutosTurno($("#mt-i").value, $("#mt-f").value);
-  $("#mt-calc").textContent = isNaN(min) ? "—" : hm(min) + " = " + brl(r2(min / 60 * DB.cfg.motoHora));
+  const el = $("#mt-calc"); if (!el) return;
+  const m = motoPorId(Number($("#mt-m").value)), car = $("#mt-v").value === "carro", min = minutosTurno($("#mt-i").value, $("#mt-f").value);
+  const ki = num($("#mt-ki").value), kf = num($("#mt-kf").value);
+  let t = isNaN(min) ? "—" : hm(min) + (m ? " = " + brl(r2(min / 60 * m.vh)) : "");
+  if (car && kf >= ki) { const km = r2(kf - ki), cb = custoComb(km); t += " · " + nKm(km) + " km" + (cb ? " · combustível " + brl(cb) : (DB.cfg.carroKml > 0 && DB.cfg.carroComb > 0 ? "" : " · cadastre o consumo do carro")); }
+  el.textContent = t;
 };
 Acoes["moto-add"] = () => {
-  const d = $("#mt-d").value, ini = $("#mt-i").value, fim = $("#mt-f").value, min = minutosTurno(ini, fim);
-  if (!d || isNaN(min)) { $("#e-mt").textContent = "Informe a data, a hora de início e a hora de fim (diferentes)."; return; }
-  DB.motoTurnos.push({ id: motoProxId(DB.motoTurnos), d, ini, fim, min, vh: DB.cfg.motoHora, v: r2(min / 60 * DB.cfg.motoHora) });
-  motoFiltro().d = d; Banco.mudou(); atualizarTela(); aviso("Turno registrado: " + hm(min) + ".");
+  const F = motoFiltro(), m = motoPorId(Number($("#mt-m").value)), car = $("#mt-v").value === "carro";
+  const d = $("#mt-d").value, ini = $("#mt-i").value, fim = $("#mt-f").value, min = minutosTurno(ini, fim), erro = t => { $("#e-mt").textContent = t; };
+  if (!m) { erro("Selecione o motoboy."); return; }
+  if (!d || isNaN(min)) { erro("Informe a data, a hora de início e a hora de fim (diferentes)."); return; }
+  const T = { id: motoProxId(DB.motoTurnos), mid: m.id, d, ini, fim, min, vh: m.vh, v: r2(min / 60 * m.vh) };
+  if (car) {
+    const ki = num($("#mt-ki").value), kf = num($("#mt-kf").value);
+    if (!(ki >= 0) || !(kf >= ki)) { erro("Informe o KM inicial e o KM final do carro da empresa (o final não pode ser menor que o inicial)."); return; }
+    Object.assign(T, { car: true, kmi: ki, kmf: kf, km: r2(kf - ki), cb: custoComb(r2(kf - ki)) });
+  }
+  DB.motoTurnos.push(T); F.d = d; F.lm = m.id; F.lv = car ? "carro" : "moto";
+  Banco.mudou(); atualizarTela(); aviso(m.nome + ": turno registrado, " + hm(min) + ".");
 };
 Acoes["moto-editar"] = el => {
   const t = DB.motoTurnos.find(x => x.id === Number(el.dataset.id)); if (!t) return;
   abrir(`<form id="f-moto" novalidate><h2>Editar turno</h2><div class="grade2">
+    <div class="campo"><label for="me-m">Motoboy</label><select id="me-m">${motoOpcoes(t.mid || 0, "(sem motoboy)")}</select></div>
+    <div class="campo"><label for="me-vc">Veículo do dia</label><select id="me-vc">${opcoes(veicDia, t.car ? "carro" : "moto")}</select></div>
     <div class="campo"><label for="me-d">Data</label><input id="me-d" type="date" value="${esc(t.d)}"></div><div></div>
     <div class="campo"><label for="me-i">Hora de início</label><input id="me-i" type="time" value="${esc(t.ini)}"></div>
     <div class="campo"><label for="me-f">Hora de fim</label><input id="me-f" type="time" value="${esc(t.fim)}"></div>
     <div class="campo"><label for="me-h">Valor da hora</label><input id="me-h" class="dinheiro" type="text" inputmode="decimal" value="${brl(t.vh)}"></div>
     <div class="campo"><label for="me-v">Valor do turno</label><input id="me-v" class="dinheiro" type="text" inputmode="decimal" value="${brl(t.v)}"></div></div>
-    <p class="muted">O valor do turno é recalculado quando você muda horário ou valor da hora; depois disso pode ser digitado à mão.</p>
+    <div class="grade2" id="me-kmbox">
+    <div class="campo"><label for="me-ki">KM inicial</label><input id="me-ki" type="text" inputmode="decimal" value="${t.kmi !== undefined ? String(t.kmi).replace(".", ",") : ""}"></div>
+    <div class="campo"><label for="me-kf">KM final</label><input id="me-kf" type="text" inputmode="decimal" value="${t.kmf !== undefined ? String(t.kmf).replace(".", ",") : ""}"></div>
+    <div class="campo"><label for="me-cb">Combustível do turno</label><input id="me-cb" class="dinheiro" type="text" inputmode="decimal" value="${t.cb ? brl(t.cb) : ""}"></div></div>
+    <p class="muted">O valor do turno é recalculado quando você muda horário ou valor da hora; o combustível, quando muda o KM. Depois disso pode ser digitado à mão.</p>
     <div class="erro" id="e-me" role="alert"></div>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Salvar</button></div></form>`);
+  const car = () => $("#me-vc").value === "carro";
+  const mostra = () => { $("#me-kmbox").style.display = car() ? "" : "none"; };
   const recalc = () => {
     const min = minutosTurno($("#me-i").value, $("#me-f").value), vh = num($("#me-h").value);
     if (!isNaN(min) && vh >= 0) $("#me-v").value = brl(r2(min / 60 * vh));
   };
+  const recalcCb = () => { const ki = num($("#me-ki").value), kf = num($("#me-kf").value); if (car() && kf >= ki) { const c = custoComb(r2(kf - ki)); $("#me-cb").value = c ? brl(c) : ""; } };
   ["#me-i", "#me-f", "#me-h"].forEach(s => $(s).addEventListener("input", recalc));
+  ["#me-ki", "#me-kf"].forEach(s => $(s).addEventListener("input", recalcCb));
+  $("#me-vc").addEventListener("change", () => { mostra(); recalcCb(); });
+  mostra();
   $("#f-moto").onsubmit = ev => {
     ev.preventDefault();
     const d = $("#me-d").value, ini = $("#me-i").value, fim = $("#me-f").value, min = minutosTurno(ini, fim), vh = num($("#me-h").value), v = num($("#me-v").value);
     if (!d || isNaN(min) || !(vh >= 0) || !(v >= 0)) { $("#e-me").textContent = "Confira data, horários e valores."; return; }
-    Object.assign(t, { d, ini, fim, min, vh: r2(vh), v: r2(v) });
+    const mid = Number($("#me-m").value) || 0;
+    const nova = { d, ini, fim, min, vh: r2(vh), v: r2(v) };
+    if (car()) {
+      const ki = num($("#me-ki").value), kf = num($("#me-kf").value);
+      if (!(ki >= 0) || !(kf >= ki)) { $("#e-me").textContent = "Informe o KM inicial e o KM final (o final não pode ser menor que o inicial)."; return; }
+      const cb = num($("#me-cb").value);
+      Object.assign(nova, { car: true, kmi: ki, kmf: kf, km: r2(kf - ki), cb: cb >= 0 ? r2(cb) : 0 });
+    }
+    ["car", "kmi", "kmf", "km", "cb"].forEach(k => delete t[k]);
+    Object.assign(t, nova);
+    if (mid) t.mid = mid; else delete t.mid;
     Banco.mudou(); fechar(); atualizarTela();
   };
 };
 Acoes["moto-excluir"] = async el => {
   const t = DB.motoTurnos.find(x => x.id === Number(el.dataset.id)); if (!t) return;
-  if (await confirmar(`Excluir o turno de ${dlonga(t.d)} (${t.ini} às ${t.fim}, ${hm(t.min)}, ${brl(t.v)})?`, "Excluir")) {
+  if (await confirmar(`Excluir o turno de ${motoNomeDe(t.mid)} em ${dlonga(t.d)} (${t.ini} às ${t.fim}, ${hm(t.min)}, ${brl(t.v)})?`, "Excluir")) {
     DB.motoTurnos = DB.motoTurnos.filter(x => x.id !== t.id); Banco.mudou(); atualizarTela();
+  }
+};
+
+/* ----- entregas ----- */
+Mudancas["moto-ent-mid"] = el => {
+  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
+  const mid = Number(el.value) || 0, antes = e.mid, m = motoPorId(mid);
+  if (mid) e.mid = mid; else delete e.mid;
+  if (m && !antes) e.vm = e.sr ? 0 : m.ve;
+  Banco.mudou(); atualizarTela();
+  if (m && antes) aviso("Motoboy trocado. Os valores da entrega foram mantidos; ajuste em Editar se precisar.");
+};
+Mudancas["moto-ent-taxa"] = el => {
+  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
+  const v = num(el.value); if (!(v >= 0)) { el.value = brl(e.v); return; }
+  e.v = r2(v); Banco.mudou(); atualizarTela();
+};
+Mudancas["moto-ent-gps"] = el => {
+  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
+  if (el.checked) e.gps = true; else delete e.gps;
+  Banco.mudou();
+};
+Acoes["moto-ent-repassar"] = el => {
+  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
+  e.pago = true; e.dPago = hojeISO(); Banco.mudou(); atualizarTela();
+};
+Acoes["moto-ent-reabrir"] = el => {
+  const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
+  e.pago = false; e.dPago = null; Banco.mudou(); atualizarTela();
+};
+Acoes["moto-repassar"] = async el => {
+  const F = motoFiltro(), mid = el && el.dataset && el.dataset.mid !== undefined && el.dataset.mid !== "" ? Number(el.dataset.mid) : F.mid;
+  const X = motoCalc("", F.ate, mid);
+  if (!X.pend.length) { aviso("Não há taxas de entrega pendentes de repasse.", "erro"); return; }
+  const quem = mid > 0 ? "do motoboy " + motoNomeDe(mid) : mid === -1 ? "sem motoboy" : "de todos os motoboys";
+  if (await confirmar(`Marcar ${X.pend.length} taxa(s) de entrega ${quem}, totalizando ${brl(X.repAb)}, como repassadas hoje?`, "Marcar como repassadas", false)) {
+    const hj = hojeISO(); X.pend.forEach(e => { e.pago = true; e.dPago = hj; });
+    Banco.mudou(); atualizarTela(); aviso("Repasse registrado: " + brl(X.repAb) + ".");
   }
 };
 Acoes["moto-ent-editar"] = el => {
   const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
-  abrir(`<form id="f-ment" novalidate><h2>Entrega do pedido ${esc(e.n)}</h2><p class="muted">${esc(e.cli || "sem nome")} — venda de ${dlonga(e.d)}. Esta data e este valor valem só para o motoboy; a venda e a taxa de entrega não mudam.</p><div class="grade2">
+  abrir(`<form id="f-ment" novalidate><h2>Entrega do pedido ${esc(e.n)}</h2><p class="muted">${esc(e.cli || "sem nome")} — venda de ${dlonga(e.d)}. Estes dados valem só para o motoboy; a venda não muda.</p><div class="grade2">
+    <div class="campo"><label for="mn-m">Motoboy</label><select id="mn-m">${motoOpcoes(e.mid || 0, "(sem motoboy)")}</select></div>
     <div class="campo"><label for="mn-d">Data da entrega</label><input id="mn-d" type="date" value="${esc(motoDataEnt(e))}"></div>
     <div class="campo"><label for="mn-v">Valor pago pela empresa</label><input id="mn-v" class="dinheiro" type="text" inputmode="decimal" value="${brl(motoValEnt(e))}"></div></div>
-    <label style="display:block;margin:.6rem 0"><input id="mn-x" type="checkbox" ${e.mx ? "checked" : ""}> Não contar esta entrega para o motoboy</label>
+    <label style="display:block;margin:.6rem 0 .2rem"><input id="mn-s" type="checkbox" ${e.sr ? "checked" : ""}> Carro da empresa (sem repasse e sem valor por entrega)</label>
+    <label style="display:block;margin:.2rem 0"><input id="mn-g" type="checkbox" ${e.gps ? "checked" : ""}> Cliente encontrado no GPS</label>
+    <label style="display:block;margin:.2rem 0"><input id="mn-x" type="checkbox" ${e.mx ? "checked" : ""}> Não contar esta entrega para o motoboy</label>
     <div class="erro" id="e-mn" role="alert"></div>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Salvar</button></div></form>`);
+  $("#mn-s").addEventListener("change", () => { const m = motoPorId(Number($("#mn-m").value)); $("#mn-v").value = brl($("#mn-s").checked ? 0 : (m ? m.ve : DB.cfg.motoEntrega)); });
   $("#f-ment").onsubmit = ev => {
     ev.preventDefault();
     const d = $("#mn-d").value, v = num($("#mn-v").value);
     if (!d || !(v >= 0)) { $("#e-mn").textContent = "Informe a data e o valor."; return; }
-    e.md = d === e.d ? undefined : d; if (e.md === undefined) delete e.md;
-    e.vm = r2(v); if ($("#mn-x").checked) e.mx = true; else delete e.mx;
+    const mid = Number($("#mn-m").value) || 0;
+    if (mid) e.mid = mid; else delete e.mid;
+    if (d === e.d) delete e.md; else e.md = d;
+    e.vm = r2(v);
+    if ($("#mn-g").checked) e.gps = true; else delete e.gps;
+    if ($("#mn-s").checked) e.sr = true; else delete e.sr;
+    if ($("#mn-x").checked) e.mx = true; else delete e.mx;
     Banco.mudou(); fechar(); atualizarTela();
   };
 };
 Acoes["moto-ent-excluir"] = async el => {
   const e = DB.entregas.find(x => x.id === Number(el.dataset.id)); if (!e) return;
-  if (await confirmar(`Excluir a entrega do pedido ${e.n} (${e.cli || "sem nome"}, ${dlonga(e.d)})? Ela também sai da aba Taxas de entrega.`, "Excluir")) {
+  if (await confirmar(`Excluir a entrega do pedido ${e.n} (${e.cli || "sem nome"}, ${dlonga(e.d)})?`, "Excluir")) {
     DB.entregas = DB.entregas.filter(x => x.id !== e.id); Banco.mudou(); atualizarTela();
   }
 };
 Acoes["moto-ent-limpar"] = async () => {
   const L = DB.entregas.filter(e => motoOrfa(e)); if (!L.length) return;
-  if (await confirmar(`Remover ${L.length} entrega(s) de vendas que foram excluídas? Elas também saem da aba Taxas de entrega.`, "Remover")) {
+  if (await confirmar(`Remover ${L.length} entrega(s) de vendas que foram excluídas?`, "Remover")) {
     const ids = new Set(L.map(e => e.id)); DB.entregas = DB.entregas.filter(e => !ids.has(e.id)); Banco.mudou(); atualizarTela();
   }
 };
-Acoes["moto-config"] = () => {
-  abrir(`<form id="f-mcfg" novalidate><h2>Valores do motoboy</h2><div class="grade2">
-    <div class="campo"><label for="mc-n">Nome do motoboy</label><input id="mc-n" autocomplete="off" value="${esc(DB.cfg.motoNome || "")}"></div><div></div>
-    <div class="campo"><label for="mc-h">Valor por hora</label><input id="mc-h" class="dinheiro" type="text" inputmode="decimal" value="${brl(DB.cfg.motoHora)}"></div>
-    <div class="campo"><label for="mc-e">Valor por entrega</label><input id="mc-e" class="dinheiro" type="text" inputmode="decimal" value="${brl(DB.cfg.motoEntrega)}"></div>
-    <div class="campo"><label for="mc-d">Contar entregas a partir de</label><input id="mc-d" type="date" value="${esc(DB.cfg.motoDesde || "")}"></div></div>
-    <p class="muted">Os valores novos valem para turnos e entregas lançados daqui em diante; o que já foi lançado mantém o valor e pode ser editado um a um.</p>
-    <div class="erro" id="e-mc" role="alert"></div>
+
+/* ----- cadastro de motoboys (aba Cadastros → Motoboys), carro da empresa e cidade ----- */
+Mudancas["moto-desde"] = el => { DB.cfg.motoDesde = el.value || ""; Banco.mudou(); atualizarTela(); };
+Acoes["carro-salvar"] = () => {
+  const k = num($("#cc-k").value), p = num($("#cc-p").value);
+  if ((isFinite(k) && k < 0) || (isFinite(p) && p < 0)) { aviso("Consumo e preço não podem ser negativos.", "erro"); return; }
+  DB.cfg.carroKml = k > 0 ? k : 0; DB.cfg.carroComb = p > 0 ? r2(p) : 0; DB.cfg.carroAt = hojeISO();
+  Banco.mudou(); atualizarTela(); aviso("Consumo do carro da empresa salvo.");
+};
+Acoes["empresa-salvar"] = () => { DB.cfg.cidade = $("#em-c").value.trim().replace(/\s+/g, " "); Banco.mudou(); aviso("Cidade e UF salvas."); };
+Entradas["moto-tel"] = el => { el.value = formatarTel(el.value); };
+Acoes["moto-cad-form"] = el => {
+  const m = el && el.dataset && el.dataset.id ? motoPorId(Number(el.dataset.id)) : null;
+  abrir(`<form id="f-mcad" novalidate><h2>${m ? "Editar motoboy" : "Novo motoboy"}</h2><div class="grade2">
+    <div class="campo"><label for="mm-n">Nome</label><input id="mm-n" autocomplete="off" value="${esc(m ? m.nome : "")}"></div>
+    <div class="campo"><label for="mm-t">Celular (WhatsApp)</label><input id="mm-t" type="tel" inputmode="tel" autocomplete="off" placeholder="(00) 00000-0000" data-ent="moto-tel" value="${esc(m ? m.tel || "" : "")}"></div>
+    <div class="campo"><label for="mm-q">Veículo próprio (se houver)</label><input id="mm-q" autocomplete="off" placeholder="Ex.: Moto CG 160, placa ABC-1234" value="${esc(m ? m.veic || "" : "")}"></div>
+    <div class="campo"><label for="mm-h">Valor pago por hora</label><input id="mm-h" class="dinheiro" type="text" inputmode="decimal" value="${brl(m ? m.vh : DB.cfg.motoHora)}"></div>
+    <div class="campo"><label for="mm-e">Valor pago pela empresa (por entrega)</label><input id="mm-e" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" value="${m ? (m.ve > 0 ? brl(m.ve) : "") : (DB.cfg.motoEntrega > 0 ? brl(DB.cfg.motoEntrega) : "")}"></div>
+    <div class="campo"><label for="mm-c">Valor pago pelo cliente (por entrega)</label><input id="mm-c" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" value="${m && m.vc > 0 ? brl(m.vc) : ""}"></div>
+    <div class="campo"><label>&nbsp;</label><label style="display:block;padding:.5rem 0"><input id="mm-a" type="checkbox" ${!m || m.ativo !== false ? "checked" : ""}> Ativo</label></div></div>
+    <p class="muted">O valor pago pelo cliente é a taxa de entrega que vem preenchida na Nova venda e é repassada ao motoboy. Com o carro da empresa (escolhido no dia) não há valor por entrega nem repasse. Mudar os valores vale para os lançamentos novos; o que já foi lançado mantém o valor e pode ser editado um a um. Motoboy inativo não aparece para lançar turno, venda ou pagamento.</p>
+    <div class="erro" id="e-mm" role="alert"></div>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Salvar</button></div></form>`);
-  $("#f-mcfg").onsubmit = ev => {
+  $("#mm-n").focus();
+  $("#f-mcad").onsubmit = ev => {
     ev.preventDefault();
-    const h = num($("#mc-h").value), e = num($("#mc-e").value);
-    if (!(h >= 0) || !(e >= 0)) { $("#e-mc").textContent = "Informe os dois valores."; return; }
-    DB.cfg.motoHora = r2(h); DB.cfg.motoEntrega = r2(e); DB.cfg.motoDesde = $("#mc-d").value || ""; DB.cfg.motoNome = $("#mc-n").value.trim();
+    const nome = $("#mm-n").value.trim().replace(/\s+/g, " "), tel = formatarTel($("#mm-t").value), vh = num($("#mm-h").value), ve = num($("#mm-e").value), vc = num($("#mm-c").value), ativo = $("#mm-a").checked;
+    const erro = t => { $("#e-mm").textContent = t; };
+    if (!nome) { erro("Informe o nome."); return; }
+    if (tel && soDigitos(tel).length < 10) { erro("Celular incompleto: informe com DDD."); return; }
+    if (!(vh >= 0)) { erro("Informe o valor pago por hora."); return; }
+    if ((isFinite(ve) && ve < 0) || (isFinite(vc) && vc < 0)) { erro("Os valores por entrega não podem ser negativos."); return; }
+    if (DB.motos.some(x => x !== m && x.nome.toLowerCase() === nome.toLowerCase())) { erro("Já existe um motoboy com esse nome."); return; }
+    const d = { nome, tel, veic: $("#mm-q").value.trim(), vh: r2(vh), ve: isFinite(ve) && ve > 0 ? r2(ve) : 0, vc: isFinite(vc) && vc > 0 ? r2(vc) : 0, ativo };
+    if (m) Object.assign(m, d);
+    else { const n = { id: motoProxId(DB.motos), ...d }; DB.motos.push(n); motoFiltro().lm = n.id; }
     Banco.mudou(); fechar(); atualizarTela();
   };
 };
+Acoes["moto-cad-excluir"] = async el => {
+  const m = motoPorId(Number(el.dataset.id)); if (!m) return;
+  const nT = DB.motoTurnos.filter(t => t.mid === m.id).length, nP = DB.motoPagtos.filter(p => p.mid === m.id).length, nE = DB.entregas.filter(e => e.mid === m.id).length;
+  if (nT || nP || nE) { aviso(`${m.nome} tem ${nT} turno(s), ${nE} entrega(s) e ${nP} pagamento(s) lançados. Para tirar da lista, edite e desmarque “Ativo”.`, "erro"); return; }
+  if (await confirmar(`Excluir o motoboy ${m.nome}?`, "Excluir")) { DB.motos = DB.motos.filter(x => x.id !== m.id); Banco.mudou(); atualizarTela(); }
+};
+
+/* ----- pagamentos ao motoboy (com opção de lançar em Contas a pagar já como paga) ----- */
 Acoes["moto-pag-form"] = el => {
-  const p = el && el.dataset && el.dataset.id ? DB.motoPagtos.find(x => x.id === Number(el.dataset.id)) : null;
-  const sug = p ? motoPagValor(p) : Math.max(0, motoCalc("", "").saldo);
+  const F = motoFiltro(), p = el && el.dataset && el.dataset.id ? DB.motoPagtos.find(x => x.id === Number(el.dataset.id)) : null;
+  if (!p && !DB.motos.length) { aviso("Cadastre um motoboy primeiro (aba Motoboys).", "erro"); return; }
+  let mid0 = p ? p.mid || 0 : (el && el.dataset && el.dataset.mid ? Number(el.dataset.mid) : (F.mid > 0 ? F.mid : (motoAtivos().length === 1 ? motoAtivos()[0].id : 0)));
+  if (mid0 < 0) mid0 = 0;
+  const sug = mid => p ? p.total : Math.max(0, motoCalc("", "", mid).saldo);
   abrir(`<form id="f-mpag" novalidate><h2>${p ? "Editar pagamento" : "Lançar pagamento"}</h2><div class="grade2">
+    <div class="campo"><label for="mg-m">Motoboy</label><select id="mg-m"><option value="0">Selecione…</option>${motoOpcoes(mid0)}</select></div>
     <div class="campo"><label for="mg-d">Data</label><input id="mg-d" type="date" value="${esc(p ? p.d : hojeISO())}"></div>
-    <div class="campo"><label for="mg-v">Valor pago</label><input id="mg-v" class="dinheiro" type="text" inputmode="decimal" value="${brl(sug)}"></div>
-    <div class="campo" style="grid-column:1/-1"><label for="mg-o">Observação</label><input id="mg-o" autocomplete="off" value="${esc(p && p.obs ? p.obs : "")}" placeholder="Ex.: adiantamento, PIX"></div></div>
+    <div class="campo"><label for="mg-v">Valor pago</label><input id="mg-v" class="dinheiro" type="text" inputmode="decimal" value="${brl(mid0 ? sug(mid0) : 0)}"></div>
+    <div class="campo"><label for="mg-o">Observação</label><input id="mg-o" autocomplete="off" value="${esc(p && p.obs ? p.obs : "")}" placeholder="Ex.: adiantamento, PIX"></div></div>
+    <p class="muted" id="mg-s"></p>
     <div class="erro" id="e-mg" role="alert"></div>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Salvar</button></div></form>`);
+  const mostra = () => {
+    const id = Number($("#mg-m").value), X = id ? motoCalc("", "", id) : null;
+    $("#mg-s").textContent = X ? "Saldo a pagar hoje: " + brl(X.saldo) + (X.repAb > 0 ? " · Repasse de taxas a repassar: " + brl(X.repAb) + " (use “Repassar taxas”; o repasse não entra neste pagamento)." : ".") : "";
+  };
+  $("#mg-m").addEventListener("change", () => { const id = Number($("#mg-m").value); if (!p) $("#mg-v").value = brl(id ? sug(id) : 0); mostra(); });
+  mostra();
   $("#f-mpag").onsubmit = ev => {
     ev.preventDefault();
-    const d = $("#mg-d").value, v = num($("#mg-v").value), obs = $("#mg-o").value.trim();
+    const mid = Number($("#mg-m").value), d = $("#mg-d").value, v = num($("#mg-v").value), obs = $("#mg-o").value.trim();
+    if (!mid) { $("#e-mg").textContent = "Selecione o motoboy."; return; }
     if (!d || !(v > 0)) { $("#e-mg").textContent = "Informe a data e um valor maior que zero."; return; }
-    if (p) Object.assign(p, { d, total: r2(v), obs }); else DB.motoPagtos.push({ id: motoProxId(DB.motoPagtos), d, total: r2(v), obs });
-    Banco.mudou(); fechar(); atualizarTela();
+    if (p) {
+      Object.assign(p, { mid, d, total: r2(v), obs });
+      const c = p.cid && DB.contas.find(x => x.id === p.cid);
+      if (c) Object.assign(c, { v: p.total, dc: p.d, dp: p.d, pago: normNome(motoNomeDe(p.mid)) });
+      Banco.mudou(); fechar(); atualizarTela(); if (c) aviso("Pagamento atualizado, e a conta em Contas a pagar também.");
+    } else {
+      const n = { id: motoProxId(DB.motoPagtos), mid, d, total: r2(v), obs };
+      DB.motoPagtos.push(n); motoFiltro().mid = F.mid > 0 ? mid : F.mid;
+      Banco.mudou(); fechar(); atualizarTela(); perguntarContaPaga(n);
+    }
   };
 };
+function perguntarContaPaga(p) {
+  const nome = motoNomeDe(p.mid);
+  const tipoPad = DB.tipoDesc["MOTOBOY"] || (DB.tipos.includes("VARIÁVEL") ? "VARIÁVEL" : DB.tipos[0]);
+  abrir(`<form id="f-mcp" novalidate><h2>Lançar em Contas a pagar?</h2>
+    <p>Pagamento de <strong>${brl(p.total)}</strong> ao motoboy <strong>${esc(nome)}</strong> em ${dlonga(p.d)}. Deseja lançar em Contas a pagar já como conta paga?</p>
+    <div class="grade2"><div class="campo"><label for="cp-t">Tipo de custo</label><select id="cp-t">${opcoes(DB.tipos, tipoPad)}</select></div>
+    <div class="campo"><label for="cp-f">Forma de pagamento</label><select id="cp-f">${opcoes(FORMAS_PAGTO, "PIX")}</select></div></div>
+    <div class="rodape-dlg"><button type="button" data-acao="fechar">Não lançar</button><button type="submit" class="primario">Lançar como paga</button></div></form>`);
+  $("#f-mcp").onsubmit = ev => {
+    ev.preventDefault();
+    const tipo = $("#cp-t").value, forma = $("#cp-f").value;
+    const id = DB.contas.reduce((m, c) => Math.max(m, c.id), 0) + 1;
+    DB.contas.push({ id, desc: "MOTOBOY", pago: normNome(nome), v: p.total, dc: p.d, dp: p.d, forma, tipo, sit: "PAGO" });
+    p.cid = id;
+    if (!DB.descricoes.includes("MOTOBOY")) { DB.descricoes.push("MOTOBOY"); DB.descricoes.sort(); }
+    DB.tipoDesc["MOTOBOY"] = tipo;
+    Banco.mudou(); fechar(); atualizarTela(); aviso("Pagamento lançado em Contas a pagar como conta paga.");
+  };
+}
+Acoes["moto-pag-conta"] = el => { const p = DB.motoPagtos.find(x => x.id === Number(el.dataset.id)); if (p) perguntarContaPaga(p); };
 Acoes["moto-pag-excluir"] = async el => {
   const p = DB.motoPagtos.find(x => x.id === Number(el.dataset.id)); if (!p) return;
-  if (await confirmar(`Excluir o pagamento de ${brl(motoPagValor(p))} feito em ${dlonga(p.d)}? O valor volta para o saldo a pagar.`, "Excluir")) {
-    DB.motoPagtos = DB.motoPagtos.filter(x => x.id !== p.id); Banco.mudou(); atualizarTela();
+  const c = p.cid && DB.contas.find(x => x.id === p.cid);
+  if (await confirmar(`Excluir o pagamento de ${brl(motoPagValor(p))} feito em ${dlonga(p.d)}? O valor volta para o saldo a pagar.${c ? " A conta paga lançada em Contas a pagar também será excluída." : ""}`, "Excluir")) {
+    DB.motoPagtos = DB.motoPagtos.filter(x => x.id !== p.id);
+    if (c) DB.contas = DB.contas.filter(x => x.id !== c.id);
+    Banco.mudou(); atualizarTela();
   }
 };
 
+/* ----- envio do pedido ao motoboy por WhatsApp (opcional): na Nova venda, na lista de vendas e depois de gravar ----- */
+Acoes["venda-enviar-moto"] = () => {
+  const r = lerFormularioVenda(); if (r.erro) { mostrarErroVenda(r); return; }
+  const P = r.P, m = motoPorId(P.mid);
+  if (!(P.taxa > 0)) { $("#e-venda").textContent = "Marque “Com entrega” e informe a taxa."; return; }
+  if (!m) { $("#e-venda").textContent = "Selecione o motoboy para enviar."; $("#nv-moto").focus(); return; }
+  $("#e-venda").textContent = "";
+  enviarAoMotoboy(m, dadosPedidoMoto(P, P.gps));
+  $("#f-venda").dataset.env = "1"; aviso("WhatsApp aberto para " + m.nome + ". Confira e envie a mensagem lá.");
+};
+Acoes["moto-wpp"] = el => {
+  const e = entregaDoPedido(el.dataset.chave), P = e ? pedidoDeChave(el.dataset.chave) : null;
+  if (!e || !P) { aviso("Este pedido não tem entrega.", "erro"); return; }
+  const enviar = m => { enviarAoMotoboy(m, dadosPedidoMoto(P, e.gps)); e.env = hojeISO(); Banco.mudou(); atualizarTela(); };
+  const m = motoPorId(e.mid);
+  if (m) { enviar(m); return; }
+  if (!motoAtivos().length) { aviso("Cadastre o motoboy em Cadastros → Motoboys.", "erro"); return; }
+  abrir(`<form id="f-wpp" novalidate><h2>Enviar ao motoboy</h2><div class="campo"><label for="wp-m">Motoboy desta entrega</label><select id="wp-m"><option value="0">Selecione…</option>${motoOpcoes(nvMotoPadrao())}</select></div>
+    <div class="erro" id="e-wp" role="alert"></div><div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Abrir WhatsApp</button></div></form>`);
+  $("#f-wpp").onsubmit = ev => {
+    ev.preventDefault(); const mm = motoPorId(Number($("#wp-m").value));
+    if (!mm) { $("#e-wp").textContent = "Selecione o motoboy."; return; }
+    e.mid = mm.id; if (e.vm === undefined || !e.sr) e.vm = e.sr ? 0 : mm.ve;
+    enviar(mm); fechar();
+  };
+};
+
 /* ===== Motoboy: relatório / comprovante do período ===== */
-function motoRelHTML(de, ate) {
-  const X = motoCalc(de, ate), nome = esc(DB.cfg.motoNome || "Motoboy");
+function motoRelHTML(de, ate, mid) {
+  const X = motoCalc(de, ate, mid), m = motoPorId(mid), nome = esc(m ? m.nome : (mid === -1 ? "Sem motoboy" : "Motoboy"));
   const th = (t, r) => `<th style="border:1px solid #000;padding:3px 6px;background:#eee;text-align:${r ? "right" : "left"}">${t}</th>`;
   const td = (v, r, b) => `<td style="border:1px solid #000;padding:3px 6px;text-align:${r ? "right" : "left"};${b ? "font-weight:700;background:#f6f6f6" : ""}">${v}</td>`;
   const tdc = (v, n, b) => td(v, false, b).replace("<td ", `<td colspan="${n}" `);
@@ -3366,55 +3921,76 @@ function motoRelHTML(de, ate) {
   const nEnt = X.E.length;
   const porTaxa = new Map();
   X.T.forEach(t => { const x = porTaxa.get(t.vh) || { min: 0, v: 0 }; x.min += t.min; x.v = r2(x.v + t.v); porTaxa.set(t.vh, x); });
-  const linhasH = X.T.map(t => `<tr>${td(nome)}${td(dlonga(t.d))}${td(t.ini)}${td(t.fim)}${td(hm(t.min), true)}${td(brl(t.vh), true)}${td(brl(t.v), true)}</tr>`).join("") || vazio(7);
+  const linhasH = X.T.map(t => `<tr>${td(esc(motoNomeDe(t.mid) || nome))}${td(dlonga(t.d))}${td(t.ini)}${td(t.fim)}${td(hm(t.min), true)}${td(brl(t.vh), true)}${td(brl(t.v), true)}</tr>`).join("") || vazio(7);
   const totH = X.T.length ? `<tr>${tdc("Soma", 4, true)}${td(hm(X.min), true, true)}${td("", true, true)}${td(brl(X.vh), true, true)}</tr>` : "";
   const subH = [...porTaxa].map(([vh, x]) => `${hm(x.min)} × ${brl(vh)} por hora = ${brl(x.v)}`).join("<br>");
+  const sit = e => e.sr ? "Sem repasse (carro da empresa)" : e.pago ? "Repassada" + (e.dPago ? " em " + dlonga(e.dPago) : "") : "A repassar";
   let linhasE = "";
   [...new Set(X.E.map(motoDataEnt))].forEach(d => {
     const L = X.E.filter(e => motoDataEnt(e) === d);
-    L.forEach(e => { linhasE += `<tr>${td(dlonga(d))}${td(e.n)}${td(esc(e.cli || "—"))}${td(brl(motoValEnt(e)), true)}${td(brl(e.v), true)}</tr>`; });
-    linhasE += `<tr>${tdc("Subtotal do dia — " + L.length + (L.length === 1 ? " entrega" : " entregas"), 3, true)}${td(brl(r2(L.reduce((s, e) => s + motoValEnt(e), 0))), true, true)}${td(brl(r2(L.reduce((s, e) => s + e.v, 0))), true, true)}</tr>`;
+    L.forEach(e => { linhasE += `<tr>${td(dlonga(d))}${td(e.n)}${td(esc(e.cli || "—"))}${td(brl(motoValEnt(e)), true)}${td(brl(motoRep(e)), true)}${td(sit(e))}</tr>`; });
+    linhasE += `<tr>${tdc("Subtotal do dia — " + L.length + (L.length === 1 ? " entrega" : " entregas"), 3, true)}${td(brl(r2(L.reduce((s, e) => s + motoValEnt(e), 0))), true, true)}${td(brl(r2(L.reduce((s, e) => s + motoRep(e), 0))), true, true)}${td("", false, true)}</tr>`;
   });
-  if (!linhasE) linhasE = vazio(5);
-  const totE = nEnt ? `<tr>${tdc("Soma — " + nEnt + (nEnt === 1 ? " entrega" : " entregas"), 3, true)}${td(brl(X.ve), true, true)}${td(brl(X.taxas), true, true)}</tr>` : "";
+  if (!linhasE) linhasE = vazio(6);
+  const totE = nEnt ? `<tr>${tdc("Soma — " + nEnt + (nEnt === 1 ? " entrega" : " entregas"), 3, true)}${td(brl(X.ve), true, true)}${td(brl(X.repP), true, true)}${td("", false, true)}</tr>` : "";
+  const repasseOk = r2(X.E.filter(e => e.pago && !e.sr).reduce((s, e) => s + e.v, 0));
   const linhasP = X.P.map(p => `<tr>${td(dlonga(p.d))}${td(esc(p.obs || (p.ne !== undefined ? "Pagamento acumulado" : "")))}${td(brl(motoPagValor(p)), true)}</tr>`).join("") || vazio(3);
   const totP = X.P.length ? `<tr>${tdc("Soma dos pagamentos", 2, true)}${td(brl(X.pg), true, true)}</tr>` : "";
+  const TK = X.T.filter(t => t.km > 0);
+  const secKm = TK.length ? `<h3 style="margin:.8rem 0 0;font-size:1em">4. Veículo da empresa — KM e combustível</h3>` +
+    tab(th("Data") + th("Veículo") + th("KM inicial", true) + th("KM final", true) + th("KM rodados", true) + th("Combustível", true),
+      TK.map(t => `<tr>${td(dlonga(t.d))}${td("Carro da empresa")}${td(nKm(t.kmi), true)}${td(nKm(t.kmf), true)}${td(nKm(t.km), true)}${td(brl(t.cb || 0), true)}</tr>`).join("") +
+      `<tr>${tdc("Soma", 4, true)}${td(nKm(X.km), true, true)}${td(brl(X.cb), true, true)}</tr>`) : "";
+  const nSec = TK.length ? 5 : 4;
   const linha = (rot, v, forte) => `<tr><td style="padding:2px 6px;${forte ? "font-weight:700;border-top:2px solid #000" : ""}">${rot}</td><td style="padding:2px 6px;text-align:right;${forte ? "font-weight:700;border-top:2px solid #000" : ""}">${v}</td></tr>`;
   return `<div style="font-size:12px;color:#000">
     <div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #000;padding-bottom:.4rem;margin-bottom:.5rem">
       <div><div style="font-size:1.25em;font-weight:700">TRIGO MINAS</div><div>Comprovante de trabalho e pagamento — Motoboy</div></div>
       <div style="text-align:right">Emitido em ${dlonga(hojeISO())}</div></div>
-    <div style="margin-bottom:.5rem"><div><strong>Motoboy:</strong> ${nome}</div><div><strong>Período:</strong> ${periodo}</div></div>
+    <div style="margin-bottom:.5rem"><div><strong>Motoboy:</strong> ${nome}${m && m.tel ? " — " + esc(m.tel) : ""}</div><div><strong>Período:</strong> ${periodo}</div></div>
     <h3 style="margin:.6rem 0 0;font-size:1em">1. Horas trabalhadas × valor da hora</h3>
     ${tab(th("Motoboy") + th("Data") + th("Hora início") + th("Hora saída") + th("Horas", true) + th("Valor hora", true) + th("Valor trabalho", true), linhasH + totH)}
     <div style="margin-bottom:.4rem">${subH ? "<strong>Detalhe da soma:</strong><br>" + subH : ""}</div>
     <h3 style="margin:.8rem 0 0;font-size:1em">2. Entregas por dia</h3>
-    ${tab(th("Data") + th("Pedido nº") + th("Cliente") + th("Valor pago pela empresa", true) + th("Valor pago pelo repasse", true), linhasE + totE)}
-    <div style="margin-bottom:.4rem">${nEnt ? `<strong>Detalhe da soma:</strong><br>Pago pela empresa: ${nEnt} entrega(s) = ${brl(X.ve)}<br>Repasse das taxas cobradas na venda: ${brl(X.taxas)}` : ""}</div>
+    ${tab(th("Data") + th("Pedido nº") + th("Cliente") + th("Valor pago pela empresa", true) + th("Repasse da taxa (pago pelo cliente)", true) + th("Situação do repasse"), linhasE + totE)}
+    <div style="margin-bottom:.4rem">${nEnt ? `<strong>Detalhe da soma:</strong><br>Pago pela empresa: ${nEnt} entrega(s) = ${brl(X.ve)}<br>Taxas cobradas dos clientes: ${brl(X.taxas)} · devidas ao motoboy (repasse): ${brl(X.repP)} · já repassado: ${brl(repasseOk)} · a repassar: ${brl(r2(X.repP - repasseOk))}` : ""}</div>
     <h3 style="margin:.8rem 0 0;font-size:1em">3. Pagamentos efetuados</h3>
     ${tab(th("Data") + th("Observação") + th("Valor pago", true), linhasP + totP)}
-    <h3 style="margin:.8rem 0 0;font-size:1em">4. Soma total</h3>
+    ${secKm}
+    <h3 style="margin:.8rem 0 0;font-size:1em">${nSec}. Soma total</h3>
     <table style="width:62%;margin-left:auto;border-collapse:collapse">
       ${de ? linha("Saldo anterior ao período", brl(X.ant)) : ""}${linha("Horas trabalhadas (" + hm(X.min) + ")", brl(X.vh))}${linha("Entregas pagas pela empresa (" + nEnt + ")", brl(X.ve))}
       ${linha("Pagamentos efetuados", "− " + brl(X.pg))}${linha("SALDO A PAGAR PELA EMPRESA", brl(X.saldo), true)}
-      ${linha("Repasse das taxas de entrega (informativo)", brl(X.taxas))}${linha("TOTAL GERAL DO PERÍODO (trabalho + entregas + repasse)", brl(r2(X.ganho + X.taxas)), true)}</table>
+      ${linha("Repasse das taxas de entrega a repassar", brl(X.repAb))}${linha("DÉBITO TOTAL EM ABERTO (saldo + repasse a repassar)", brl(X.aberto), true)}
+      ${linha("Total do período (trabalho + entregas + repasse das taxas)", brl(r2(X.ganho + X.repP)))}</table>
     <div style="display:flex;gap:3rem;margin-top:2.2rem"><div style="flex:1;border-top:1px solid #000;padding-top:3px;text-align:center">${nome}<br>Recebi os valores pagos acima</div><div style="flex:1;border-top:1px solid #000;padding-top:3px;text-align:center">Trigo Minas<br>Pagamento realizado</div></div>
   </div>`;
 }
-Acoes["moto-rel"] = () => {
-  const F = motoFiltro(), X = motoCalc(F.de, F.ate);
-  if (!X.T.length && !X.E.length && !X.P.length) { aviso("Não há turnos, entregas nem pagamentos no período.", "erro"); return; }
-  abrir(`<h2>Relatório do motoboy</h2><div style="background:#fff;color:#000;border:1px solid var(--line);padding:.8rem;overflow:auto;max-height:65vh">${motoRelHTML(F.de, F.ate)}</div>
-    <div class="rodape-dlg"><button type="button" data-acao="fechar">Fechar</button><button type="button" class="primario" data-acao="moto-imprimir">Imprimir</button></div>`, true);
+function motoRelAbrir(mid, de, ate) {
+  const X = motoCalc(de, ate, mid);
+  if (!X.T.length && !X.E.length && !X.P.length && !X.repAb) { aviso("Não há turnos, entregas nem pagamentos no período.", "erro"); return; }
+  abrir(`<h2>Relatório do motoboy</h2><div style="background:#fff;color:#000;border:1px solid var(--line);padding:.8rem;overflow:auto;max-height:65vh">${motoRelHTML(de, ate, mid)}</div>
+    <div class="rodape-dlg"><button type="button" data-acao="fechar">Fechar</button><button type="button" class="primario" data-acao="moto-imprimir" data-mid="${mid}" data-de="${esc(de || "")}" data-ate="${esc(ate || "")}">Imprimir</button></div>`, true);
+}
+Acoes["moto-rel"] = el => {
+  const F = motoFiltro(), hoje = !!(el && el.dataset && el.dataset.hoje === "1"), de = hoje ? hojeISO() : F.de, ate = hoje ? hojeISO() : F.ate;
+  let mid = el && el.dataset && el.dataset.mid !== undefined && el.dataset.mid !== "" ? Number(el.dataset.mid) : F.mid;
+  if (!mid && DB.motos.length === 1) mid = DB.motos[0].id;
+  if (!mid && DB.motos.length > 1) {
+    abrir(`<form id="f-mrel" novalidate><h2>${hoje ? "Relatório de hoje" : "Relatório do motoboy"}</h2><div class="campo"><label for="mr-m">Motoboy</label><select id="mr-m"><option value="0">Selecione…</option>${motoOpcoes(0)}</select></div>
+      <div class="erro" id="e-mr" role="alert"></div><div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Abrir relatório</button></div></form>`);
+    $("#f-mrel").onsubmit = ev => { ev.preventDefault(); const id = Number($("#mr-m").value); if (!id) { $("#e-mr").textContent = "Selecione o motoboy."; return; } motoRelAbrir(id, de, ate); };
+    return;
+  }
+  motoRelAbrir(mid, de, ate);
 };
-Acoes["moto-imprimir"] = () => {
-  const F = motoFiltro();
+Acoes["moto-imprimir"] = el => {
+  const mid = Number(el.dataset.mid) || 0, de = el.dataset.de || "", ate = el.dataset.ate || "";
   fechar();
-  const s = document.createElement("section"); s.id = "moto-imp"; s.className = "painel"; s.style.display = "none"; s.innerHTML = motoRelHTML(F.de, F.ate);
+  const s = document.createElement("section"); s.id = "moto-imp"; s.className = "painel"; s.style.display = "none"; s.innerHTML = motoRelHTML(de, ate, mid);
   $("#tela").appendChild(s);
   imprimirAlvo("moto-imp", () => s.remove());
 };
-
 /* ===== Funcionários (produção, preparo, embalagem): horas trabalhadas, valor da hora, pagamentos fracionados ===== */
 const funcPorId = id => DB.funcs.find(x => x.id === id);
 const funcNome = id => { const f = funcPorId(id); return f ? f.nome : "(excluído)"; };
