@@ -128,6 +128,7 @@ td input.cel{min-height:30px;padding:.15rem .4rem;width:92px;text-align:right}
 .tag{display:inline-block;font-size:.72rem;padding:.05rem .45rem;border-radius:99px;background:var(--line-soft);color:var(--muted);white-space:nowrap}
 .tag.cot{background:var(--cot-bg);color:var(--cot)}
 .tag.aviso{background:var(--warn-bg);color:var(--warn)}
+.linha-ep td:not(.acao){background:var(--warn-bg)}
 .tag.ruim{background:var(--bad-bg);color:var(--bad)}
 .tag.ok{background:var(--best-bg);color:var(--best-text)}
 .un{color:var(--muted);font-size:.85em}
@@ -1605,7 +1606,10 @@ document.addEventListener("keydown", ev => { if ((ev.key === "Enter" || ev.key =
 "use strict";
 
 /* ===== Vendas ===== */
-const FORMAS_VENDA = ["PIX", "DINHEIRO", "CRÉDITO", "DÉBITO", "PRAZO", "BOLETO"];
+const FORMAS_VENDA = ["PIX", "DINHEIRO", "CARTÃO", "PRAZO", "BOLETO"];
+/* lançamentos antigos continuam com CRÉDITO/DÉBITO; esses valores só aparecem nos filtros e na edição quando existem na base */
+const FORMAS_ANTIGAS = ["CRÉDITO", "DÉBITO"];
+const formasVendaFiltro = () => FORMAS_VENDA.slice(0, 3).concat(FORMAS_ANTIGAS.filter(f => DB.vendas.some(v => v.forma === f)), FORMAS_VENDA.slice(3));
 const nomeProduto = c => (DB.produtos[c] && DB.produtos[c].n) || nomeDe(c);
 const ultimaVenda = () => { let m = ""; DB.vendas.forEach(v => { if (v.d > m) m = v.d; }); return m || hojeISO(); };
 /* o "Nº" da venda sozinho não identifica um pedido nos dados históricos importados (ele se repete
@@ -1631,12 +1635,23 @@ const LANC_COLS = [    { t: "Data", s: v => v.d + " " + (v.h || ""), v: v => dlo
     { t: "Hora", s: v => v.h || "", v: v => v.h || "—" },
     { t: "Nº", n: true, s: v => v.n, h: v => { const e = entregaDoPedido(chavePedido(v)); return v.n + (e ? ` <span class="tag ${e.pago || e.sr ? "" : "aviso"}" title="Entrega${e.mid ? " — " + esc(motoNomeDe(e.mid)) : ""}">🛵</span>` : ""); } },
     { t: "Cliente", s: v => v.cli, v: v => v.cli },
-    { t: "Produto", s: v => nomeProduto(v.c), h: v => `${esc(nomeProduto(v.c))} <small class="muted">${esc(v.c)}</small>` },
-    { t: "Qtd", n: true, s: v => v.q, v: v => nq(v.q) }, { t: "Unitário", n: true, s: v => v.vu ?? 0, v: v => v.vu != null ? brl(v.vu) : "—" }, { t: "Total", n: true, s: v => v.t, h: v => brl(v.t) + (v.ra ? ` <span class="tag aviso" title="${esc("Inclui rateio de " + minusc1(txtAjuste(v.ra)) + " do pedido — " + (v.ram || "") + (v.rao ? " — " + v.rao : ""))}">${v.ra < 0 ? "desc." : "acrésc."}</span>` : "") },
+    { t: "Produto", s: v => v._ep ? "Entrega a prazo" : nomeProduto(v.c), h: v => v._ep ? `<strong>Entrega a prazo</strong> <small class="muted">a cobrar do cliente</small>` : `${esc(nomeProduto(v.c))} <small class="muted">${esc(v.c)}</small>` },
+    { t: "Qtd", n: true, s: v => v.q, v: v => v._ep ? "" : nq(v.q) }, { t: "Unitário", n: true, s: v => v.vu ?? 0, v: v => v._ep ? "" : v.vu != null ? brl(v.vu) : "—" }, { t: "Total", n: true, s: v => v.t, h: v => brl(v.t) + (v.ra ? ` <span class="tag aviso" title="${esc("Inclui rateio de " + minusc1(txtAjuste(v.ra)) + " do pedido — " + (v.ram || "") + (v.rao ? " — " + v.rao : ""))}">${v.ra < 0 ? "desc." : "acrésc."}</span>` : "") },
     { t: "Nota", s: v => v.nota || "", h: v => v.nota ? `<span class="tag">${esc(v.nota === "COM NOTA" ? "com nota" : v.nota === "SEM NOTA" ? "sem nota" : v.nota)}</span>` : "" },
     { t: "Pagamento", s: v => v.forma || "", v: v => v.forma },
-    { t: "", h: v => `<button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="58mm">58mm</button> <button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="a4">A4</button> ${entregaDoPedido(chavePedido(v)) ? `<button type="button" class="mini" data-acao="moto-wpp" data-chave="${esc(chavePedido(v))}">Motoboy</button> ` : ""}<button type="button" class="mini" data-acao="venda-editar" data-id="${v.id}">Editar</button> <button type="button" class="mini perigo" data-acao="venda-excluir" data-id="${v.id}" aria-label="Excluir linha ${v.id}">Excluir</button>` }
+    { t: "", h: v => v._ep ? "" : `<button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="58mm">58mm</button> <button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="a4">A4</button> ${entregaDoPedido(chavePedido(v)) ? `<button type="button" class="mini" data-acao="moto-wpp" data-chave="${esc(chavePedido(v))}">Motoboy</button> ` : ""}<button type="button" class="mini" data-acao="venda-editar" data-id="${v.id}">Editar</button> <button type="button" class="mini perigo" data-acao="venda-excluir" data-id="${v.id}" aria-label="Excluir linha ${v.id}">Excluir</button>` }
 ];
+/* linha extra (só na tela) "Entrega a prazo": taxa do motoboy que a empresa adiantou e ainda vai cobrar do cliente. Não entra nos totais nem no faturamento */
+function entregasAPrazo(lista) {
+  const m = new Map();
+  lista.forEach(v => {
+    if (!(v.ep > 0) || v.forma !== "PRAZO") return;
+    const k = chavePedido(v), o = m.get(k);
+    if (!o) m.set(k, { _ep: true, id: v.id - 0.5, n: v.n, d: v.d, h: v.h || "", cli: v.cli, c: "", q: 0, vu: null, t: v.ep, nota: "", forma: "PRAZO" });
+    else o.id = Math.min(o.id, v.id - 0.5);
+  });
+  return [...m.values()];
+}
 function vendasResultadoHTML() {
   const F = filtroVendas(), lista = vendasFiltradas(F);
   const total = lista.reduce((s, v) => s + v.t, 0), qtd = lista.reduce((s, v) => s + v.q, 0);
@@ -1668,8 +1683,9 @@ function vendasResultadoHTML() {
     return resumo + tabela(cols, pg.itens, { vazio: "Nenhuma venda no filtro.", ...ordOpt }) + pagHTML(pg, "vendas-pag");
   }
   const colsL = LANC_COLS;
-  const pg = paginar(ordenarPor(lista.slice().sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : b.id - a.id)), colsL, ord), F.pag, 100);
-  return resumo + tabela(colsL, pg.itens, { vazio: "Nenhuma venda no filtro.", ...ordOpt }) + pagHTML(pg, "vendas-pag");
+  const base = F.prod || F.fam ? lista : lista.concat(entregasAPrazo(lista));
+  const pg = paginar(ordenarPor(base.slice().sort((a, b) => (a.d < b.d ? 1 : a.d > b.d ? -1 : b.id - a.id)), colsL, ord), F.pag, 100);
+  return resumo + tabela(colsL, pg.itens, { vazio: "Nenhuma venda no filtro.", linha: l => l._ep ? 'class="linha-ep"' : "", ...ordOpt }) + pagHTML(pg, "vendas-pag");
 }
 Telas.vendas = {
   titulo: "Vendas",
@@ -1687,7 +1703,7 @@ Telas.vendas = {
         <div class="campo"><label for="vf-prod">Produto</label><input id="vf-prod" type="search" value="${esc(F.prod || "")}" data-ent="vfiltro" data-campo="prod" placeholder="Nome ou código"></div>
         <div class="campo"><label for="vf-fam">Família</label><select id="vf-fam" data-mud="vfiltro" data-campo="fam">${opcoes(familiasLista(), F.fam, "Todas")}</select></div>
         <div class="campo"><label for="vf-nota">Nota</label><select id="vf-nota" data-mud="vfiltro" data-campo="nota">${opcoes([["COM NOTA", "Com nota"], ["SEM NOTA", "Sem nota"]], F.nota, "Todas")}</select></div>
-        <div class="campo"><label for="vf-forma">Pagamento</label><select id="vf-forma" data-mud="vfiltro" data-campo="forma">${opcoes(FORMAS_VENDA, F.forma, "Todos")}</select></div>
+        <div class="campo"><label for="vf-forma">Pagamento</label><select id="vf-forma" data-mud="vfiltro" data-campo="forma">${opcoes(formasVendaFiltro(), F.forma, "Todos")}</select></div>
         <div class="acoes-topo"><button type="button" class="mini" data-acao="vendas-periodo" data-p="mes">Mês da última venda</button>
           <button type="button" class="mini" data-acao="vendas-periodo" data-p="ano">Ano</button>
           <button type="button" class="mini" data-acao="vendas-periodo" data-p="tudo">Tudo</button></div>
@@ -2008,7 +2024,7 @@ function gravarPedido(P) {
   let id = DB.vendas.reduce((m, v) => Math.max(m, v.id), 0);
   const partes = ratearAjuste(P.itens.map(l => l.t), P.aj || 0);
   const hora = horaAgora();
-  P.itens.forEach((l, k) => DB.vendas.push({ id: ++id, n, d: P.d, h: hora, cli: P.cli, c: l.c, q: l.q, vu: l.vu, t: r2(l.t + partes[k]), ...(l.cb ? { cb: l.cb } : {}), nota: P.nota, forma: P.forma, tel: P.tel, end: P.end, obs: P.obs, pagaCom: P.pagaCom, ...(P.aj ? { ra: partes[k], ram: P.ajMot, rao: P.ajObs } : {}) }));
+  P.itens.forEach((l, k) => DB.vendas.push({ id: ++id, n, d: P.d, h: hora, cli: P.cli, c: l.c, q: l.q, vu: l.vu, t: r2(l.t + partes[k]), ...(l.cb ? { cb: l.cb } : {}), nota: P.nota, forma: P.forma, tel: P.tel, end: P.end, obs: P.obs, pagaCom: P.pagaCom, ...(P.forma === "PRAZO" && P.taxa > 0 ? { ep: P.taxa } : {}), ...(P.aj ? { ra: partes[k], ram: P.ajMot, rao: P.ajObs } : {}) }));
   if (P.taxa > 0) {
     const car = P.veic === "carro", mo = motoPorId(P.mid);
     DB.entregas.push({ id: DB.entregas.reduce((m, e) => Math.max(m, e.id), 0) + 1, n, d: P.d, cli: P.cli, v: P.taxa, pago: false, dPago: null, vm: car ? 0 : (mo ? mo.ve : DB.cfg.motoEntrega),
@@ -2123,7 +2139,7 @@ Acoes["venda-editar"] = el => {
       <div class="campo"><label for="ve-u">Preço unitário</label><input id="ve-u" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" value="${v.vu != null ? brl(v.vu) : ""}"></div>
       <div class="campo"><label for="ve-t">Total</label><input id="ve-t" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" value="${brl(v.t)}"></div>
       <div class="campo"><label for="ve-nota">Nota</label><select id="ve-nota">${opcoes([["COM NOTA", "Com nota"], ["SEM NOTA", "Sem nota"]], v.nota, "(não informado)")}</select></div>
-      <div class="campo"><label for="ve-forma">Pagamento</label><select id="ve-forma">${opcoes(FORMAS_VENDA, v.forma)}</select></div>
+      <div class="campo"><label for="ve-forma">Pagamento</label><select id="ve-forma">${opcoes(FORMAS_ANTIGAS.includes(v.forma) ? FORMAS_VENDA.slice(0, 3).concat([v.forma], FORMAS_VENDA.slice(3)) : FORMAS_VENDA, v.forma)}</select></div>
     </div>${v.ra ? `<p class="muted" style="margin:.6rem 0 0;font-size:.85rem">O total desta linha inclui ${esc(minusc1(txtAjuste(v.ra)))} rateado do pedido (${esc(v.ram || "sem motivo")}).</p>` : ""}<datalist id="lv-lista">${prodOptions()}</datalist><div class="erro" id="e-ve" role="alert"></div>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Salvar alterações</button></div></form>`);
   $("#f-vedit").onsubmit = ev => {
@@ -3013,7 +3029,7 @@ const dataISO = v => {
   if (/^\d{5}$/.test(s)) return dataISO(Number(s));
   return null;
 };
-const FORMA_NORM = { PIX: "PIX", DINHEIRO: "DINHEIRO", CREDITO: "CRÉDITO", "CRÉDITO": "CRÉDITO", DEBITO: "DÉBITO", "DÉBITO": "DÉBITO", PRAZO: "PRAZO", "A PRAZO": "PRAZO", BOLETO: "BOLETO" };
+const FORMA_NORM = { PIX: "PIX", DINHEIRO: "DINHEIRO", CARTAO: "CARTÃO", "CARTÃO": "CARTÃO", CREDITO: "CRÉDITO", "CRÉDITO": "CRÉDITO", DEBITO: "DÉBITO", "DÉBITO": "DÉBITO", PRAZO: "PRAZO", "A PRAZO": "PRAZO", BOLETO: "BOLETO" };
 const formaNorm = s => { const k = String(s ?? "").trim().replace(/\s+/g, " ").toUpperCase(); return FORMA_NORM[k] || k; };
 const cel = v => String(v ?? "").trim();
 const celU = v => cel(v).toUpperCase();
