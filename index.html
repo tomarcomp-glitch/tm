@@ -1609,7 +1609,11 @@ document.addEventListener("keydown", ev => { if ((ev.key === "Enter" || ev.key =
 const FORMAS_VENDA = ["PIX", "DINHEIRO", "CARTÃO", "PRAZO", "BOLETO"];
 /* lançamentos antigos continuam com CRÉDITO/DÉBITO; esses valores só aparecem nos filtros e na edição quando existem na base */
 const FORMAS_ANTIGAS = ["CRÉDITO", "DÉBITO"];
-const formasVendaFiltro = () => FORMAS_VENDA.slice(0, 3).concat(FORMAS_ANTIGAS.filter(f => DB.vendas.some(v => v.forma === f)), FORMAS_VENDA.slice(3));
+/* pedido pago em duas formas: cada linha guarda forma = "PIX + CARTÃO" (texto, compatível com o histórico) e pagto = [{ f, v }] */
+const formasDe = v => v.pagto ? v.pagto.map(x => x.f) : [v.forma];
+const temPrazo = v => formasDe(v).includes("PRAZO");
+const formaTxt = P => P.pagto ? P.pagto.map(x => x.f + " " + brl(x.v)).join(" + ") : (P.forma || "");
+const formasVendaFiltro = () => FORMAS_VENDA.slice(0, 3).concat(FORMAS_ANTIGAS.filter(f => DB.vendas.some(v => formasDe(v).includes(f))), FORMAS_VENDA.slice(3));
 const nomeProduto = c => (DB.produtos[c] && DB.produtos[c].n) || nomeDe(c);
 const ultimaVenda = () => { let m = ""; DB.vendas.forEach(v => { if (v.d > m) m = v.d; }); return m || hojeISO(); };
 /* o "Nº" da venda sozinho não identifica um pedido nos dados históricos importados (ele se repete
@@ -1627,7 +1631,7 @@ function filtroVendas() {
 function vendasFiltradas(F) {
   const cli = semAcento(F.cli || ""), pr = semAcento(F.prod || "");
   return DB.vendas.filter(v =>
-    (!F.de || v.d >= F.de) && (!F.ate || v.d <= F.ate) && (!F.nota || v.nota === F.nota) && (!F.forma || v.forma === F.forma) &&
+    (!F.de || v.d >= F.de) && (!F.ate || v.d <= F.ate) && (!F.nota || v.nota === F.nota) && (!F.forma || formasDe(v).includes(F.forma)) &&
     (!F.fam || famDe(v.c) === F.fam) && (!cli || semAcento(v.cli).includes(cli)) &&
     (!pr || v.c.toLowerCase().includes(pr) || semAcento(nomeProduto(v.c)).includes(pr)));
 }
@@ -1638,14 +1642,14 @@ const LANC_COLS = [    { t: "Data", s: v => v.d + " " + (v.h || ""), v: v => dlo
     { t: "Produto", s: v => v._ep ? "Entrega a prazo" : nomeProduto(v.c), h: v => v._ep ? `<strong>Entrega a prazo</strong> <small class="muted">a cobrar do cliente</small>` : `${esc(nomeProduto(v.c))} <small class="muted">${esc(v.c)}</small>` },
     { t: "Qtd", n: true, s: v => v.q, v: v => v._ep ? "" : nq(v.q) }, { t: "Unitário", n: true, s: v => v.vu ?? 0, v: v => v._ep ? "" : v.vu != null ? brl(v.vu) : "—" }, { t: "Total", n: true, s: v => v.t, h: v => brl(v.t) + (v.ra ? ` <span class="tag aviso" title="${esc("Inclui rateio de " + minusc1(txtAjuste(v.ra)) + " do pedido — " + (v.ram || "") + (v.rao ? " — " + v.rao : ""))}">${v.ra < 0 ? "desc." : "acrésc."}</span>` : "") },
     { t: "Nota", s: v => v.nota || "", h: v => v.nota ? `<span class="tag">${esc(v.nota === "COM NOTA" ? "com nota" : v.nota === "SEM NOTA" ? "sem nota" : v.nota)}</span>` : "" },
-    { t: "Pagamento", s: v => v.forma || "", v: v => v.forma },
+    { t: "Pagamento", s: v => v.forma || "", v: v => v.pagto ? formaTxt(v) : v.forma },
     { t: "", h: v => v._ep ? "" : `<button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="58mm">58mm</button> <button type="button" class="mini" data-acao="pedido-imprimir" data-chave="${esc(chavePedido(v))}" data-formato="a4">A4</button> ${entregaDoPedido(chavePedido(v)) ? `<button type="button" class="mini" data-acao="moto-wpp" data-chave="${esc(chavePedido(v))}">Motoboy</button> ` : ""}<button type="button" class="mini" data-acao="venda-editar" data-id="${v.id}">Editar</button> <button type="button" class="mini perigo" data-acao="venda-excluir" data-id="${v.id}" aria-label="Excluir linha ${v.id}">Excluir</button>` }
 ];
 /* linha extra (só na tela) "Entrega a prazo": taxa do motoboy que a empresa adiantou e ainda vai cobrar do cliente. Não entra nos totais nem no faturamento */
 function entregasAPrazo(lista) {
   const m = new Map();
   lista.forEach(v => {
-    if (!(v.ep > 0) || v.forma !== "PRAZO") return;
+    if (!(v.ep > 0) || !temPrazo(v)) return;
     const k = chavePedido(v), o = m.get(k);
     if (!o) m.set(k, { _ep: true, id: v.id - 0.5, n: v.n, d: v.d, h: v.h || "", cli: v.cli, c: "", q: 0, vu: null, t: v.ep, nota: "", forma: "PRAZO" });
     else o.id = Math.min(o.id, v.id - 0.5);
@@ -1739,7 +1743,7 @@ function pedidoDeChave(chave) {
   const p = linhas[0], cad = clientePorNome(p.cli), e = entregaDoPedido(chave);
   return {
     n: p.n, d: p.d, cli: p.cli || "", tel: p.tel || (cad && cad.tel) || "", end: p.end || (cad && cad.end) || "", obs: p.obs || "",
-    forma: p.forma || "", nota: p.nota || "", pagaCom: p.pagaCom != null ? p.pagaCom : null,
+    forma: p.forma || "", pagto: p.pagto || null, nota: p.nota || "", pagaCom: p.pagaCom != null ? p.pagaCom : null,
     itens: linhas.map(v => ({ c: v.c, q: v.q, vu: v.vu, t: r2(v.t - (v.ra || 0)) })), taxa: e ? e.v : 0,
     aj: r2(linhas.reduce((a, v) => a + (v.ra || 0), 0)), ajMot: (linhas.find(v => v.ra && v.ram) || {}).ram || "", ajObs: (linhas.find(v => v.ra && v.rao) || {}).rao || ""
   };
@@ -1757,8 +1761,9 @@ function ratearAjuste(brutos, aj) {
 }
 function totaisPedido(P) {
   const itens = P.itens.reduce((s, v) => s + v.t, 0), total = r2(itens + (P.aj || 0) + (P.taxa || 0));
-  const troco = P.forma === "DINHEIRO" && P.pagaCom != null && P.pagaCom > 0 ? r2(P.pagaCom - total) : null;
-  return { itens, total, troco };
+  const din = P.pagto ? r2(P.pagto.filter(x => x.f === "DINHEIRO").reduce((a, x) => a + x.v, 0)) : (P.forma === "DINHEIRO" ? total : 0);
+  const troco = din > 0 && P.pagaCom != null && P.pagaCom > 0 ? r2(P.pagaCom - din) : null;
+  return { itens, total, troco, din };
 }
 const textoNota = n => n ? (n === "COM NOTA" ? "com nota" : "sem nota") : "";
 function pedidoCupom58HTML(P) {
@@ -1777,7 +1782,7 @@ function pedidoCupom58HTML(P) {
     ${traco}
     ${entrega || P.aj ? lin("Subtotal", brl(T.itens)) : ""}${P.aj ? lin(P.aj < 0 ? "Desconto" : "Acréscimo", (P.aj < 0 ? "−" : "+") + brl(Math.abs(P.aj))) : ""}${entrega ? lin("Taxa de entrega", brl(P.taxa)) : ""}
     ${lin("TOTAL A COBRAR", brl(T.total), true)}
-    <p style="margin:.25rem 0">Pagamento: <strong>${esc(P.forma || "—")}</strong></p>
+    <p style="margin:.25rem 0">Pagamento: <strong>${esc(formaTxt(P) || "—")}</strong></p>
     ${T.troco !== null ? traco + lin("Cliente paga com", brl(P.pagaCom)) + lin("TROCO A LEVAR", brl(T.troco), true) : ""}
     ${P.forma === "DINHEIRO" && entrega ? traco + lin("ENTREGADOR DEVOLVE", brl(T.total), true) +
       `<p style="margin:.1rem 0;font-size:.9em">Dinheiro do cliente (${T.troco !== null ? brl(P.pagaCom) : brl(T.total)}) menos o troco levado.</p>
@@ -1811,7 +1816,7 @@ function pedidoFolhaA4HTML(P) {
       ${lin("Total a cobrar", brl(T.total), true)}
       ${T.troco !== null ? lin("Cliente paga com", brl(P.pagaCom)) + lin("Troco", brl(T.troco)) : ""}
     </div>
-    <p style="margin:1.5rem 0 .3rem"><strong>Forma de pagamento:</strong> ${esc(P.forma || "—")}</p>
+    <p style="margin:1.5rem 0 .3rem"><strong>Forma de pagamento:</strong> ${esc(formaTxt(P) || "—")}</p>
     ${P.forma === "DINHEIRO" && entrega ? `<p style="margin:.3rem 0"><strong>Entregador devolve à loja:</strong> ${brl(T.total)} · <strong>taxa do entregador (paga no fechamento):</strong> ${brl(P.taxa)}</p>` : ""}
     <div style="display:flex;gap:3rem;margin-top:3rem">
       <div style="border-top:1px solid #000;width:280px;padding-top:.3rem">Assinatura do cliente</div>
@@ -1858,8 +1863,9 @@ function mostrarPosVenda(n, d, cli) {
 }
 
 /* ===== Nova venda ===== */
+const uVenda = p => (p && (p.us || p.u)) || "";
 const prodOptions = () => Object.entries(DB.produtos).sort((a, b) => a[1].n.localeCompare(b[1].n, "pt-BR"))
-  .map(([c, p]) => `<option value="${esc(c + " — " + p.n + " (" + p.u + ")")}"></option>`).join("");
+  .map(([c, p]) => `<option value="${esc(c + " — " + p.n + " (" + uVenda(p) + ")")}"></option>`).join("");
 function resolverProdutoVenda(txt) {
   const c = resolverCodigo(txt, k => !!DB.produtos[k]);
   if (c) return c;
@@ -1904,9 +1910,18 @@ function totaisFormulario() {
   const entrega = !!($("#nv-entrega") && $("#nv-entrega").checked);
   const taxa = entrega ? (num($("#nv-taxa").value) || 0) : 0;
   const forma = $("#nv-forma") ? $("#nv-forma").value : "";
-  const paga = forma === "DINHEIRO" ? num($("#nv-paga").value) : NaN;
   const av = $("#nv-av") ? num($("#nv-av").value) : NaN, aj = isFinite(av) && av > 0 ? ($("#nv-at").value === "A" ? r2(av) : -r2(av)) : 0;
-  return { itens, aj, taxa, total: r2(itens + aj + taxa), paga: isFinite(paga) && paga > 0 ? paga : null, forma };
+  const total = r2(itens + aj + taxa);
+  let partes = null;
+  if ($("#nv-div") && $("#nv-div").checked) {
+    const v1 = num($("#nv-v1").value), v2 = num($("#nv-v2").value);
+    partes = [{ f: forma, v: isFinite(v1) ? r2(v1) : 0 }, { f: $("#nv-forma2").value, v: isFinite(v2) ? r2(v2) : 0 }];
+  }
+  /* troco: sempre que houver dinheiro no pagamento; numa venda dividida vale só a parte em dinheiro */
+  const temDin = partes ? partes.some(x => x.f === "DINHEIRO") : forma === "DINHEIRO";
+  const din = partes ? r2(partes.filter(x => x.f === "DINHEIRO").reduce((a, x) => a + x.v, 0)) : (forma === "DINHEIRO" ? total : 0);
+  const paga = temDin && $("#nv-paga") ? num($("#nv-paga").value) : NaN;
+  return { itens, aj, taxa, total, paga: isFinite(paga) && paga > 0 ? paga : null, forma, partes, din, temDin };
 }
 function somaVenda() {
   const T = totaisFormulario(), p = (sel, v) => { const e = $(sel); if (e) e.textContent = v; };
@@ -1914,11 +1929,18 @@ function somaVenda() {
   const caixa = $("#nv-r-troco-box"), val = $("#nv-r-troco");
   if (caixa && val) {
     if (T.paga !== null) {
-      const tr = r2(T.paga - T.total);
+      const tr = r2(T.paga - T.din);
       caixa.style.display = ""; val.textContent = tr >= 0 ? brl(tr) : "Faltam " + brl(-tr); val.className = "val " + (tr < 0 ? "ruim" : "");
     } else caixa.style.display = "none";
   }
+  const inf = $("#nv-div-info");
+  if (inf) {
+    if (T.partes) { const so = r2(T.partes[0].v + T.partes[1].v), d = r2(T.total - so); inf.textContent = "Soma das duas formas: " + brl(so) + (Math.abs(d) < 0.005 ? " — confere com o total." : d > 0 ? " — faltam " + brl(d) + " para o total." : " — passa " + brl(-d) + " do total."); }
+    else inf.textContent = "";
+  }
 }
+Entradas["nv-v1"] = () => { const v = num($("#nv-v1").value); if (isFinite(v)) { const r = r2(totaisFormulario().total - v); setDinheiro($("#nv-v2"), r > 0 ? r : 0); } somaVenda(); };
+Entradas["nv-v2"] = () => { const v = num($("#nv-v2").value); if (isFinite(v)) { const r = r2(totaisFormulario().total - v); setDinheiro($("#nv-v1"), r > 0 ? r : 0); } somaVenda(); };
 Acoes["lv-remover"] = el => { const l = document.querySelector('.lv[data-i="' + el.dataset.i + '"]'); if (document.querySelectorAll(".lv").length > 1) { l.remove(); somaVenda(); } };
 Acoes["lv-add"] = () => { $("#lv-linhas").insertAdjacentHTML("beforeend", linhaVendaHTML()); };
 
@@ -1977,12 +1999,22 @@ Acoes["venda-mapa"] = () => {
   if (!end) { aviso("Digite o endereço do cliente primeiro.", "erro"); return; }
   window.open(mapaLink(end), "_blank");
 };
-Mudancas["nv-forma"] = el => {
-  const dinheiro = el.value === "DINHEIRO";
+function nvPagto() {
+  const T = totaisFormulario(), f = T.partes ? T.partes.map(x => x.f) : [T.forma], dinheiro = f.includes("DINHEIRO");
   $("#nv-paga-wrap").style.display = dinheiro ? "" : "none";
   if (!dinheiro) $("#nv-paga").value = "";
-  $("#nv-nota").value = (dinheiro || el.value === "PRAZO") ? "SEM NOTA" : "COM NOTA";
+  $("#nv-nota").value = (dinheiro || f.includes("PRAZO")) ? "SEM NOTA" : "COM NOTA";
   somaVenda();
+}
+Mudancas["nv-forma"] = () => nvPagto();
+Mudancas["nv-forma2"] = () => nvPagto();
+Mudancas["nv-div"] = el => {
+  $("#nv-div-wrap").style.display = el.checked ? "grid" : "none";
+  $("#nv-v1-wrap").style.visibility = el.checked ? "visible" : "hidden";
+  $("#nv-forma-rot").textContent = el.checked ? "1ª forma de pagamento" : "Forma de pagamento";
+  if (el.checked) { const f1 = $("#nv-forma").value, s2 = $("#nv-forma2"); if (s2.value === f1) s2.value = FORMAS_VENDA.find(f => f !== f1); }
+  $("#nv-v1").value = ""; $("#nv-v2").value = "";
+  nvPagto();
 };
 
 /* leitura e validação do formulário: nenhum pedido é impresso ou gravado com dados faltando */
@@ -2005,9 +2037,15 @@ function lerFormularioVenda() {
   if (T.aj < 0 && -T.aj > T.itens) return falha("#nv-av", "O desconto não pode ser maior que o total dos itens.");
   if ($("#nv-entrega").checked && !(T.taxa > 0)) return falha("#nv-taxa", "Informe a taxa de entrega ou desmarque “Com entrega”.");
   if ($("#nv-entrega").checked && motoAtivos().length && !(Number($("#nv-moto").value) > 0)) return falha("#nv-moto", "Selecione o motoboy da entrega.");
-  if (T.paga !== null && T.paga < T.total) return falha("#nv-paga", "O valor pago em dinheiro (" + brl(T.paga) + ") é menor que o total a cobrar (" + brl(T.total) + ").");
+  if (T.partes) {
+    if (T.partes[0].f === T.partes[1].f) return falha("#nv-forma2", "Escolha duas formas de pagamento diferentes ou desmarque “Dividir o pagamento”.");
+    if (!(T.partes[0].v > 0) || !(T.partes[1].v > 0)) return falha("#nv-v1", "Informe o valor de cada forma de pagamento (maior que zero).");
+    const so = r2(T.partes[0].v + T.partes[1].v);
+    if (Math.abs(so - T.total) > 0.005) return falha("#nv-v1", "A soma das duas formas (" + brl(so) + ") precisa ser igual ao total a cobrar (" + brl(T.total) + ").");
+  }
+  if (T.paga !== null && T.paga < T.din) return falha("#nv-paga", "O valor pago em dinheiro (" + brl(T.paga) + ") é menor que " + (T.partes ? "a parte em dinheiro (" : "o total a cobrar (") + brl(T.din) + ").");
   return { P: {
-    n: proximoNumeroPedido(), d: data, cli: nome, tel: formatarTel(telDig), end, obs: $("#nv-obs").value.trim(), forma, nota, pagaCom: T.paga,
+    n: proximoNumeroPedido(), d: data, cli: nome, tel: formatarTel(telDig), end, obs: $("#nv-obs").value.trim(), forma: T.partes ? T.partes.map(x => x.f).join(" + ") : forma, pagto: T.partes, nota, pagaCom: T.paga,
     itens: linhas.map(l => ({ c: l.c, q: l.q, vu: isFinite(l.u) ? l.u : null, t: r2(l.t), ...(l.cb ? { cb: l.cb } : {}) })), taxa: r2(T.taxa), mid: $("#nv-entrega").checked ? Number($("#nv-moto").value) || 0 : 0, veic: $("#nv-entrega").checked ? $("#nv-veic").value : "", gps: $("#nv-entrega").checked && $("#nv-gps").checked, env: $("#f-venda").dataset.env === "1",
     aj: T.aj, ajMot: T.aj ? mot : "", ajObs: T.aj ? obsAj : ""
   } };
@@ -2024,7 +2062,7 @@ function gravarPedido(P) {
   let id = DB.vendas.reduce((m, v) => Math.max(m, v.id), 0);
   const partes = ratearAjuste(P.itens.map(l => l.t), P.aj || 0);
   const hora = horaAgora();
-  P.itens.forEach((l, k) => DB.vendas.push({ id: ++id, n, d: P.d, h: hora, cli: P.cli, c: l.c, q: l.q, vu: l.vu, t: r2(l.t + partes[k]), ...(l.cb ? { cb: l.cb } : {}), nota: P.nota, forma: P.forma, tel: P.tel, end: P.end, obs: P.obs, pagaCom: P.pagaCom, ...(P.forma === "PRAZO" && P.taxa > 0 ? { ep: P.taxa } : {}), ...(P.aj ? { ra: partes[k], ram: P.ajMot, rao: P.ajObs } : {}) }));
+  P.itens.forEach((l, k) => DB.vendas.push({ id: ++id, n, d: P.d, h: hora, cli: P.cli, c: l.c, q: l.q, vu: l.vu, t: r2(l.t + partes[k]), ...(l.cb ? { cb: l.cb } : {}), nota: P.nota, forma: P.forma, ...(P.pagto ? { pagto: P.pagto } : {}), tel: P.tel, end: P.end, obs: P.obs, pagaCom: P.pagaCom, ...(temPrazo(P) && P.taxa > 0 ? { ep: P.taxa } : {}), ...(P.aj ? { ra: partes[k], ram: P.ajMot, rao: P.ajObs } : {}) }));
   if (P.taxa > 0) {
     const car = P.veic === "carro", mo = motoPorId(P.mid);
     DB.entregas.push({ id: DB.entregas.reduce((m, e) => Math.max(m, e.id), 0) + 1, n, d: P.d, cli: P.cli, v: P.taxa, pago: false, dPago: null, vm: car ? 0 : (mo ? mo.ve : DB.cfg.motoEntrega),
@@ -2098,8 +2136,20 @@ Acoes["venda-nova"] = () => {
           <div class="campo" style="margin-top:.4rem"><label for="nv-veic">Veículo do dia</label><select id="nv-veic" data-mud="nv-veic">${opcoes(veicDia, DB.cfg.motoUltimoVeic || "moto")}</select></div>
           <label style="display:flex;align-items:center;gap:.5rem;margin-top:.4rem"><input type="checkbox" id="nv-gps"> Cliente encontrado no GPS</label>
           <button type="button" class="mini primario" data-acao="venda-enviar-moto" style="margin-top:.3rem">Enviar ao motoboy (WhatsApp)</button></div></div>
-      <div class="campo"><label for="nv-forma">Pagamento</label><select id="nv-forma" data-mud="nv-forma">${opcoes(FORMAS_VENDA, "PIX")}</select></div>
     </div>
+    <fieldset style="border:1px solid var(--line);border-radius:var(--radius);margin:.8rem 0 0;padding:.5rem .7rem .7rem">
+      <legend style="font-size:.85rem;font-weight:600;padding:0 .3rem">Pagamento</legend>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.6rem;align-items:end">
+        <div class="campo"><label for="nv-forma" id="nv-forma-rot">Forma de pagamento</label><select id="nv-forma" data-mud="nv-forma">${opcoes(FORMAS_VENDA, "PIX")}</select></div>
+        <div class="campo" id="nv-v1-wrap" style="visibility:hidden"><label for="nv-v1">Valor</label><input id="nv-v1" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" autocomplete="off" data-ent="nv-v1"></div>
+      </div>
+      <div id="nv-div-wrap" style="display:none;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:.6rem;align-items:end;margin-top:.5rem">
+        <div class="campo"><label for="nv-forma2">2ª forma de pagamento</label><select id="nv-forma2" data-mud="nv-forma2">${opcoes(FORMAS_VENDA, "CARTÃO")}</select></div>
+        <div class="campo"><label for="nv-v2">Valor</label><input id="nv-v2" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" autocomplete="off" data-ent="nv-v2"></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:.5rem;margin-top:.6rem"><input type="checkbox" id="nv-div" data-mud="nv-div"> Dividir o pagamento em duas formas</label>
+      <div class="muted" id="nv-div-info" style="font-size:.82rem;margin-top:.3rem"></div>
+    </fieldset>
     <div class="campo" id="nv-paga-wrap" style="display:none"><label for="nv-paga">Cliente paga com (dinheiro)</label>
       <input id="nv-paga" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00 — deixe vazio se não precisa de troco" autocomplete="off" data-ent="nv-paga"></div>
     <div class="erro" id="e-venda" role="alert"></div>
@@ -2139,14 +2189,16 @@ Acoes["venda-editar"] = el => {
       <div class="campo"><label for="ve-u">Preço unitário</label><input id="ve-u" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" value="${v.vu != null ? brl(v.vu) : ""}"></div>
       <div class="campo"><label for="ve-t">Total</label><input id="ve-t" class="dinheiro" type="text" inputmode="decimal" placeholder="R$ 0,00" value="${brl(v.t)}"></div>
       <div class="campo"><label for="ve-nota">Nota</label><select id="ve-nota">${opcoes([["COM NOTA", "Com nota"], ["SEM NOTA", "Sem nota"]], v.nota, "(não informado)")}</select></div>
-      <div class="campo"><label for="ve-forma">Pagamento</label><select id="ve-forma">${opcoes(FORMAS_ANTIGAS.includes(v.forma) ? FORMAS_VENDA.slice(0, 3).concat([v.forma], FORMAS_VENDA.slice(3)) : FORMAS_VENDA, v.forma)}</select></div>
+      <div class="campo"><label for="ve-forma">Pagamento</label><select id="ve-forma">${opcoes(!v.forma || FORMAS_VENDA.includes(v.forma) ? FORMAS_VENDA : FORMAS_VENDA.slice(0, 3).concat([v.forma], FORMAS_VENDA.slice(3)), v.forma)}</select></div>
     </div>${v.ra ? `<p class="muted" style="margin:.6rem 0 0;font-size:.85rem">O total desta linha inclui ${esc(minusc1(txtAjuste(v.ra)))} rateado do pedido (${esc(v.ram || "sem motivo")}).</p>` : ""}<datalist id="lv-lista">${prodOptions()}</datalist><div class="erro" id="e-ve" role="alert"></div>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Salvar alterações</button></div></form>`);
   $("#f-vedit").onsubmit = ev => {
     ev.preventDefault();
     const c = resolverProdutoVenda($("#ve-prod").value), q = num($("#ve-q").value), t = num($("#ve-t").value), u = num($("#ve-u").value);
     if (!c || !(q > 0) || !(t >= 0)) { $("#e-ve").textContent = "Confira produto, quantidade e total."; return; }
+    const f0 = v.forma;
     Object.assign(v, { d: $("#ve-data").value, cli: $("#ve-cli").value.trim(), c, q, vu: isFinite(u) ? u : null, t: r2(t), nota: $("#ve-nota").value, forma: $("#ve-forma").value });
+    if (v.pagto && v.forma !== f0) delete v.pagto;
     Banco.mudou(); fechar(); aviso("Linha atualizada."); atualizarTela();
   };
 };
@@ -2172,6 +2224,7 @@ function filtroProdutos() {
   F.aba = F.aba || "prod"; F.pag = F.pag || 1; F.q = F.q || ""; F.fam = F.fam || "";
   return F;
 }
+const UN_VENDA_LISTA = '<datalist id="un-venda"><option value="UN"></option><option value="KG"></option><option value="PCT"></option><option value="FATIA"></option><option value="PORÇÃO"></option></datalist>';
 function produtosResultadoHTML() {
   const F = filtroProdutos();
   if (F.aba === "comp") {
@@ -2201,7 +2254,8 @@ function produtosResultadoHTML() {
       { t: "Código", v: x => x.c },
       { t: "Produto", h: x => `<input class="cel" style="min-width:15rem;text-align:left;font-weight:600" value="${esc(x.p.n)}" data-mud="pnome" data-cod="${esc(x.c)}" aria-label="Nome do produto ${esc(x.c)}">${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}` },
       { t: "Família", v: x => x.p.g },
-      { t: "Un", h: x => `<select class="cel" data-mud="punid" data-cod="${esc(x.c)}" aria-label="Unidade de venda de ${esc(x.p.n)}">${opcoes([...new Set(["UN", "KG", "CT", x.p.u])], x.p.u)}</select>` },
+      { t: "Un (ficha)", h: x => `<select class="cel" data-mud="punid" data-cod="${esc(x.c)}" aria-label="Unidade de venda de ${esc(x.p.n)}">${opcoes([...new Set(["UN", "KG", "CT", x.p.u])], x.p.u)}</select>` },
+      { t: "Vende por", h: x => `<input class="cel" style="width:5.5rem;text-align:center" list="un-venda" value="${esc(x.p.us || "")}" placeholder="${esc(x.p.u)}" data-mud="pvende" data-cod="${esc(x.c)}" aria-label="Vende por (unidade de venda) de ${esc(x.p.n)}">` },
       { t: "Custo", n: true, v: x => brl(x.i.custo) },
       { t: "Sugerido", n: true, v: x => x.i.sug != null ? brl(x.i.sug) : "—" },
       { t: "Preço real", n: true, h: x => `<input class="cel" type="number" min="0" step="any" inputmode="decimal" value="${x.p.r || ""}" data-mud="preco" data-cod="${esc(x.c)}" data-campo="r" aria-label="Preço real de ${esc(x.p.n)}">` },
@@ -2210,7 +2264,7 @@ function produtosResultadoHTML() {
       { t: "% EBITDA", n: true, h: x => x.i.pe == null ? "—" : `<span class="${x.i.pe < 0 ? "ruim" : ""}">${pctf(x.i.pe)}</span>` },
       { t: "Estoque", n: true, h: x => { const s = saldoProd(x.c); return `<span class="${s < 0 ? "ruim" : ""}">${nq(s)}</span>`; } },
       { t: "", h: x => `<button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button>` }
-    ], pg.itens, { vazio: "Nenhum produto encontrado." }) + pagHTML(pg, "prod-pag");
+    ], pg.itens, { vazio: "Nenhum produto encontrado." }) + pagHTML(pg, "prod-pag") + UN_VENDA_LISTA;
 }
 Telas.produtos = {
   titulo: "Produtos e preços",
@@ -2238,6 +2292,12 @@ Mudancas.pnome = el => {
   const c = el.dataset.cod, n = el.value.trim().toUpperCase();
   if (!n) { el.value = DB.produtos[c].n; return; }
   DB.produtos[c].n = n; if (DB.receitas[c]) DB.receitas[c].n = n;
+  Banco.mudou(); produtosRefresh();
+};
+Mudancas.pvende = el => {
+  const c = el.dataset.cod, p = DB.produtos[c]; if (!p) return;
+  const t = el.value.trim().replace(/\s+/g, " ").toUpperCase();
+  if (t && t !== p.u) p.us = t; else delete p.us;
   Banco.mudou(); produtosRefresh();
 };
 Mudancas.punid = el => {
@@ -2385,6 +2445,7 @@ function abrirFicha(code) {
   const opts = [...DB.insumos.map(i => [i.c, i.n, i.u]), ...Object.entries(DB.receitas).filter(([c]) => c !== code).map(([c, x]) => [c, x.n, x.u])]
     .sort((a, b) => a[1].localeCompare(b[1], "pt-BR")).map(([c, n, u]) => `<option value="${esc(c + " — " + n + " (" + u + ")")}"></option>`).join("");
   abrir(`<h2>Ficha técnica — ${esc(r.n)} <small class="muted">${esc(code)}</small></h2>
+    ${p ? `<div class="campo" style="max-width:18rem;margin:.2rem 0 .6rem"><label for="fi-us">Vende por (unidade de venda)</label><input id="fi-us" list="un-venda" value="${esc(p.us || "")}" placeholder="${esc(p.u)}" autocomplete="off" data-mud="pvende" data-cod="${esc(code)}">${UN_VENDA_LISTA}</div>` : ""}
     <p class="muted">Cada linha diz quanto do ingrediente é usado para o rendimento indicado (na unidade ${esc(r.u)} do produto). O custo usa o último preço pago de cada matéria-prima.</p>
     ${r.i.length ? `<div class="tabela"><table><thead><tr><th>Ingrediente</th><th class="n">Quantidade</th><th>Un</th><th class="n">Para rendimento de</th><th class="n">Custo unitário</th><th class="n">Custo</th><th></th></tr></thead><tbody>${linhas}
       <tr class="total"><td colspan="5">Custo por ${esc(r.u)}</td><td class="n">${brl(custo)}</td><td></td></tr></tbody></table></div>` : '<p class="vazio">Ficha sem ingredientes. Adicione abaixo.</p>'}
@@ -3170,7 +3231,7 @@ const Importadores = {
       });
       return r;
     },
-    aplicar(itens) { itens.forEach(p => { DB.produtos[p.c] = { n: p.n, u: p.u, g: p.g, r: p.r, d: p.d }; if (!DB.receitas[p.c]) DB.receitas[p.c] = { n: p.n, u: p.u, t: "P", f: p.g, i: [] }; else { DB.receitas[p.c].n = p.n; DB.receitas[p.c].u = p.u; } }); }
+    aplicar(itens) { itens.forEach(p => { DB.produtos[p.c] = { n: p.n, u: p.u, g: p.g, r: p.r, d: p.d, ...(DB.produtos[p.c] && DB.produtos[p.c].us ? { us: DB.produtos[p.c].us } : {}) }; if (!DB.receitas[p.c]) DB.receitas[p.c] = { n: p.n, u: p.u, t: "P", f: p.g, i: [] }; else { DB.receitas[p.c].n = p.n; DB.receitas[p.c].u = p.u; } }); }
   },
   materiaprima: {
     rot: "Matérias-primas", tipo: "cadastro", planilhas: ["MATÉRIAS-PRIMAS", "MATERIAS-PRIMAS", "INSUMOS"],
@@ -3468,7 +3529,7 @@ function motoCalc(de, ate, mid) {
 /* ----- dados do pedido para o motoboy (cliente, endereço, pagamento, GPS, mapa) ----- */
 function dadosPedidoMoto(P, gps) {
   const T = totaisPedido(P);
-  return { n: P.n, cli: P.cli || "", tel: P.tel || "", end: P.end || "", forma: P.forma || "", total: T.total, pagaCom: P.pagaCom, gps: !!gps };
+  return { n: P.n, cli: P.cli || "", tel: P.tel || "", end: P.end || "", forma: P.pagto ? formaTxt(P) : P.forma || "", total: T.total, pagaCom: P.pagaCom, gps: !!gps };
 }
 function textoPedidoMoto(D) {
   const L = [`*TRIGO MINAS — Entrega, pedido nº ${D.n}*`, "Cliente: " + (D.cli || "—")];
@@ -4293,7 +4354,7 @@ Telas.combos = {
 };
 let _cbl = 0;
 function linhaComboHTML(c, q) {
-  const i = ++_cbl, p = c && DB.produtos[c] ? c + " — " + DB.produtos[c].n + " (" + DB.produtos[c].u + ")" : "";
+  const i = ++_cbl, p = c && DB.produtos[c] ? c + " — " + DB.produtos[c].n + " (" + uVenda(DB.produtos[c]) + ")" : "";
   return `<div class="grade3 cbl" data-i="${i}" style="grid-template-columns:.6fr 2.4fr auto;align-items:end;margin-bottom:.4rem">
     <div><label class="sr" for="cb-q-${i}">Quantidade</label><input id="cb-q-${i}" type="text" inputmode="decimal" autocomplete="off" placeholder="Qtd" value="${q ? esc(String(q).replace(".", ",")) : "1"}" data-ent="cb-calc"></div>
     <div><label class="sr" for="cb-p-${i}">Produto</label><input id="cb-p-${i}" list="cb-lista" autocomplete="off" placeholder="Digite o nome ou o código" value="${esc(p)}" data-ent="cb-calc"></div>
@@ -4352,7 +4413,7 @@ Acoes["combo-lancar"] = el => {
     let linha = [...document.querySelectorAll(".lv")].find(x => !$("#lv-p-" + x.dataset.i).value.trim() && !$("#lv-t-" + x.dataset.i).value.trim() && !x.dataset.cb);
     if (!linha) { Acoes["lv-add"](); linha = [...document.querySelectorAll(".lv")].pop(); }
     const i = linha.dataset.i, p = DB.produtos[l.c], t = $("#lv-t-" + i), bruto = r2(l.q * l.u), total = r2(bruto + partes[k]);
-    $("#lv-p-" + i).value = l.c + " — " + p.n + " (" + p.u + ")";
+    $("#lv-p-" + i).value = l.c + " — " + p.n + " (" + uVenda(p) + ")";
     $("#lv-q-" + i).value = String(l.q);
     const u = $("#lv-u-" + i); setDinheiro(u, l.u || null); u.dataset.auto = "";
     setDinheiro(t, total); if (total !== bruto) t.dataset.sujo = "1"; else delete t.dataset.sujo;
