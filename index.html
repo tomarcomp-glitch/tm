@@ -49,6 +49,12 @@ p{margin:0 0 .6rem}
 .lateral a:hover{background:rgba(255,255,255,.08)}
 .lateral a[aria-current="page"]{background:var(--accent);color:var(--accent-text);font-weight:600}
 .lateral .grupo-nav{font-size:.72rem;color:var(--side-muted);padding:.9rem .7rem .2rem;letter-spacing:.02em}
+body.menu-oculto .app{grid-template-columns:minmax(0,1fr)}
+body.menu-oculto .lateral{display:none}
+.principal{min-width:0}
+.barra-menu{display:none;align-items:center;padding:.6rem 1.4rem 0;max-width:1400px;width:100%}
+body.menu-oculto .barra-menu{display:flex}
+.acoes-linha{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.3rem}
 .pagina{max-width:1400px;width:100%;padding:1.25rem 1.4rem}
 .topo{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
 .topo p{margin:.15rem 0 0;font-size:.88rem}
@@ -193,7 +199,7 @@ dialog h2{margin-bottom:.8rem;font-size:1.1rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @media print{
   body{background:#fff;color:#000;font-size:12px}
-  .lateral,.topo,.filtros,.pag,button,#avisos{display:none!important}
+  .lateral,.topo,.filtros,.pag,button,#avisos,.barra-menu{display:none!important}
   .app{display:block}
   .pagina{padding:0;max-width:none}
   .painel{border:0}
@@ -237,7 +243,7 @@ input.dinheiro{text-align:right}
 </head>
 <body>
 <div class="app">
-  <nav class="lateral" aria-label="Principal">
+  <nav class="lateral" id="menu-lateral" aria-label="Principal">
     <div class="marca"><strong>🌾 Trigo Minas</strong><span>Gestão</span></div>
     <a href="#/painel" data-rota="painel">Painel</a>
     <div class="grupo-nav">OPERAÇÃO</div>
@@ -255,7 +261,10 @@ input.dinheiro{text-align:right}
     <a href="#/cadastros" data-rota="cadastros">Cadastros</a>
     <a href="#/dados" data-rota="dados">Dados e backup</a>
   </nav>
-  <main class="pagina" id="tela" tabindex="-1"></main>
+  <div class="principal">
+    <div class="barra-menu"><button type="button" id="btn-menu" aria-controls="menu-lateral" aria-expanded="true">☰ Menu</button></div>
+    <main class="pagina" id="tela" tabindex="-1"></main>
+  </div>
 </div>
 <div id="avisos" aria-live="polite"></div>
 <dialog id="dlg"></dialog>
@@ -914,6 +923,11 @@ function cabecalho(titulo, sub, acoes) {
   return `<header class="topo"><div><h1>${esc(titulo)}</h1>${sub ? `<p class="muted">${sub}</p>` : ""}</div><div class="acoes-topo">${acoes || ""}</div></header>`;
 }
 Acoes.aba = el => { Est[el.dataset.tela] = Est[el.dataset.tela] || {}; Est[el.dataset.tela].aba = el.dataset.aba; Est[el.dataset.tela].pag = 1; atualizarTela(); };
+
+/* menu lateral: some ao escolher uma tela; o botão “☰ Menu” o traz de volta */
+function fecharMenu() { document.body.classList.add("menu-oculto"); document.getElementById("btn-menu").setAttribute("aria-expanded", "false"); }
+document.getElementById("btn-menu").addEventListener("click", () => { document.body.classList.remove("menu-oculto"); document.getElementById("btn-menu").setAttribute("aria-expanded", "true"); });
+document.querySelectorAll(".lateral a").forEach(a => a.addEventListener("click", fecharMenu));
 
 /* cliente e listas usadas em vários lugares */
 const clientes = () => DB.clientes.map(c => c.nome).sort((a, b) => a.localeCompare(b, "pt-BR"));
@@ -2232,9 +2246,9 @@ function produtosResultadoHTML() {
     const lista = Object.entries(DB.receitas).filter(([, r]) => r.t === "C").map(([c, r]) => ({ c, r }))
       .filter(x => !q || semAcento(x.r.n).includes(q) || x.c.toLowerCase().includes(q)).sort((a, b) => a.r.n.localeCompare(b.r.n, "pt-BR"));
     return tabela([
-      { t: "Código", v: x => x.c }, { t: "Componente", v: x => x.r.n }, { t: "Un", v: x => x.r.u },
-      { t: "Ingredientes", n: true, v: x => x.r.i.length }, { t: "Custo por unidade", n: true, v: x => brl(custoUn(x.c)) },
-      { t: "", h: x => `<button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.r.n)}">Excluir</button>` }
+      { t: "Código", v: x => x.c },
+      { t: "Componente", h: x => `<input class=\"cel\" style=\"min-width:14rem;text-align:left;font-weight:600\" value=\"${esc(x.r.n)}\" data-mud=\"cnome\" data-cod=\"${esc(x.c)}\" aria-label=\"Nome do componente ${esc(x.c)}\"><div class=\"acoes-linha\"><button type=\"button\" class=\"mini\" data-acao=\"ficha\" data-cod=\"${esc(x.c)}\">Ficha técnica</button> <button type=\"button\" class=\"mini perigo\" data-acao=\"item-excluir\" data-cod=\"${esc(x.c)}\" aria-label=\"Excluir ${esc(x.r.n)}\">Excluir</button></div>` },
+      { t: "Un", v: x => x.r.u }, { t: "Ingredientes", n: true, v: x => x.r.i.length }, { t: "Custo por unidade", n: true, v: x => brl(custoUn(x.c)) }
     ], lista, { vazio: "Nenhum componente encontrado." });
   }
   const q = semAcento(F.q);
@@ -2293,6 +2307,12 @@ Mudancas.pnome = el => {
   if (!n) { el.value = DB.produtos[c].n; return; }
   DB.produtos[c].n = n; if (DB.receitas[c]) DB.receitas[c].n = n;
   Banco.mudou(); produtosRefresh();
+};
+Mudancas.cnome = el => {
+  const c = el.dataset.cod, r = DB.receitas[c]; if (!r) return;
+  const n = el.value.trim().toUpperCase();
+  if (!n) { el.value = r.n; return; }
+  r.n = n; Banco.mudou(); produtosRefresh();
 };
 Mudancas.pvende = el => {
   const c = el.dataset.cod, p = DB.produtos[c]; if (!p) return;
@@ -4243,13 +4263,42 @@ Acoes["func-pag-form"] = el => {
     const fid = Number($("#fg-f").value), d = $("#fg-d").value, v = num($("#fg-v").value), obs = $("#fg-o").value.trim();
     if (!fid) { $("#e-fg").textContent = "Selecione o funcionário."; return; }
     if (!d || !(v > 0)) { $("#e-fg").textContent = "Informe a data e um valor maior que zero."; return; }
-    if (p) Object.assign(p, { fid, d, total: r2(v), obs }); else DB.funcPagtos.push({ id: motoProxId(DB.funcPagtos), fid, d, total: r2(v), obs });
-    Banco.mudou(); fechar(); atualizarTela();
+    if (p) {
+      Object.assign(p, { fid, d, total: r2(v), obs });
+      const c = p.cid && DB.contas.find(x => x.id === p.cid);
+      if (c) Object.assign(c, { v: p.total, dc: p.d, dp: p.d, pago: normNome(funcNome(p.fid)) });
+      Banco.mudou(); fechar(); atualizarTela(); if (c) aviso("Pagamento atualizado, e a conta em Contas a pagar também.");
+    } else {
+      const n = { id: motoProxId(DB.funcPagtos), fid, d, total: r2(v), obs };
+      DB.funcPagtos.push(n);
+      Banco.mudou(); fechar(); atualizarTela(); perguntarContaFunc(n);
+    }
   };
 };
+function perguntarContaFunc(p) {
+  const nome = funcNome(p.fid);
+  const tipoPad = DB.tipoDesc["FUNCIONÁRIO"] || (DB.tipos.includes("VARIÁVEL") ? "VARIÁVEL" : DB.tipos[0]);
+  abrir(`<form id="f-fcp" novalidate><h2>Lançar em Contas a pagar?</h2>
+    <p>Pagamento de <strong>${brl(p.total)}</strong> ao funcionário <strong>${esc(nome)}</strong> em ${dlonga(p.d)}. Deseja lançar em Contas a pagar já como conta paga?</p>
+    <div class="grade2"><div class="campo"><label for="fcp-t">Tipo de custo</label><select id="fcp-t">${opcoes(DB.tipos, tipoPad)}</select></div>
+    <div class="campo"><label for="fcp-f">Forma de pagamento</label><select id="fcp-f">${opcoes(FORMAS_PAGTO, "PIX")}</select></div></div>
+    <div class="rodape-dlg"><button type="button" data-acao="fechar">Não lançar</button><button type="submit" class="primario">Lançar como paga</button></div></form>`);
+  $("#f-fcp").onsubmit = ev => {
+    ev.preventDefault();
+    const tipo = $("#fcp-t").value, forma = $("#fcp-f").value;
+    const id = DB.contas.reduce((m, c) => Math.max(m, c.id), 0) + 1;
+    DB.contas.push({ id, desc: "FUNCIONÁRIO", pago: normNome(nome), v: p.total, dc: p.d, dp: p.d, forma, tipo, sit: "PAGO" });
+    p.cid = id;
+    if (!DB.descricoes.includes("FUNCIONÁRIO")) { DB.descricoes.push("FUNCIONÁRIO"); DB.descricoes.sort(); }
+    DB.tipoDesc["FUNCIONÁRIO"] = tipo;
+    Banco.mudou(); fechar(); atualizarTela(); aviso("Pagamento lançado em Contas a pagar como conta paga.");
+  };
+}
 Acoes["func-pag-excluir"] = async el => {
   const p = DB.funcPagtos.find(x => x.id === Number(el.dataset.id)); if (!p) return;
-  if (await confirmar(`Excluir o pagamento de ${brl(p.total)} para ${funcNome(p.fid)} em ${dlonga(p.d)}? O valor volta para o saldo a pagar.`, "Excluir")) {
+  if (await confirmar(`Excluir o pagamento de ${brl(p.total)} para ${funcNome(p.fid)} em ${dlonga(p.d)}? O valor volta para o saldo a pagar.${p.cid && DB.contas.find(x => x.id === p.cid) ? " A conta paga lançada em Contas a pagar também será excluída." : ""}`, "Excluir")) {
+    const c = p.cid && DB.contas.find(x => x.id === p.cid);
+    if (c) DB.contas = DB.contas.filter(x => x.id !== c.id);
     DB.funcPagtos = DB.funcPagtos.filter(x => x.id !== p.id); Banco.mudou(); atualizarTela();
   }
 };
