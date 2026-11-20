@@ -541,7 +541,8 @@ let semArmazenamento = false;
 const COMBOS_NOMES = ["Combo Casal", "Combo Familia", "Combo Top", "Combo Especial", "Combo Boteco"];
 function combosGarantir(d) {
   if (!Array.isArray(d.combos)) d.combos = [];
-  d.combos = COMBOS_NOMES.map(n => d.combos.find(c => c && c.n === n) || { n, itens: [], desc: 0, dt: "R" });
+  if (!d.combosOk) { d.combos = COMBOS_NOMES.map(n => d.combos.find(c => c && c.n === n) || { n, itens: [], desc: 0, dt: "R" }); d.combosOk = true; }
+  d.combos = d.combos.filter(c => c && typeof c.n === "string" && c.n.trim()).map(c => ({ ...c, itens: Array.isArray(c.itens) ? c.itens : [], desc: c.desc || 0, dt: c.dt || "R" }));
   return d;
 }
 function novoBanco() {
@@ -2266,7 +2267,7 @@ function produtosResultadoHTML() {
     <div><div class="rot">Sem preço real</div><div class="val">${semPreco}</div></div></div>` +
     tabela([
       { t: "Código", v: x => x.c },
-      { t: "Produto", h: x => `<input class="cel" style="min-width:15rem;text-align:left;font-weight:600" value="${esc(x.p.n)}" data-mud="pnome" data-cod="${esc(x.c)}" aria-label="Nome do produto ${esc(x.c)}">${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}` },
+      { t: "Produto", h: x => `<input class="cel" style="min-width:15rem;text-align:left;font-weight:600" value="${esc(x.p.n)}" data-mud="pnome" data-cod="${esc(x.c)}" aria-label="Nome do produto ${esc(x.c)}">${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}<div class="acoes-linha"><button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button></div>` },
       { t: "Família", v: x => x.p.g },
       { t: "Un (ficha)", h: x => `<select class="cel" data-mud="punid" data-cod="${esc(x.c)}" aria-label="Unidade de venda de ${esc(x.p.n)}">${opcoes([...new Set(["UN", "KG", "CT", x.p.u])], x.p.u)}</select>` },
       { t: "Vende por", h: x => `<input class="cel" style="width:5.5rem;text-align:center" list="un-venda" value="${esc(x.p.us || "")}" placeholder="${esc(x.p.u)}" data-mud="pvende" data-cod="${esc(x.c)}" aria-label="Vende por (unidade de venda) de ${esc(x.p.n)}">` },
@@ -2276,8 +2277,7 @@ function produtosResultadoHTML() {
       { t: "Preço c/ desc.", n: true, h: x => `<input class="cel" type="number" min="0" step="any" inputmode="decimal" value="${x.p.d || ""}" data-mud="preco" data-cod="${esc(x.c)}" data-campo="d" aria-label="Preço com desconto de ${esc(x.p.n)}">` },
       { t: "EBITDA", n: true, h: x => x.i.eb == null ? "—" : `<span class="${x.i.eb < 0 ? "ruim" : ""}">${brl(x.i.eb)}</span>` },
       { t: "% EBITDA", n: true, h: x => x.i.pe == null ? "—" : `<span class="${x.i.pe < 0 ? "ruim" : ""}">${pctf(x.i.pe)}</span>` },
-      { t: "Estoque", n: true, h: x => { const s = saldoProd(x.c); return `<span class="${s < 0 ? "ruim" : ""}">${nq(s)}</span>`; } },
-      { t: "", h: x => `<button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button>` }
+      { t: "Estoque", n: true, h: x => { const s = saldoProd(x.c); return `<span class="${s < 0 ? "ruim" : ""}">${nq(s)}</span>`; } }
     ], pg.itens, { vazio: "Nenhum produto encontrado." }) + pagHTML(pg, "prod-pag") + UN_VENDA_LISTA;
 }
 Telas.produtos = {
@@ -4391,14 +4391,44 @@ Telas.combos = {
         { t: "Qtd", n: true, v: l => String(l.q).replace(".", ",") }, { t: "Produto", v: l => nomeProduto(l.c) },
         { t: "Preço", n: true, v: l => l.u ? brl(l.u) : "sem preço" }, { t: "Subtotal", n: true, v: l => brl(r2(l.q * l.u)) }
       ], C.L, { vazio: "Nenhum item cadastrado.", rodape: C.L.length ? ["", "Soma dos itens", "", brl(C.bruto)] : null });
-      return `<section class="painel"><h2 style="font-size:1.05rem;margin:0 0 .5rem">${esc(cb.n)}</h2>${corpo}
+      return `<section class="painel"><div style="display:flex;gap:.4rem;align-items:center;margin:0 0 .5rem"><label class="sr" for="cb-nome-${k}">Nome do combo</label><input id="cb-nome-${k}" class="cel" style="flex:1;min-width:0;text-align:left;font-weight:700;font-size:1.05rem" value="${esc(cb.n)}" maxlength="40" data-mud="combo-nome" data-k="${k}"><button type="button" class="mini perigo" data-acao="combo-excluir" data-k="${k}" aria-label="Excluir ${esc(cb.n)}">Excluir</button></div>${corpo}
         <div class="resumo" style="border:0;padding:.6rem 0 0">
           <div><div class="rot">Desconto${cb.dt === "%" ? " (" + String(cb.desc).replace(".", ",") + "%)" : ""}</div><div class="val">${C.desc ? "−" + brl(C.desc) : brl(0)}</div></div>
           <div><div class="rot">Valor do combo</div><div class="val">${brl(C.valor)}</div></div></div>
         <div style="margin-top:.5rem"><button type="button" class="primario" data-acao="combo-editar" data-k="${k}">${cb.itens.length ? "Editar composição" : "Cadastrar composição"}</button></div></section>`;
     }).join("");
-    return cabecalho("Combos", "Cadastre os itens e o desconto de cada combo. Na Nova venda, cada combo é um botão que lança os itens nas linhas do pedido.") +
-      `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1rem">${cards}</div>`;
+    return cabecalho("Combos", "Cadastre os itens e o desconto de cada combo. Na Nova venda, cada combo é um botão que lança os itens nas linhas do pedido.",
+      `<button type="button" class="primario" data-acao="combo-novo">Novo combo</button>`) +
+      (cards ? `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:1rem">${cards}</div>` : '<p class="vazio">Nenhum combo cadastrado. Clique em "Novo combo".</p>');
+  }
+};
+const comboNomeLivre = (n, exceto) => !DB.combos.some((c, i) => i !== exceto && semAcento(c.n) === semAcento(n));
+Mudancas["combo-nome"] = el => {
+  const k = Number(el.dataset.k), cb = DB.combos[k]; if (!cb) return;
+  const n = el.value.trim().replace(/\s+/g, " ");
+  if (!n) { el.value = cb.n; return; }
+  if (!comboNomeLivre(n, k)) { el.value = cb.n; aviso("Já existe um combo com esse nome.", "erro"); return; }
+  cb.n = n; Banco.mudou(); atualizarTela();
+};
+Acoes["combo-novo"] = () => {
+  abrir(`<form id="f-cnovo2" novalidate><h2>Novo combo</h2>
+    <div class="campo"><label for="cn2-n">Nome do combo</label><input id="cn2-n" maxlength="40" autocomplete="off" placeholder="Ex.: Combo Pizza + Refri"></div>
+    <div class="erro" id="e-cn2" role="alert"></div>
+    <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="submit" class="primario">Criar combo</button></div></form>`);
+  $("#cn2-n").focus();
+  $("#f-cnovo2").onsubmit = ev => {
+    ev.preventDefault();
+    const n = $("#cn2-n").value.trim().replace(/\s+/g, " ");
+    if (!n) { $("#e-cn2").textContent = "Informe o nome do combo."; return; }
+    if (!comboNomeLivre(n)) { $("#e-cn2").textContent = "Já existe um combo com esse nome."; return; }
+    DB.combos.push({ n, itens: [], desc: 0, dt: "R" });
+    Banco.mudou(); fechar(); aviso(n + " criado. Cadastre a composição."); atualizarTela();
+  };
+};
+Acoes["combo-excluir"] = async el => {
+  const k = Number(el.dataset.k), cb = DB.combos[k]; if (!cb) return;
+  if (await confirmar(`Excluir o combo ${cb.n}? Os itens cadastrados nele serão perdidos.`, "Excluir combo")) {
+    DB.combos.splice(k, 1); Banco.mudou(); aviso("Combo excluído."); atualizarTela();
   }
 };
 let _cbl = 0;
