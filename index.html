@@ -676,7 +676,7 @@ const nomeDe = c => { const X = idx(); return (X.ins.get(c) || X.rec.get(c) || D
 const unDe = c => { const X = idx(); return (X.ins.get(c) || X.rec.get(c) || DB.produtos[c] || { u: "" }).u || ""; };
 const famDe = c => (DB.produtos[c] && DB.produtos[c].g) || "OUTROS";
 
-/* precificação de um produto (mesma regra da planilha: sugerido = custo / (1 − DVV − EBITDA desejado)) */
+/* precificação de um produto (mesma regra da planilha: sugerido = custo / (1 − DVV − Margem de lucro desejada)) */
 function precoInfo(c) {
   const p = DB.produtos[c];
   const f = DB.familias[p.g] || DB.familias.OUTROS || { dvv: 0, ebitda: 0 };
@@ -1489,7 +1489,7 @@ function resumoPeriodo(p) {
   });
   return R;
 }
-/* meta = EBITDA desejado das famílias ponderado pelo mix vendido (mesma regra da precificação); a meta digitada tem prioridade */
+/* meta = Margem de lucro desejada das famílias ponderado pelo mix vendido (mesma regra da precificação); a meta digitada tem prioridade */
 function metasPeriodo(R) {
   let e = 0, d = 0;
   R.prod.forEach((o, c) => { const f = pxFam(c); e += o.t * f.ebitda; d += o.t * f.dvv; });
@@ -1550,7 +1550,7 @@ function atitudes(R, M, pa) {
   const cp = [{ t: "Produto", v: x => x.c + " — " + x.n }, { t: "Preço praticado", n: true, v: x => brl(x.pm) }, { t: "Preço sugerido", n: true, v: x => brl(x.sug) }, { t: "Diferença", n: true, v: x => pctf(x.sug / x.pm - 1) }, { t: "Ganho", n: true, v: x => brl(x.ganho) }];
   const top = (l, k) => l.slice().sort((a, b) => b[k] - a[k]).slice(0, 8);
   const prej = L.filter(x => x.tem && x.eb < 0 && x.ganho > 0), baixo = L.filter(x => x.tem && x.eb >= 0 && x.ganho > 0);
-  const prem = "mesmo volume de vendas, preço praticado = preço sugerido da família (custo ÷ (1 − DVV − EBITDA))";
+  const prem = "mesmo volume de vendas, preço praticado = preço sugerido da família (custo ÷ (1 − DVV − margem de lucro desejada))";
   if (prej.length) A.push({ cat: "Preço", pri: 1, tit: `${prej.length} produto(s) vendidos com prejuízo`, txt: "O preço médio praticado não cobre custo e despesas variáveis estimadas da família. É o primeiro ponto a corrigir.", imp: soma(prej.map(x => x.ganho)), prem, det: tabela(cp, top(prej, "ganho")), rota: "produtos", rt: "Abrir Produtos e preços" });
   if (baixo.length) A.push({ cat: "Preço", pri: 2, tit: `${baixo.length} produto(s) vendidos abaixo do preço sugerido`, txt: "Têm lucro, mas menos que a margem desejada da família. Reajustes pequenos nos de maior volume rendem mais.", imp: soma(baixo.map(x => x.ganho)), prem: prem + "; aumento de preço pode reduzir o volume", det: tabela(cp, top(baixo, "ganho")), rota: "produtos", rt: "Abrir Produtos e preços" });
   const sf = L.filter(x => !x.tem && x.t > 0), sfv = soma(sf.map(x => x.t));
@@ -1590,12 +1590,12 @@ function painelInteligente(P, D, resultado) {
     <section class="painel" aria-labelledby="t-term"><header><h2 id="t-term">Termômetro de rentabilidade — ${esc(periodo)}</h2><span class="tag ${est.cls}">${est.t}</span></header>
       <div class="term"><div>${termometroSVG(m, M.op)}</div>
       <div><div class="term-val" style="color:${est.c}">${pctf(m)}</div><div class="muted">margem operacional (resultado operacional ÷ vendas)</div>
-        <p style="margin:.7rem 0 .3rem">Resultado operacional de <strong>${brl(res)}</strong> sobre vendas de ${brl(R.vend)}. Meta: <strong>${pctf(M.op)}</strong> ${M.manual ? "(definida por você)" : "(EBITDA desejado das famílias, pelo mix vendido)"}.</p>
+        <p style="margin:.7rem 0 .3rem">Resultado operacional de <strong>${brl(res)}</strong> sobre vendas de ${brl(R.vend)}. Meta: <strong>${pctf(M.op)}</strong> ${M.manual ? "(definida por você)" : "(Margem de lucro desejada das famílias, pelo mix vendido)"}.</p>
         <p style="margin:0 0 .8rem">${faltam > 0 ? `Para chegar à meta ${P.mes ? "neste mês" : "neste período"} faltam <strong>${brl(faltam)}</strong> de resultado.` : `Meta atingida, com folga de <strong>${brl(res - M.op * R.vend)}</strong>.`}</p>
         <div class="filtros" style="border:0;background:none;padding:0"><div class="campo"><label for="pn-meta">Meta de margem operacional (%)</label><input id="pn-meta" inputmode="decimal" data-mud="painel-meta" value="${String(r2(M.op * 100)).replace(".", ",")}"></div>
         ${M.manual ? `<button type="button" data-acao="painel-meta-auto">Usar meta automática</button>` : ""}</div></div></div></section>
     <div class="kpis">
-      ${ind("Margem bruta", pctf(mgB), `meta ${pctf(metaB)} (DVV + EBITDA desejado)`, chip(mgB >= metaB, mgB >= metaB ? "Na meta" : "Abaixo da meta"))}
+      ${ind("Margem bruta", pctf(mgB), `meta ${pctf(metaB)} (DVV + Margem de lucro desejada)`, chip(mgB >= metaB, mgB >= metaB ? "Na meta" : "Abaixo da meta"))}
       ${ind("Despesas operacionais", pctf(dsp), `teto ${pctf(M.dvv)} das vendas · ${brl(R.op)}`, chip(dsp <= M.dvv, dsp <= M.dvv ? "Dentro do teto" : "Acima do teto"))}
       ${ind("Vendas", brl(R.vend), difTxt(difPct(R.vend, pa.vend)))}
       ${ind("Ticket médio", brl(R.ped.size ? R.vend / R.ped.size : 0), `${nfInt.format(R.ped.size)} pedidos · ${difTxt(difPct(R.ped.size ? R.vend / R.ped.size : 0, pa.ped.size ? pa.vend / pa.ped.size : 0))}`)}
@@ -2263,20 +2263,19 @@ function produtosResultadoHTML() {
   const pg = paginar(infos, F.pag, 100);
   return `<div class="resumo"><div><div class="rot">Produtos no filtro</div><div class="val">${nfInt.format(infos.length)}</div></div>
     <div><div class="rot">Preço real abaixo do sugerido</div><div class="val ${abaixo ? "ruim" : ""}">${abaixo}</div></div>
-    <div><div class="rot">EBITDA negativo</div><div class="val ${neg ? "ruim" : ""}">${neg}</div></div>
+    <div><div class="rot">Margem de lucro negativa</div><div class="val ${neg ? "ruim" : ""}">${neg}</div></div>
     <div><div class="rot">Sem preço real</div><div class="val">${semPreco}</div></div></div>` +
     tabela([
       { t: "Código", v: x => x.c },
-      { t: "Produto", h: x => `<input class="cel" style="min-width:15rem;text-align:left;font-weight:600" value="${esc(x.p.n)}" data-mud="pnome" data-cod="${esc(x.c)}" aria-label="Nome do produto ${esc(x.c)}">${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}<div class="acoes-linha"><button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button></div>` },
+      { t: "Produto", h: x => `<input class="cel" style="width:100%;min-width:34rem;text-align:left;font-weight:600" value="${esc(x.p.n)}" data-mud="pnome" data-cod="${esc(x.c)}" aria-label="Nome do produto ${esc(x.c)}">${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}<div class="acoes-linha"><button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button></div>` },
       { t: "Família", v: x => x.p.g },
       { t: "Un (ficha)", h: x => `<select class="cel" data-mud="punid" data-cod="${esc(x.c)}" aria-label="Unidade de venda de ${esc(x.p.n)}">${opcoes([...new Set(["UN", "KG", "CT", x.p.u])], x.p.u)}</select>` },
       { t: "Vende por", h: x => `<input class="cel" style="width:5.5rem;text-align:center" list="un-venda" value="${esc(x.p.us || "")}" placeholder="${esc(x.p.u)}" data-mud="pvende" data-cod="${esc(x.c)}" aria-label="Vende por (unidade de venda) de ${esc(x.p.n)}">` },
       { t: "Custo", n: true, v: x => brl(x.i.custo) },
       { t: "Sugerido", n: true, v: x => x.i.sug != null ? brl(x.i.sug) : "—" },
       { t: "Preço real", n: true, h: x => `<input class="cel" type="number" min="0" step="any" inputmode="decimal" value="${x.p.r || ""}" data-mud="preco" data-cod="${esc(x.c)}" data-campo="r" aria-label="Preço real de ${esc(x.p.n)}">` },
-      { t: "Preço c/ desc.", n: true, h: x => `<input class="cel" type="number" min="0" step="any" inputmode="decimal" value="${x.p.d || ""}" data-mud="preco" data-cod="${esc(x.c)}" data-campo="d" aria-label="Preço com desconto de ${esc(x.p.n)}">` },
-      { t: "EBITDA", n: true, h: x => x.i.eb == null ? "—" : `<span class="${x.i.eb < 0 ? "ruim" : ""}">${brl(x.i.eb)}</span>` },
-      { t: "% EBITDA", n: true, h: x => x.i.pe == null ? "—" : `<span class="${x.i.pe < 0 ? "ruim" : ""}">${pctf(x.i.pe)}</span>` },
+      { t: "Margem de lucro", n: true, h: x => x.i.eb == null ? "—" : `<span class="${x.i.eb < 0 ? "ruim" : ""}">${brl(x.i.eb)}</span>` },
+      { t: "% Margem de lucro", n: true, h: x => x.i.pe == null ? "—" : `<span class="${x.i.pe < 0 ? "ruim" : ""}">${pctf(x.i.pe)}</span>` },
       { t: "Estoque", n: true, h: x => { const s = saldoProd(x.c); return `<span class="${s < 0 ? "ruim" : ""}">${nq(s)}</span>`; } }
     ], pg.itens, { vazio: "Nenhum produto encontrado." }) + pagHTML(pg, "prod-pag") + UN_VENDA_LISTA;
 }
@@ -2369,12 +2368,12 @@ Acoes["fam-param"] = () => {
   const linhas = familiasLista().map(f => { const p = DB.familias[f]; return `<tr><td>${esc(f)}</td>
     <td><input type="checkbox" id="fp-r-${esc(f)}" ${p.rateia !== false ? "checked" : ""} aria-label="${esc(f)} entra no rateio das despesas"></td>
     <td><input class="cel" type="number" step="any" min="0" max="99" value="${r2(p.dvv * 100)}" id="fp-d-${esc(f)}" aria-label="Despesas variáveis de venda de ${esc(f)}"> %</td>
-    <td><input class="cel" type="number" step="any" min="0" max="99" value="${r2(p.ebitda * 100)}" id="fp-e-${esc(f)}" aria-label="EBITDA desejado de ${esc(f)}"> %</td>
+    <td><input class="cel" type="number" step="any" min="0" max="99" value="${r2(p.ebitda * 100)}" id="fp-e-${esc(f)}" aria-label="Margem de lucro desejada de ${esc(f)}"> %</td>
     <td class="n muted">fator ${(1 - p.dvv - p.ebitda).toFixed(2).replace(".", ",")}</td></tr>`; }).join("");
   abrir(`<h2>Parâmetros das famílias</h2>
-    <p class="muted">Preço sugerido = custo ÷ (1 − despesas − EBITDA desejado). As despesas somam fixo, indireto, financeiro, tributário e variável como percentual da venda. Família desmarcada em "No rateio" mantém o percentual que você digitar, e as demais dividem o restante.</p>
+    <p class="muted">Preço sugerido = custo ÷ (1 − despesas − Margem de lucro desejada). As despesas somam fixo, indireto, financeiro, tributário e variável como percentual da venda. Família desmarcada em "No rateio" mantém o percentual que você digitar, e as demais dividem o restante.</p>
     <div class="caixa-dvv"><div class="campo"><label for="fp-x">Sondagem: últimos quantos meses completos?</label><input id="fp-x" type="number" min="1" max="36" step="1" value="${DB.cfg.dvvMeses || 6}"></div><div id="fp-hist">${dvvHistHTML(DB.cfg.dvvMeses || 6)}</div></div>
-    <div class="tabela" id="fp-tab"><table><thead><tr><th>Família</th><th>No rateio</th><th>Despesas sobre a venda</th><th>EBITDA desejado</th><th class="n">Divisor</th></tr></thead><tbody>${linhas}</tbody></table></div>
+    <div class="tabela" id="fp-tab"><table><thead><tr><th>Família</th><th>No rateio</th><th>Despesas sobre a venda</th><th>Margem de lucro desejada</th><th class="n">Divisor</th></tr></thead><tbody>${linhas}</tbody></table></div>
     <div class="erro" id="e-fp" role="alert"></div>
     <div class="rodape-dlg"><button type="button" data-acao="fechar">Cancelar</button><button type="button" class="primario" id="fp-ok">Salvar parâmetros</button></div>`);
   const ligaHist = () => { const b = $("#fp-usar"); if (b) b.onclick = () => familiasLista().forEach(f => { if ($("#fp-r-" + CSS.escape(f)).checked) $("#fp-d-" + CSS.escape(f)).value = b.dataset.pct; }); };
@@ -2386,7 +2385,7 @@ Acoes["fam-param"] = () => {
     const novos = {};
     for (const f of familiasLista()) {
       const d = num($("#fp-d-" + CSS.escape(f)).value) / 100, e = num($("#fp-e-" + CSS.escape(f)).value) / 100;
-      if (!isFinite(d) || !isFinite(e) || d < 0 || e < 0 || d + e >= 1) { $("#e-fp").textContent = "Confira " + f + ": despesas + EBITDA precisam somar menos de 100%."; return; }
+      if (!isFinite(d) || !isFinite(e) || d < 0 || e < 0 || d + e >= 1) { $("#e-fp").textContent = "Confira " + f + ": despesas + margem de lucro precisam somar menos de 100%."; return; }
       novos[f] = { dvv: Math.round(d * 10000) / 10000, ebitda: Math.round(e * 10000) / 10000, rateia: $("#fp-r-" + CSS.escape(f)).checked };
     }
     Object.assign(DB.familias, novos); Banco.salvar(); fechar(); aviso("Parâmetros salvos."); atualizarTela();
@@ -2469,7 +2468,7 @@ function abrirFicha(code) {
     <p class="muted">Cada linha diz quanto do ingrediente é usado para o rendimento indicado (na unidade ${esc(r.u)} do produto). O custo usa o último preço pago de cada matéria-prima.</p>
     ${r.i.length ? `<div class="tabela"><table><thead><tr><th>Ingrediente</th><th class="n">Quantidade</th><th>Un</th><th class="n">Para rendimento de</th><th class="n">Custo unitário</th><th class="n">Custo</th><th></th></tr></thead><tbody>${linhas}
       <tr class="total"><td colspan="5">Custo por ${esc(r.u)}</td><td class="n">${brl(custo)}</td><td></td></tr></tbody></table></div>` : '<p class="vazio">Ficha sem ingredientes. Adicione abaixo.</p>'}
-    ${info ? `<p class="muted" style="margin-top:.6rem">Preço sugerido ${info.sug != null ? brl(info.sug) : "—"} · preço real ${brl(info.real)} · EBITDA ${info.eb == null ? "—" : brl(info.eb) + " (" + pctf(info.pe) + ")"}</p>` : ""}
+    ${info ? `<p class="muted" style="margin-top:.6rem">Preço sugerido ${info.sug != null ? brl(info.sug) : "—"} · preço real ${brl(info.real)} · Margem de lucro ${info.eb == null ? "—" : brl(info.eb) + " (" + pctf(info.pe) + ")"}</p>` : ""}
     <datalist id="fi-lista">${opts}</datalist>
     <div class="det-add"><div><label for="fi-i">Adicionar ingrediente</label><input id="fi-i" list="fi-lista" autocomplete="off" style="min-width:260px"></div>
       <div><label for="fi-q">Quantidade</label><input id="fi-q" type="number" step="any" min="0"></div>
