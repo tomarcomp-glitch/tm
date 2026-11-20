@@ -109,6 +109,7 @@ label{display:block;font-weight:600;font-size:.86rem;margin-bottom:.2rem}
 .bom{color:var(--good)} .ruim{color:var(--bad)}
 .tabela{overflow-x:auto}
 table{border-collapse:collapse;width:100%}
+#p-resultado th{white-space:normal;line-height:1.2;vertical-align:bottom}
 th,td{padding:.5rem .65rem;border-bottom:1px solid var(--line-soft);text-align:left;vertical-align:top}
 th{font-size:.82rem;color:var(--muted);font-weight:600;white-space:nowrap;background:var(--surface);position:sticky;top:0}
 th button.ord{all:unset;cursor:pointer;font:inherit;color:inherit}
@@ -2267,10 +2268,10 @@ function produtosResultadoHTML() {
     <div><div class="rot">Sem preço real</div><div class="val">${semPreco}</div></div></div>` +
     tabela([
       { t: "Código", v: x => x.c },
-      { t: "Produto", h: x => `<input class="cel" style="width:100%;min-width:34rem;text-align:left;font-weight:600" value="${esc(x.p.n)}" data-mud="pnome" data-cod="${esc(x.c)}" aria-label="Nome do produto ${esc(x.c)}">${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}<div class="acoes-linha"><button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button></div>` },
+      { t: "Produto", h: x => `<input class="cel" style="width:100%;min-width:12rem;text-align:left;font-weight:600" value="${esc(x.p.n)}" data-mud="pnome" data-cod="${esc(x.c)}" aria-label="Nome do produto ${esc(x.c)}">${DB.receitas[x.c] ? "" : ' <span class="tag aviso">sem ficha</span>'}<div class="acoes-linha"><button type="button" class="mini" data-acao="ficha" data-cod="${esc(x.c)}">Ficha técnica</button> <button type="button" class="mini perigo" data-acao="item-excluir" data-cod="${esc(x.c)}" aria-label="Excluir ${esc(x.p.n)}">Excluir</button></div>` },
       { t: "Família", v: x => x.p.g },
       { t: "Un (ficha)", h: x => `<select class="cel" data-mud="punid" data-cod="${esc(x.c)}" aria-label="Unidade de venda de ${esc(x.p.n)}">${opcoes([...new Set(["UN", "KG", "CT", x.p.u])], x.p.u)}</select>` },
-      { t: "Vende por", h: x => `<input class="cel" style="width:5.5rem;text-align:center" list="un-venda" value="${esc(x.p.us || "")}" placeholder="${esc(x.p.u)}" data-mud="pvende" data-cod="${esc(x.c)}" aria-label="Vende por (unidade de venda) de ${esc(x.p.n)}">` },
+      { t: "Vende por", h: x => `<input class="cel" style="width:4.5rem;text-align:center" list="un-venda" value="${esc(x.p.us || "")}" placeholder="${esc(x.p.u)}" data-mud="pvende" data-cod="${esc(x.c)}" aria-label="Vende por (unidade de venda) de ${esc(x.p.n)}">` },
       { t: "Custo", n: true, v: x => brl(x.i.custo) },
       { t: "Sugerido", n: true, v: x => x.i.sug != null ? brl(x.i.sug) : "—" },
       { t: "Preço real", n: true, h: x => `<input class="cel" type="number" min="0" step="any" inputmode="decimal" value="${x.p.r || ""}" data-mud="preco" data-cod="${esc(x.c)}" data-campo="r" aria-label="Preço real de ${esc(x.p.n)}">` },
